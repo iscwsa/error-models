@@ -1,0 +1,114 @@
+{
+	"$schema"              : "https://json-schema.org/draft-07/schema",
+	"$id"                  : "https://github.com/iscwsa/error-models/blob/main/error-model-schema.json",
+	"type"                 : "object",
+	"title"                : "Error Model Schema",
+	"description"          : "Provides validation of Error Models",
+	"markdownDescription"  : "Provides validation of Error Models. See [iscwsa.net](https://www.iscwsa.net/committees/error-model/)",
+	"properties"           : {
+
+		"$schema": {
+			"description": "The schema to use for validation",
+			"type": "string"
+		},
+
+		"framework": {
+			"description": "Error Model framework",
+			"type": "string"
+		},
+
+		"name": {
+			"description": "Some details about the model here, perhaps restrictions or recommendations?",
+			"type": "string"
+		},
+
+		"description": {
+			"description": "Summary of the Error Model",
+			"type": "string"
+		},
+
+		"supplier": {
+			"description": "Who created the model",
+			"type": "string"
+		},
+
+		"model_id": {
+			"description": "As defined by supplier",
+			"type": "string"
+		},
+
+		"revision": {
+			"description": "Model revision number",
+			"type": "integer",
+			"minimum": 0
+		},
+
+		"date": {
+			"description": "Model revision date",
+			"type": "string",
+			"format": "date"
+		},
+
+		"iscwsa_model": {
+			"description": "Is this a published ISCWSA error model?",
+			"type": "boolean"
+		},
+
+		"uuid": {
+			"description": "UUID for entire JSON",
+			"type": "string"
+		},
+
+		"checksum": {
+			"description": "Checksum of entire JSON",
+			"type": "string"
+		},
+
+		"parameters": {
+			"description": "Running parameters",
+			"type": "object",
+			"$ref": "parameters-schema.json"
+		},
+
+		"tags": {
+			"description": "A list of applicable tags",
+			"type": "array",
+			"items": {
+				"type": "string"
+			},
+			"minItems": 0,
+			"uniqueItems": true
+		},
+
+		"error_terms": {
+			"description": "List of error terms",
+			"type": "array",
+			"items": {
+				"$ref": "error-term-schema.json"
+			},
+			"minItems": 1,
+			"uniqueItems": true
+		}
+
+	},
+
+	"required": [
+		"$schema",
+		"framework",
+		"name",
+		"description",
+		"supplier",
+		"model_id",
+		"revision",
+		"date",
+		"iscwsa_model",
+		"uuid",
+		"checksum",
+		"error_terms",
+		"parameters",
+		"tags"
+	],
+
+	"additionalProperties" : false
+
+}

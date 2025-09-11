@@ -1,0 +1,57 @@
+{
+	"$schema": "./error-model-schema.json",
+
+	"framework"   : "ISCWSA Rev. 5",
+
+	"name"        : "ISCWSA MWD Rev. 5",
+	"description" : "ISCWSA MWD, Rev. 5 configured using SRGM",
+
+	"supplier"    : "ISCWSA",
+	"model_id"    : "A001Mc",
+
+	"revision"    : 0,
+	"date"        : "2019-10-19",
+
+	"iscwsa_model"      : true,
+
+	// Which UUID format?
+	"uuid"        : "48d6d307-cb85-442c-bf1d-283e67aafc83",
+
+	// Checksum method? Be explicit. Don't depend on order of terms
+	"checksum"    : "e7c256dbc64a324ef1653e233c5194ca",
+
+	"parameters": {
+		"inc_min"  : 0.0,
+		"inc_max" : 70.0
+	},
+
+	"tags": ["Magnetic", "Legacy", "Camera"],
+
+	"error_terms": [
+		{
+			"name"               : "DBH-R",
+			"value"              : 3000,
+			"units"              : "deg/nT",
+			"depth_factor"       : 1,
+			"inclination_factor" : 1,
+			"azimuth_factor"     : 1,
+			"propagation_mode"   : "Random",
+			"iscwsa_term"        : true,
+			"uuid"               : "48d6d307-cb85-442c-bf1d-283e67aafc83",
+			"checksum"           : "a0dc356df56a0036e17f67537a5af516"
+		},
+		{
+			"name"               : "XCLA",
+			"value"              : 0.167,
+			"units"              : "deg",
+			"depth_factor"       : 1,
+			"inclination_factor" : 1,
+			"azimuth_factor"     : 1,
+			"propagation_mode"   : "Systematic",
+			"iscwsa_term"        : true,
+			"uuid"               : "48d6d307-cb85-442c-bf1d-283e67aafc83",
+			"checksum"           : "9968439720de40693d6a07bdf4d6d742"
+		}
+	]
+
+}
