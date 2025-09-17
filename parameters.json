@@ -1,0 +1,28 @@
+{
+	"$schema"     : "https://json-schema.org/draft-07/schema",
+	"$id"         : "https://github.com/iscwsa/error-models/blob/main/schema.json",
+	"type"        : "object",
+	"title"       : "Running Parameters",
+	"description" : "Provides validation of Running Parameters",
+
+	"properties": {
+
+		"inc_min": {
+			"type": "number",
+			"minimum": 0
+		},
+
+		"inc_max": {
+			"type": "number",
+			"maximum": 180
+		}
+
+	},
+
+	"required": [
+		"inc_min",
+		"inc_max"
+	],
+
+	"additionalProperties" : false
+}

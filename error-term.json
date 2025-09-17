@@ -1,11 +1,11 @@
 {
-	"$schema"              : "https://json-schema.org/draft-07/schema",
-	"$id"                  : "https://github.com/iscwsa/error-models/blob/main/error-term-schema.json",
-	"type"                 : "object",
-	"title"                : "Error Term Schema",
-	"description"          : "Provides validation of Error Terms",
-	"markdownDescription"  : "Provides validation of Error Terms. See [iscwsa.net](https://www.iscwsa.net/committees/error-model/)",
-	"properties"           : {
+	"$schema"     : "https://json-schema.org/draft-07/schema",
+	"$id"         : "https://github.com/iscwsa/error-models/blob/main/schema.json",
+	"type"        : "object",
+	"title"       : "Error Term",
+	"description" : "Provides validation of an individual Error Term",
+
+	"properties"  : {
 
 		"name": {
 			"description": "",
