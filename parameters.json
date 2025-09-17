@@ -6,23 +6,15 @@
 	"description" : "Provides validation of Running Parameters",
 
 	"properties": {
-
-		"inc_min": {
-			"type": "number",
-			"minimum": 0
-		},
-
-		"inc_max": {
-			"type": "number",
-			"maximum": 180
-		}
-
+		"inc_min": { "type": "number", "minimum": 0, "maximum": 180 },
+		"inc_max": { "type": "number", "minimum": 0, "maximum": 180 }
 	},
 
-	"required": [
-		"inc_min",
-		"inc_max"
+	"anyOf": [
+		{ "required": [ "inc_min" ] },
+		{ "required": [ "inc_max" ] }
 	],
 
 	"additionalProperties" : false
+
 }

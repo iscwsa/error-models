@@ -8,13 +8,20 @@
 
 	"properties": {
 
-		"framework": {
+		"framework_type": {
 			"description": "Error Model framework",
-			"type": "string"
+			"type": "string",
+			"enum": ["ISCWSA", "Cone", "WdW"]
+		},
+
+		"framework_rev": {
+			"description": "Error Model framework",
+			"type": "integer",
+			"minimum": 0
 		},
 
 		"name": {
-			"description": "Some details about the model here, perhaps restrictions or recommendations?",
+			"description": "Some details about the model here",
 			"type": "string"
 		},
 
@@ -33,21 +40,16 @@
 			"type": "string"
 		},
 
-		"revision": {
-			"description": "Model revision number",
+		"model_rev": {
+			"description": "As defined by supplier",
 			"type": "integer",
 			"minimum": 0
 		},
 
 		"date": {
-			"description": "Model revision date",
+			"description": "As defined by supplier",
 			"type": "string",
 			"format": "date"
-		},
-
-		"iscwsa_model": {
-			"description": "Is this a published ISCWSA error model?",
-			"type": "boolean"
 		},
 
 		"uuid": {
@@ -58,21 +60,28 @@
 		"checksum": {
 			"description": "Checksum of entire JSON",
 			"type": "string"
+		},
+
+		"checksum_type": {
+			"description": "How was the checksum computed?",
+			"type": "string",
+			"enum": ["md5", "sha256"]
 		}
 
 	},
 
 	"required": [
-		"framework",
+		"framework_type",
+		"framework_rev",
 		"name",
 		"description",
 		"supplier",
 		"model_id",
-		"revision",
+		"model_rev",
 		"date",
-		"iscwsa_model",
 		"uuid",
-		"checksum"
+		"checksum",
+		"checksum_type"
 	],
 
 	"additionalProperties" : false
