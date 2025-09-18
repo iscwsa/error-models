@@ -49,32 +49,38 @@
 
 		"depth_formula": {
 			"description": "",
-			"type": "string"
+			"type": "string",
+			"minLength": 1
 		},
 
 		"inclination_formula": {
 			"description": "",
-			"type": "string"
+			"type": "string",
+			"minLength": 1
 		},
 
 		"azimuth_formula": {
 			"description": "",
-			"type": "string"
+			"type": "string",
+			"minLength": 1
 		},
 
 		"north_singularity": {
 			"description": "",
-			"type": "string"
+			"type": "string",
+			"minLength": 1
 		},
 
 		"east_singularity": {
 			"description": "",
-			"type": "string"
+			"type": "string",
+			"minLength": 1
 		},
 
 		"vertical_singularity": {
 			"description": "",
-			"type": "string"
+			"type": "string",
+			"minLength": 1
 		},
 
 		"iscwsa_term": {
@@ -84,12 +90,14 @@
 
 		"uuid": {
 			"description": "UUID of individual error term",
-			"type": "string"
+			"type": "string",
+			"minLength": 1
 		},
 
 		"checksum": {
 			"description": "Checksum of individual error term",
-			"type": "string"
+			"type": "string",
+			"minLength": 1
 		}
 
 	},

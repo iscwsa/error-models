@@ -8,7 +8,7 @@
 		"description"    : "ISCWSA MWD, Rev. 5 configured using SRGM",
 		"supplier"       : "ISCWSA",
 		"model_id"       : "A001Mc",
-		"model_rev"      : 0,
+		"model_rev"      : 5,
 		"date"           : "2019-10-19",
 
 		// TODO: Determine which UUID format to use.
