@@ -1,0 +1,70 @@
+{
+	"$schema": "./schema/schema.json",
+
+	"meta": {
+		"framework_type" : "ISCWSA",
+		"framework_rev"  : 5,
+		"name"           : "ISCWSA MWD Rev. 5",
+		"description"    : "ISCWSA MWD, Rev. 5 configured using SRGM",
+		"supplier"       : "ISCWSA",
+		"model_id"       : "A001Mc",
+		"model_rev"      : 5,
+		"date"           : "2019-10-19",
+
+		// TODO: Determine which UUID format to use.
+		// Some formats are better suited for sorting.
+		"uuid"           : "48d6d307-cb85-442c-bf1d-283e67aafc83",
+
+		// TODO: Determine method to calculate.
+		// Should the order of terms make a difference?
+		"checksum"       : "e7c256dbc64a324ef1653e233c5194ca",
+		"checksum_type"  : "sha256"
+	},
+
+	"parameters": {
+		"inc_min" :  0,
+		"inc_max" : 180
+	},
+
+	"tags": ["Magnetic", "Legacy", "Camera"],
+
+	"error_terms": [
+		{
+			"name"                 : "DBH-R",
+			"value"                : 3000,
+			"units"                : "deg/nT",
+			"depth_factor"         : 1,
+			"inclination_factor"   : 1,
+			"azimuth_factor"       : 1,
+			"propagation_mode"     : "Random",
+			"depth_formula"        : "",
+			"inclination_formula"  : "",
+			"azimuth_formula"      : "",
+			"north_singularity"    : "",
+			"east_singularity"     : "",
+			"vertical_singularity" : "",
+			"iscwsa_term"          : true,
+			"uuid"                 : "48d6d307-cb85-442c-bf1d-283e67aafc83",
+			"checksum"             : "a0dc356df56a0036e17f67537a5af516"
+		},
+		{
+			"name"                 : "XCLA",
+			"value"                : 0.167,
+			"units"                : "deg",
+			"depth_factor"         : 1,
+			"inclination_factor"   : 1,
+			"azimuth_factor"       : 1,
+			"propagation_mode"     : "Systematic",
+			"depth_formula"        : "",
+			"inclination_formula"  : "",
+			"azimuth_formula"      : "",
+			"north_singularity"    : "",
+			"east_singularity"     : "",
+			"vertical_singularity" : "",
+			"iscwsa_term"          : true,
+			"uuid"                 : "48d6d307-cb85-442c-bf1d-283e67aafc83",
+			"checksum"             : "9968439720de40693d6a07bdf4d6d742"
+		}
+	]
+
+}

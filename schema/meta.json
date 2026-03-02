@@ -1,0 +1,94 @@
+
+{
+	"$schema"     : "https://json-schema.org/draft-07/schema",
+	"$id"         : "https://github.com/iscwsa/error-models/blob/main/schema/schema.json",
+	"type"        : "object",
+	"title"       : "Metadata",
+	"description" : "Information about the model",
+
+	"properties": {
+
+		"framework_type": {
+			"description": "Error Model framework",
+			"type": "string",
+			"enum": ["ISCWSA", "Cone", "WdW"]
+		},
+
+		"framework_rev": {
+			"description": "Error Model framework",
+			"type": "integer",
+			"minimum": 0
+		},
+
+		"name": {
+			"description" : "",
+			"type"        : "string",
+			"minLength"   : 1
+		},
+
+		"description": {
+			"description": "Some details about the error model",
+			"type": "string"
+		},
+
+		"supplier": {
+			"description" : "Who created the model",
+			"type"        : "string",
+			"minLength"   : 1
+		},
+
+		"model_id": {
+			"description" : "As defined by supplier",
+			"type"        : "string",
+			"minLength"   : 1
+		},
+
+		"model_rev": {
+			"description": "As defined by supplier",
+			"type": "integer",
+			"minimum": 0
+		},
+
+		"date": {
+			"description": "As defined by supplier",
+			"type": "string",
+			"format": "date"
+		},
+
+		"uuid": {
+			"description": "UUID for entire JSON",
+			"type": "string",
+			"minLength": 1
+		},
+
+		"checksum": {
+			"description": "Checksum of entire JSON",
+			"type": "string",
+			"minLength": 1
+		},
+
+		"checksum_type": {
+			"description": "How was the checksum computed?",
+			"type": "string",
+			"enum": ["md5", "sha256"]
+		}
+
+	},
+
+	"required": [
+		"framework_type",
+		"framework_rev",
+		"name",
+		"description",
+		"supplier",
+		"model_id",
+		"model_rev",
+		"date",
+		"uuid",
+		"checksum",
+		"checksum_type"
+	],
+
+	"additionalProperties" : false
+
+}

@@ -1,0 +1,55 @@
+{
+	"$schema"             : "https://json-schema.org/draft-07/schema",
+	"$id"                 : "https://github.com/iscwsa/error-models/blob/main/schema/schema.json",
+	"type"                : "object",
+	"title"               : "Error Model Schema",
+	"description"         : "Provides validation of Error Models",
+	"markdownDescription" : "Provides validation of Error Models. See [iscwsa.net](https://www.iscwsa.net/committees/error-model/)",
+
+	"properties": {
+
+		"$schema": {
+			"description": "The schema to use for validation",
+			"type": "string"
+		},
+
+		"meta": {
+			"$ref": "meta.json"
+		},
+
+		"parameters": {
+			"$ref": "parameters.json"
+		},
+
+		"tags": {
+			"description": "A list of applicable tags",
+			"type": "array",
+			"items": {
+				"type": "string",
+				"minLength": 1
+			},
+			"minItems": 0,
+			"uniqueItems": true
+		},
+
+		"error_terms": {
+			"description" : "Array of individual Error Terms",
+			"type"        : "array",
+			"items": {
+				"$ref": "error-term.json"
+			},
+			"minItems"    : 1,
+			"uniqueItems" : true
+		}
+	},
+
+	"required": [
+		"$schema",
+		"meta",
+		"parameters",
+		"tags",
+		"error_terms"
+	],
+
+	"additionalProperties" : false
+}
