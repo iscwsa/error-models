@@ -83,11 +83,6 @@
 			"minLength": 1
 		},
 
-		"iscwsa_term": {
-			"description": "Is this a published ISCWSA error term?",
-			"type": "boolean"
-		},
-
 		"uuid": {
 			"description": "UUID of individual error term",
 			"type": "string",
@@ -116,7 +111,6 @@
 		"east_singularity",
 		"vertical_singularity",
 		"azimuth_formula",
-		"iscwsa_term",
 		"uuid",
 		"checksum"
 	],

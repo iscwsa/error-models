@@ -2,23 +2,30 @@
 	"$schema": "./schema/schema.json",
 
 	"meta": {
-		"framework_type" : "ISCWSA",
-		"framework_rev"  : 5,
-		"name"           : "ISCWSA MWD Rev. 5",
-		"description"    : "ISCWSA MWD, Rev. 5 configured using SRGM",
-		"supplier"       : "ISCWSA",
-		"model_id"       : "A001Mc",
-		"model_rev"      : 5,
-		"date"           : "2019-10-19",
+		// Existing fields
+		"model_id"        : "A001Mc", // As defined by supplier
+		"short_name"      : "MWD+SRGM",
+		"long_name"       : "OWSG MWD + SRGM",
+		"revision_number" : 5.1,
+		"revision_date"   : "2020-10-08",
+		"revision_comment": "Rev No changed to match ISCWSA Models (Rev.5). XCLA & XCLH terms added. XYM3 replaced by XYM3E. XYM4 replaced by XYM4E. SAG replaced by SAGE. DECG replaced by DEC-U DEC-OS DEC-OH DEC-OI. DBHG replaced by DBH-U DBH-OS DBH-OH DBH-OI. Updated Short Name, Long Name, Application.",
 
-		// TODO: Determine which UUID format to use.
-		// Some formats are better suited for sorting.
-		"uuid"           : "48d6d307-cb85-442c-bf1d-283e67aafc83",
+		// Ambiguous name? Could be confused with `supplier`?
+		"source"          : "OWSG - SPE 67616 and 63275",
 
-		// TODO: Determine method to calculate.
-		// Should the order of terms make a difference?
-		"checksum"       : "e7c256dbc64a324ef1653e233c5194ca",
-		"checksum_type"  : "sha256"
+		"application"     : "MWD using 1-Year Standard Resolution Geomagnetic Mode (e.g., BGGM up to 2018, MVSD) with no additional corrections",
+		"tool_type"       : "Magnetic",
+
+		// New fields
+		"supplier"        : "ISCWSA",
+		"framework"       : "ISCWSA Rev5",
+
+		// TODO: Determine which UUID format to use. Some formats are better suited for sorting.
+		"uuid"            : "48d6d307-cb85-442c-bf1d-283e67aafc83",
+
+		// TODO: Determine method to calculate. The order of terms is significant.
+		"checksum"        : "e7c256dbc64a324ef1653e233c5194ca",
+		"checksum_type"   : "sha256"
 	},
 
 	"parameters": {
@@ -43,7 +50,6 @@
 			"north_singularity"    : "",
 			"east_singularity"     : "",
 			"vertical_singularity" : "",
-			"iscwsa_term"          : true,
 			"uuid"                 : "48d6d307-cb85-442c-bf1d-283e67aafc83",
 			"checksum"             : "a0dc356df56a0036e17f67537a5af516"
 		},
@@ -61,7 +67,6 @@
 			"north_singularity"    : "",
 			"east_singularity"     : "",
 			"vertical_singularity" : "",
-			"iscwsa_term"          : true,
 			"uuid"                 : "48d6d307-cb85-442c-bf1d-283e67aafc83",
 			"checksum"             : "9968439720de40693d6a07bdf4d6d742"
 		}
