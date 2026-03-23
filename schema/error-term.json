@@ -1,5 +1,5 @@
 {
-	"$schema"     : "https://json-schema.org/draft-07/schema",
+	"$schema"     : "https://json-schema.org/draft/2020-12/schema",
 	"$id"         : "https://github.com/iscwsa/error-models/blob/main/schema/schema.json",
 	"type"        : "object",
 	"title"       : "Error Term",
@@ -83,11 +83,6 @@
 			"minLength": 1
 		},
 
-		"iscwsa_term": {
-			"description": "Is this a published ISCWSA error term?",
-			"type": "boolean"
-		},
-
 		"uuid": {
 			"description": "UUID of individual error term",
 			"type": "string",
@@ -116,7 +111,6 @@
 		"east_singularity",
 		"vertical_singularity",
 		"azimuth_formula",
-		"iscwsa_term",
 		"uuid",
 		"checksum"
 	],

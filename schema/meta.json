@@ -1,6 +1,6 @@
 
 {
-	"$schema"     : "https://json-schema.org/draft-07/schema",
+	"$schema"     : "https://json-schema.org/draft/2020-12/schema",
 	"$id"         : "https://github.com/iscwsa/error-models/blob/main/schema/schema.json",
 	"type"        : "object",
 	"title"       : "Metadata",
@@ -8,61 +8,95 @@
 
 	"properties": {
 
-		"framework_type": {
-			"description": "Error Model framework",
-			"type": "string",
-			"enum": ["ISCWSA", "Cone", "WdW"]
-		},
-
-		"framework_rev": {
-			"description": "Error Model framework",
-			"type": "integer",
-			"minimum": 0
-		},
-
-		"name": {
+		"model_id": {
 			"description" : "",
 			"type"        : "string",
 			"minLength"   : 1
 		},
 
-		"description": {
-			"description": "Some details about the error model",
-			"type": "string"
+		"short_name": {
+			"description" : "",
+			"type"        : "string",
+			"minLength"   : 1
+		},
+
+		"long_name": {
+			"description" : "",
+			"type"        : "string",
+			"minLength"   : 1
+		},
+
+		"revision_number": {
+			"description" : "",
+			"type"        : "number",
+			"minimum"     : 0
+		},
+
+		"revision_date": {
+			"description" : "",
+			"type"        : "string",
+			"format"      : "date"
+		},
+
+		"revision_comment": {
+			"description" : "",
+			"type"        : "string",
+			"minLength"   : 1
+		},
+
+		"source": {
+			"description" : "",
+			"type"        : "string",
+			"minLength"   : 1
+		},
+
+		"application": {
+			"description" : "",
+			"type"        : "string",
+			"minLength"   : 1
+		},
+
+		"tool_type": {
+			"description" : "",
+			"type"        : "string",
+			"enum": [
+				"Gyroscopic",
+				"Inertial",
+				"Magnetic",
+				"Unknown"
+			]
 		},
 
 		"supplier": {
-			"description" : "Who created the model",
+			"description" : "",
 			"type"        : "string",
 			"minLength"   : 1
 		},
 
-		"model_id": {
-			"description" : "As defined by supplier",
-			"type"        : "string",
-			"minLength"   : 1
-		},
-
-		"model_rev": {
-			"description": "As defined by supplier",
-			"type": "integer",
-			"minimum": 0
-		},
-
-		"date": {
-			"description": "As defined by supplier",
+		"framework": {
+			"description": "",
 			"type": "string",
-			"format": "date"
+			"enum": [
+				"Cone",
+				"ISCWSA Rev0",
+				"ISCWSA Rev1",
+				"ISCWSA Rev2",
+				"ISCWSA Rev3",
+				"ISCWSA Rev4",
+				"ISCWSA Rev5",
+				"Other",
+				"Wolff and de Wardt"
+			]
 		},
 
 		"uuid": {
-			"description": "UUID for entire JSON",
+			"description": "UUID for entire model",
 			"type": "string",
 			"minLength": 1
 		},
 
 		"checksum": {
-			"description": "Checksum of entire JSON",
+			"description": "Checksum of entire model",
 			"type": "string",
 			"minLength": 1
 		},
@@ -76,14 +110,17 @@
 	},
 
 	"required": [
-		"framework_type",
-		"framework_rev",
-		"name",
-		"description",
-		"supplier",
 		"model_id",
-		"model_rev",
-		"date",
+		"short_name",
+		"long_name",
+		"revision_number",
+		"revision_date",
+		"revision_comment",
+		"source",
+		"application",
+		"tool_type",
+		"supplier",
+		"framework",
 		"uuid",
 		"checksum",
 		"checksum_type"
