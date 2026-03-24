@@ -2,7 +2,10 @@
 	"$schema": "../schemas/error_model.json",
 
 	// TODO: Determine which UUID format to use. Some formats are better suited for sorting.
+	"uuid": "00000000-0000-0000-0000-000000000000",
+
 	// TODO: Determine method to calculate checksum. The order of terms is significant.
+	"checksum": "00000000000000000000000000000000",
 
 	"metadata": {
 
@@ -19,9 +22,7 @@
 
 		// New fields
 		"author"          : "ISCWSA",
-		"framework"       : "ISCWSA Rev5",
-		"uuid"            : "00000000-0000-0000-0000-000000000000",
-		"checksum"        : "00000000000000000000000000000000"
+		"framework"       : "ISCWSA Rev5"
 
 	},
 

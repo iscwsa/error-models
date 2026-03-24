@@ -8,6 +8,19 @@
 
 	"properties": {
 		"$schema"     : {"type": "string"},
+
+		"uuid": {
+			"description" : "UUID for entire model",
+			"type"        : "string",
+			"minLength"   : 1
+		},
+
+		"checksum": {
+			"description" : "Checksum of entire model",
+			"type"        : "string",
+			"minLength"   : 1
+		},
+
 		"metadata"    : {"$ref": "./metadata.json"},
 		"parameters"  : {"$ref": "./parameters.json"},
 		"tags"        : {"$ref": "./tags.json"},

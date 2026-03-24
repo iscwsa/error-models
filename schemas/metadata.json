@@ -87,18 +87,6 @@
 				"Other",
 				"Wolff and de Wardt"
 			]
-		},
-
-		"uuid": {
-			"description" : "UUID for entire model",
-			"type"        : "string",
-			"minLength"   : 1
-		},
-
-		"checksum": {
-			"description" : "Checksum of entire model",
-			"type"        : "string",
-			"minLength"   : 1
 		}
 
 	},
@@ -114,9 +102,7 @@
 		"application",
 		"tool_type",
 		"author",
-		"framework",
-		"uuid",
-		"checksum"
+		"framework"
 	],
 
 	"additionalProperties" : false
