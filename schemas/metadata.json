@@ -67,7 +67,7 @@
 			]
 		},
 
-		"supplier": {
+		"author": {
 			"description" : "",
 			"type"        : "string",
 			"minLength"   : 1
@@ -99,12 +99,6 @@
 			"description" : "Checksum of entire model",
 			"type"        : "string",
 			"minLength"   : 1
-		},
-
-		"checksum_type": {
-			"description" : "How was the checksum computed?",
-			"type"        : "string",
-			"enum"        : ["md5", "sha256"]
 		}
 
 	},
@@ -119,11 +113,10 @@
 		"source",
 		"application",
 		"tool_type",
-		"supplier",
+		"author",
 		"framework",
 		"uuid",
-		"checksum",
-		"checksum_type"
+		"checksum"
 	],
 
 	"additionalProperties" : false

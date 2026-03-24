@@ -1,7 +1,11 @@
 {
 	"$schema": "../schemas/error_model.json",
 
+	// TODO: Determine which UUID format to use. Some formats are better suited for sorting.
+	// TODO: Determine method to calculate. The order of terms is significant.
+
 	"metadata": {
+
 		// Existing fields
 		"model_id"        : "A001Mc", // As defined by supplier
 		"short_name"      : "MWD+SRGM",
@@ -14,15 +18,11 @@
 		"tool_type"       : "Magnetic",
 
 		// New fields
-		"supplier"        : "ISCWSA",      // Ambiguous field name? Could be confused with `source`?
+		"author"          : "ISCWSA",
 		"framework"       : "ISCWSA Rev5",
-
-		// TODO: Determine which UUID format to use. Some formats are better suited for sorting.
 		"uuid"            : "00000000-0000-0000-0000-000000000000",
+		"checksum"        : "00000000000000000000000000000000"
 
-		// TODO: Determine method to calculate. The order of terms is significant.
-		"checksum"        : "00000000000000000000000000000000",
-		"checksum_type"   : "sha256"
 	},
 
 	"parameters": {
