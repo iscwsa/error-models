@@ -2,7 +2,7 @@
 	"$schema": "../schemas/error_model.json",
 
 	// TODO: Determine which UUID format to use. Some formats are better suited for sorting.
-	// TODO: Determine method to calculate. The order of terms is significant.
+	// TODO: Determine method to calculate checksum. The order of terms is significant.
 
 	"metadata": {
 
