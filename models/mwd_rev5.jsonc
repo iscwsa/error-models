@@ -1,7 +1,7 @@
 {
-	"$schema": "./schemas/error_model.json",
+	"$schema": "../schemas/error_model.json",
 
-	"meta": {
+	"metadata": {
 		// Existing fields
 		"model_id"        : "A001Mc", // As defined by supplier
 		"short_name"      : "MWD+SRGM",

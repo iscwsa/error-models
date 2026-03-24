@@ -1,9 +1,10 @@
 {
 	"$schema"     : "https://json-schema.org/draft/2020-12/schema",
-	"$id"         : "https://github.com/iscwsa/error-models/blob/main/schema/schema.json",
+	"$id"         : "https://github.com/iscwsa/error-models/blob/main/schemas/error_term.json",
 	"type"        : "object",
 	"title"       : "Error Term",
-	"description" : "Provides validation of an individual Error Term",
+	"description" : "An individual Error Term",
+	"examples"    : ["DREF", "SAG", "XYM3E"],
 
 	"properties"  : {
 
