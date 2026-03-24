@@ -7,7 +7,7 @@
 	"metadata": {
 
 		// Existing fields
-		"model_id"        : "A001Mc", // As defined by supplier
+		"model_id"        : "A001Mc", // As defined by the author
 		"short_name"      : "MWD+SRGM",
 		"long_name"       : "OWSG MWD + SRGM",
 		"revision_number" : 5.1,
