@@ -1,5 +1,5 @@
 {
-	"$schema": "./schema/schema.json",
+	"$schema": "./schemas/error_model.json",
 
 	"meta": {
 		// Existing fields
@@ -9,22 +9,19 @@
 		"revision_number" : 5.1,
 		"revision_date"   : "2020-10-08",
 		"revision_comment": "Rev No changed to match ISCWSA Models (Rev.5). XCLA & XCLH terms added. XYM3 replaced by XYM3E. XYM4 replaced by XYM4E. SAG replaced by SAGE. DECG replaced by DEC-U DEC-OS DEC-OH DEC-OI. DBHG replaced by DBH-U DBH-OS DBH-OH DBH-OI. Updated Short Name, Long Name, Application.",
-
-		// Ambiguous name? Could be confused with `supplier`?
 		"source"          : "OWSG - SPE 67616 and 63275",
-
 		"application"     : "MWD using 1-Year Standard Resolution Geomagnetic Mode (e.g., BGGM up to 2018, MVSD) with no additional corrections",
 		"tool_type"       : "Magnetic",
 
 		// New fields
-		"supplier"        : "ISCWSA",
+		"supplier"        : "ISCWSA",      // Ambiguous field name? Could be confused with `source`?
 		"framework"       : "ISCWSA Rev5",
 
 		// TODO: Determine which UUID format to use. Some formats are better suited for sorting.
-		"uuid"            : "48d6d307-cb85-442c-bf1d-283e67aafc83",
+		"uuid"            : "00000000-0000-0000-0000-000000000000",
 
 		// TODO: Determine method to calculate. The order of terms is significant.
-		"checksum"        : "e7c256dbc64a324ef1653e233c5194ca",
+		"checksum"        : "00000000000000000000000000000000",
 		"checksum_type"   : "sha256"
 	},
 
@@ -33,7 +30,7 @@
 		"inc_max" : 180
 	},
 
-	"tags": ["Magnetic", "Legacy", "Camera"],
+	"tags": [],
 
 	"error_terms": [
 		{
@@ -44,14 +41,14 @@
 			"inclination_factor"   : 1,
 			"azimuth_factor"       : 1,
 			"propagation_mode"     : "Random",
-			"depth_formula"        : "",
-			"inclination_formula"  : "",
-			"azimuth_formula"      : "",
-			"north_singularity"    : "",
-			"east_singularity"     : "",
-			"vertical_singularity" : "",
-			"uuid"                 : "48d6d307-cb85-442c-bf1d-283e67aafc83",
-			"checksum"             : "a0dc356df56a0036e17f67537a5af516"
+			"depth_formula"        : "0",
+			"inclination_formula"  : "0",
+			"azimuth_formula"      : "1 / (BField * Cos(Dip))",
+			"north_singularity"    : null,
+			"east_singularity"     : null,
+			"vertical_singularity" : null,
+			"uuid"                 : "00000000-0000-0000-0000-000000000000",
+			"checksum"             : "00000000000000000000000000000000"
 		},
 		{
 			"name"                 : "XCLA",
@@ -61,14 +58,14 @@
 			"inclination_factor"   : 1,
 			"azimuth_factor"       : 1,
 			"propagation_mode"     : "Systematic",
-			"depth_formula"        : "",
-			"inclination_formula"  : "",
-			"azimuth_formula"      : "",
-			"north_singularity"    : "",
-			"east_singularity"     : "",
-			"vertical_singularity" : "",
-			"uuid"                 : "48d6d307-cb85-442c-bf1d-283e67aafc83",
-			"checksum"             : "9968439720de40693d6a07bdf4d6d742"
+			"depth_formula"        : "0",
+			"inclination_formula"  : "0",
+			"azimuth_formula"      : "Max(Sin(Abs(AzT-AzPrev)), XCLTortuosity * (MD-MDPrev) / Sin(Inc))",
+			"north_singularity"    : "XCLTortuosity * RAD * (MD - MDPrev)",
+			"east_singularity"     : "XCLTortuosity * RAD * (MD - MDPrev)",
+			"vertical_singularity" : null,
+			"uuid"                 : "00000000-0000-0000-0000-000000000000",
+			"checksum"             : "00000000000000000000000000000000"
 		}
 	]
 

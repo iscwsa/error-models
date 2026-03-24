@@ -90,21 +90,21 @@
 		},
 
 		"uuid": {
-			"description": "UUID for entire model",
-			"type": "string",
-			"minLength": 1
+			"description" : "UUID for entire model",
+			"type"        : "string",
+			"minLength"   : 1
 		},
 
 		"checksum": {
-			"description": "Checksum of entire model",
-			"type": "string",
-			"minLength": 1
+			"description" : "Checksum of entire model",
+			"type"        : "string",
+			"minLength"   : 1
 		},
 
 		"checksum_type": {
-			"description": "How was the checksum computed?",
-			"type": "string",
-			"enum": ["md5", "sha256"]
+			"description" : "How was the checksum computed?",
+			"type"        : "string",
+			"enum"        : ["md5", "sha256"]
 		}
 
 	},

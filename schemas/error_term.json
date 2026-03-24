@@ -24,75 +24,75 @@
 		},
 
 		"depth_factor": {
-			"description": "",
-			"type": "number",
-			"minimum": 0
+			"description" : "",
+			"type"        : "number",
+			"minimum"     : 0
 		},
 
 		"inclination_factor": {
-			"description": "",
-			"type": "number",
-			"minimum": 0
+			"description" : "",
+			"type"        : "number",
+			"minimum"     : 0
 		},
 
 		"azimuth_factor": {
-			"description": "",
-			"type": "number",
-			"minimum": 0
+			"description" : "",
+			"type"        : "number",
+			"minimum"     : 0
 		},
 
 		"propagation_mode": {
-			"description": "",
-			"type": "string",
-			"enum": ["Global", "Random", "Systematic", "Well"]
+			"description" : "",
+			"type"        : "string",
+			"enum"        : ["Global", "Random", "Systematic", "Well"]
 		},
 
 		"depth_formula": {
-			"description": "",
-			"type": "string",
-			"minLength": 1
+			"description" : "",
+			"type"        : "string",
+			"minLength"   : 1
 		},
 
 		"inclination_formula": {
-			"description": "",
-			"type": "string",
-			"minLength": 1
+			"description" : "",
+			"type"        : "string",
+			"minLength"   : 1
 		},
 
 		"azimuth_formula": {
-			"description": "",
-			"type": "string",
-			"minLength": 1
+			"description" : "",
+			"type"        : "string",
+			"minLength"   : 1
 		},
 
 		"north_singularity": {
-			"description": "",
-			"type": "string",
-			"minLength": 1
+			"description" : "",
+			"type"        : ["string", "null"],
+			"minLength"   : 1
 		},
 
 		"east_singularity": {
-			"description": "",
-			"type": "string",
-			"minLength": 1
+			"description" : "",
+			"type"        : ["string", "null"],
+			"minLength"   : 1
 		},
 
 		"vertical_singularity": {
-			"description": "",
-			"type": "string",
-			"minLength": 1
+			"description" : "",
+			"type"        : ["string", "null"],
+			"minLength"   : 1
 		},
 
 		"uuid": {
-			"description": "UUID of individual error term",
-			"type": "string",
-			"minLength": 1
+			"description" : "UUID of error term",
+			"type"        : "string",
+			"minLength"   : 1
 		},
 
 		"checksum": {
-			"description": "Checksum of individual error term",
-			"type": "string",
-			"minLength": 1
+			"description" : "Checksum of error term",
+			"type"        : "string",
+			"minLength"   : 1
 		}
 
 	},

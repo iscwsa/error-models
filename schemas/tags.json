@@ -1,0 +1,15 @@
+{
+	"$schema"     : "https://json-schema.org/draft/2020-12/schema",
+	"$id"         : "https://github.com/iscwsa/error-models/blob/main/schema/schema.json",
+	"type"        : "array",
+	"title"       : "Tags",
+	"description" : "An optional list of applicable tags",
+
+	"minItems"    : 0,
+	"uniqueItems" : true,
+	"items"       : {
+		"type"      : "string",
+		"minLength" : 1
+	}
+
+}
