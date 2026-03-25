@@ -8,8 +8,5 @@
 
 	"minItems"    : 0,
 	"uniqueItems" : true,
-	"items"       : {
-		"type"      : "string",
-		"minLength" : 1
-	}
+	"items"       : {"$ref": "./strings/non_empty.json"}
 }

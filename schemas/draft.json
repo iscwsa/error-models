@@ -1,34 +1,27 @@
 {
-	"$schema"             : "https://json-schema.org/draft/2020-12/schema",
-	"$id"                 : "https://github.com/iscwsa/error-models/blob/main/schemas/draft.json",
-	"type"                : "object",
-	"title"               : "Error Model Schema",
-	"description"         : "Provides validation of Error Models",
-	"markdownDescription" : "Provides validation of Error Models. See [github.com/iscwsa](https://github.com/iscwsa/error-models)",
+	"$schema"     : "https://json-schema.org/draft/2020-12/schema",
+	"$id"         : "https://github.com/iscwsa/error-models/blob/main/schemas/draft.json",
+	"type"        : "object",
+	"title"       : "Error Model Schema",
+	"description" : "Provides validation of Error Models",
 
 	"$defs": {
 		"schema_uuid": {"const": "00000000-0000-0000-0000-000000000000"}
 	},
 
 	"properties": {
-		"$schema"     : {"type": "string"},
-		"metadata"    : {"$ref": "./metadata.json"},
-		"parameters"  : {"$ref": "./parameters.json"},
-		"tags"        : {"$ref": "./tags.json"},
-		"error_terms" : {"$ref": "./error_terms.json"},
-		"checksum"    : {
-			"description" : "Checksum of entire model",
-			"type"        : "string",
-			"minLength"   : 1
-		}
+		"$schema"    : {"type": "string"},
+		"metadata"   : {"$ref": "./metadata.json"},
+		"parameters" : {"$ref": "./parameters.json"},
+		"terms"      : {"$ref": "./terms.json"},
+		"checksum"   : {"$ref": "./strings/non_empty.json"}
 	},
 
 	"required": [
 		"$schema",
 		"metadata",
 		"parameters",
-		"tags",
-		"error_terms",
+		"terms",
 		"checksum"
 	],
 

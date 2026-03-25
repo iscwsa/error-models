@@ -8,94 +8,20 @@
 
 	"properties": {
 
-		"schema_uuid": {"$ref": "./draft.json#/$defs/schema_uuid"},
-
-		"model_uuid": {
-			"description" : "UUID for entire model",
-			"type"        : "string",
-			"minLength"   : 1
-		},
-
-		"model_id": {
-			"description" : "",
-			"type"        : "string",
-			"minLength"   : 1
-		},
-
-		"short_name": {
-			"description" : "",
-			"type"        : "string",
-			"minLength"   : 1
-		},
-
-		"long_name": {
-			"description" : "",
-			"type"        : "string",
-			"minLength"   : 1
-		},
-
-		"revision_number": {
-			"description" : "",
-			"type"        : "number",
-			"minimum"     : 0
-		},
-
-		"revision_date": {
-			"description" : "",
-			"type"        : "string",
-			"format"      : "date"
-		},
-
-		"revision_comment": {
-			"description" : "",
-			"type"        : "string",
-			"minLength"   : 1
-		},
-
-		"source": {
-			"description" : "",
-			"type"        : "string",
-			"minLength"   : 1
-		},
-
-		"application": {
-			"description" : "",
-			"type"        : "string",
-			"minLength"   : 1
-		},
-
-		"tool_type": {
-			"description" : "",
-			"type"        : "string",
-			"enum": [
-				"Gyroscopic",
-				"Inertial",
-				"Magnetic",
-				"Unknown"
-			]
-		},
-
-		"author": {
-			"description" : "",
-			"type"        : "string",
-			"minLength"   : 1
-		},
-
-		"framework": {
-			"description": "",
-			"type": "string",
-			"enum": [
-				"Cone",
-				"ISCWSA Rev0",
-				"ISCWSA Rev1",
-				"ISCWSA Rev2",
-				"ISCWSA Rev3",
-				"ISCWSA Rev4",
-				"ISCWSA Rev5",
-				"Other",
-				"Wolff and de Wardt"
-			]
-		}
+		"schema_uuid"      : {"$ref": "./draft.json#/$defs/schema_uuid"},
+		"model_uuid"       : {"$ref": "./strings/non_empty.json"},
+		"model_id"         : {"$ref": "./strings/non_empty.json"},
+		"short_name"       : {"$ref": "./strings/non_empty.json"},
+		"long_name"        : {"$ref": "./strings/non_empty.json"},
+		"revision_number"  : {"$ref": "./number/non_negative.json"},
+		"revision_date"    : {"$ref": "./strings/date.json"},
+		"revision_comment" : {"$ref": "./strings/non_empty.json"},
+		"source"           : {"$ref": "./strings/non_empty.json"},
+		"application"      : {"$ref": "./strings/non_empty.json"},
+		"tool_type"        : {"$ref": "./tool_types.json"},
+		"author"           : {"$ref": "./strings/non_empty.json"},
+		"framework"        : {"$ref": "./frameworks.json"},
+		"tags"             : {"$ref": "./tags.json"}
 
 	},
 
@@ -112,7 +38,8 @@
 		"application",
 		"tool_type",
 		"author",
-		"framework"
+		"framework",
+		"tags"
 	],
 
 	"additionalProperties" : false

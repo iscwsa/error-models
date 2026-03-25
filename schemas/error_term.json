@@ -8,15 +8,9 @@
 
 	"properties"  : {
 
-		"name": {
-			"description": "",
-			"type": "string"
-		},
-
-		"value": {
-			"description": "Value or Magnitude",
-			"type": "number"
-		},
+		"uuid"  : {"$ref": "./strings/non_empty.json"},
+		"name"  : {"$ref": "./strings/non_empty.json"},
+		"value" : {"$ref": "./number/any.json"},
 
 		"units": {
 			"description": "",
@@ -24,23 +18,9 @@
 			"enum": ["m", "1/m", "nT", "m/s2", "deg", "deg/nT", "deg/hr", "rad"]
 		},
 
-		"depth_factor": {
-			"description" : "",
-			"type"        : "number",
-			"minimum"     : 0
-		},
-
-		"inclination_factor": {
-			"description" : "",
-			"type"        : "number",
-			"minimum"     : 0
-		},
-
-		"azimuth_factor": {
-			"description" : "",
-			"type"        : "number",
-			"minimum"     : 0
-		},
+		"depth_factor"       : {"$ref": "./number/non_negative.json"},
+		"inclination_factor" : {"$ref": "./number/non_negative.json"},
+		"azimuth_factor"     : {"$ref": "./number/non_negative.json"},
 
 		"propagation_mode": {
 			"description" : "",
@@ -48,23 +28,9 @@
 			"enum"        : ["Global", "Random", "Systematic", "Well"]
 		},
 
-		"depth_formula": {
-			"description" : "",
-			"type"        : "string",
-			"minLength"   : 1
-		},
-
-		"inclination_formula": {
-			"description" : "",
-			"type"        : "string",
-			"minLength"   : 1
-		},
-
-		"azimuth_formula": {
-			"description" : "",
-			"type"        : "string",
-			"minLength"   : 1
-		},
+		"depth_formula"       : {"$ref": "./strings/non_empty.json"},
+		"inclination_formula" : {"$ref": "./strings/non_empty.json"},
+		"azimuth_formula"     : {"$ref": "./strings/non_empty.json"},
 
 		"north_singularity": {
 			"description" : "",
@@ -84,21 +50,12 @@
 			"minLength"   : 1
 		},
 
-		"uuid": {
-			"description" : "UUID of error term",
-			"type"        : "string",
-			"minLength"   : 1
-		},
-
-		"checksum": {
-			"description" : "Checksum of error term",
-			"type"        : "string",
-			"minLength"   : 1
-		}
+		"checksum": {"$ref": "./strings/non_empty.json"}
 
 	},
 
 	"required": [
+		"uuid",
 		"name",
 		"value",
 		"units",
@@ -112,7 +69,6 @@
 		"east_singularity",
 		"vertical_singularity",
 		"azimuth_formula",
-		"uuid",
 		"checksum"
 	],
 
