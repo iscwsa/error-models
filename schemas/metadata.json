@@ -8,6 +8,14 @@
 
 	"properties": {
 
+		"schema_uuid": {"$ref": "./draft.json#/$defs/schema_uuid"},
+
+		"model_uuid": {
+			"description" : "UUID for entire model",
+			"type"        : "string",
+			"minLength"   : 1
+		},
+
 		"model_id": {
 			"description" : "",
 			"type"        : "string",
@@ -92,6 +100,8 @@
 	},
 
 	"required": [
+		"schema_uuid",
+		"model_uuid",
 		"model_id",
 		"short_name",
 		"long_name",

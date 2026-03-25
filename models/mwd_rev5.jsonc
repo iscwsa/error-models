@@ -1,15 +1,13 @@
 {
-	"$schema": "../schemas/error_model.json",
-
-	// TODO: Determine which UUID format to use. Some formats are better suited for sorting.
-	"uuid": "00000000-0000-0000-0000-000000000000",
-
-	// TODO: Determine method to calculate checksum. The order of terms is significant.
-	"checksum": "00000000000000000000000000000000",
+	"$schema": "../schemas/draft.json",
 
 	"metadata": {
 
-		// Existing fields
+		// TODO: Determine which UUID format to use.
+		"schema_uuid": "00000000-0000-0000-0000-000000000000",
+		"model_uuid" : "00000000-0000-0000-0000-000000000000",
+
+		// Existing fields -- keep
 		"model_id"        : "A001Mc", // As defined by the author
 		"short_name"      : "MWD+SRGM",
 		"long_name"       : "OWSG MWD + SRGM",
@@ -19,6 +17,8 @@
 		"source"          : "OWSG - SPE 67616 and 63275",
 		"application"     : "MWD using 1-Year Standard Resolution Geomagnetic Mode (e.g., BGGM up to 2018, MVSD) with no additional corrections",
 		"tool_type"       : "Magnetic",
+
+		// Existing fields -- propose delete
 
 		// New fields
 		"author"          : "ISCWSA",
@@ -68,6 +68,9 @@
 			"uuid"                 : "00000000-0000-0000-0000-000000000000",
 			"checksum"             : "00000000000000000000000000000000"
 		}
-	]
+	],
+
+	// TODO: Determine method to calculate checksum. The order of terms is significant.
+	"checksum": "00000000000000000000000000000000"
 
 }

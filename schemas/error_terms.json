@@ -7,8 +7,5 @@
 
 	"minItems"    : 1,
 	"uniqueItems" : true,
-	"items"       : {
-		"$ref" : "./error_term.json"
-	}
-
+	"items"       : {"$ref": "./error_term.json"}
 }
