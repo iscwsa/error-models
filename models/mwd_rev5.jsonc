@@ -7,7 +7,7 @@
 		"schema_uuid": "00000000-0000-0000-0000-000000000000",
 		"model_uuid" : "00000000-0000-0000-0000-000000000000",
 
-		// Existing fields -- keep
+		// Existing fields (keep)
 		"model_id"        : "A001Mc", // As defined by the author
 		"short_name"      : "MWD+SRGM",
 		"long_name"       : "OWSG MWD + SRGM",
@@ -18,18 +18,20 @@
 		"application"     : "MWD using 1-Year Standard Resolution Geomagnetic Mode (e.g., BGGM up to 2018, MVSD) with no additional corrections",
 		"tool_type"       : "Magnetic",
 
-		// Existing fields -- propose delete
+		// Existing fields (propose delete)
+		// TODO
 
 		// New fields
 		"author"          : "ISCWSA",
 		"framework"       : "ISCWSA Rev5",
 
+		// Optional
 		"tags": []
 
 	},
 
 	"parameters": {
-		"inc_min" :  0,
+		"inc_min" : 0,
 		"inc_max" : 180
 	},
 
