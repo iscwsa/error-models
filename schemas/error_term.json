@@ -50,7 +50,7 @@
 			"minLength"   : 1
 		},
 
-		"checksum": {"$ref": "./strings/non_empty.json"}
+		"hash_value": {"$ref": "./strings/non_empty.json"}
 
 	},
 
@@ -69,7 +69,7 @@
 		"east_singularity",
 		"vertical_singularity",
 		"azimuth_formula",
-		"checksum"
+		"hash_value"
 	],
 
 	"additionalProperties" : false
