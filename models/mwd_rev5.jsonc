@@ -37,6 +37,7 @@
 
 	// TODO: Identify implicitly paired or dependent terms and singularities
 	// TODO: Split magnitudes out of term definition
+	// TODO: Split out weighting functions because some terms use the same WF with different magnitudes
 	// TODO: Field for mixed-modes, e.g., static vs dynamic (rotating)
 	"terms": [
 		{
