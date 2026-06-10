@@ -16,7 +16,7 @@ The role of the ISCWSA Error Model Maintenance Group is to define the mathematic
 ## Error Model JSON Schema
 
 > [!CAUTION]
-> **DO NOT USE IN PRODUCTION!**
+> **NOT PRODUCTION READY!**
 
 > [!WARNING]
 > This schema and any models are a work in-progress and published only for testing and review.
@@ -46,6 +46,7 @@ The role of the ISCWSA Error Model Maintenance Group is to define the mathematic
   - [XCL Supplement](https://www.iscwsa.net/media/files/files/65e684c6/xcl-error-supplement-r16.pdf) (.pdf)
   - [Geomagnetic Models](https://www.iscwsa.net/media/files/files/c23e8374/five-primary-geomagnetic-reference-model-categories-rev2.pdf) (.pdf)
 - [ICSWSA MWD Error Models](https://www.iscwsa.net/files/809) (.xlsx)
+- [ISCWSA Rotating Continuous 6-Axis MWD](https://www.iscwsa.net/files/1052) (.xlsx)
 - [Generic Error Models SetA Rev5-1](https://www.iscwsa.net/files/807) (.xlsx)
 - [Generic Error Models SetB Rev5-1](https://www.iscwsa.net/files/808) (.xlsx)
 - [ISCWSA MWD Diagnostics Rev5-1](https://www.iscwsa.net/files/806) (.zip)
