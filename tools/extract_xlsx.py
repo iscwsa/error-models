@@ -406,7 +406,7 @@ def main(argv=None) -> int:
         log: list[str] = []
         try:
             libraries, models = build_all(args.workbooks.expanduser(), log)
-        except (ExtractError, WorkbookError) as exc:
+        except (ExtractError, WorkbookError, ValueError) as exc:
             print(f"error: {exc}", file=sys.stderr)
             return 1
         for lib_id, library in libraries.items():

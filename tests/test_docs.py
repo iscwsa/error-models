@@ -46,4 +46,9 @@ def test_no_internal_names_or_stale_wording():
     files = [ROOT / "README.md", ROOT / "CHANGELOG.md", *(ROOT / "docs").glob("*.md")]
     for f in files:
         assert not re.search(r"\b(Plan|Task) \d", f.read_text(encoding="utf-8")), f
+    this = Path(__file__).resolve()
+    label = re.compile(r"\b(?:Plan|Task) " + r"\d|\bD" + r"\d\b")  # built in two parts so this file does not match itself
+    for f in [*(ROOT / "tools").glob("*.py"), *(ROOT / "tests").glob("*.py")]:
+        if f.resolve() != this:
+            assert not label.search(f.read_text(encoding="utf-8")), f
     assert "finding under review" not in (ROOT / "tools" / "errata.json").read_text(encoding="utf-8")

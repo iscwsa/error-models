@@ -62,6 +62,10 @@ Namespace UUID: `7c9fcf73-f032-422d-b9aa-a2d69fa46e1d`
 
 - `python -m tools.validate --registry .` validates every library and model (schemas, formulas, hashes, identifiers, namespaces). Proposed errata are reported as warnings; `--release` turns them into errors.
 - `python -m tools.extract_xlsx --workbooks <dir> --sheet <sheet name> --library <id>` regenerates a library and its model from the ISCWSA spreadsheets, applying `tools/errata.json`.
+- `python -m tools.extract_xlsx --workbooks <dir> --all` (or `--all-libraries`) regenerates the seven libraries and all 129 models (or only the libraries) from every sheet.
+- `tools/model_ids.csv` is the fixed (workbook, sheet) to model ID and library table, so a renamed sheet keeps its UUID. `python -m tools.inventory --workbooks <dir>` checks it against the workbooks.
+- `tools/term_groups.json` lists the term groups the extractor writes into each library.
+- `tools/term_requires.json` lists the capability (`gyro_modes`, `bias_terms` or `xcl_position_direct`) each term needs; a library's `requires` is the union over its terms.
 
 The `iscwsa:rev5` and `iscwsa:rot6axis` libraries currently carry proposed errata (corrections to the spreadsheet formula text, each with its reason in `tools/errata.json`) that await a sub-committee decision. `docs/deviations.md` lists them with the evidence, together with the evaluation conventions the diagnostics need.
 
@@ -76,7 +80,9 @@ All 129 models extracted from the ISCWSA spreadsheets (7 libraries). What each c
   the diagnostics exercise have a count. The rest read "formula from source, not validated numerically".
 - **loaded / refused**: whether the engine accepts the model. A model is refused when it needs a capability the engine does not have yet.
 
-The load, self-check and 806 results come from a private DGI engine check that reads this JSON and uses published sources only.
+The load, self-check and 806 results come from an independent engine built only from published sources (not part of this repository) that reads this JSON.
+
+Refusal follows a model's terms, not its sheet's `Tool Type`. `generic_iscwsa:B021Ga` is a Gyro-type sheet that loads, because none of its terms need `gyro_modes`.
 
 | model_id | sheet | library | status | load | round trip | self-check | 806 | notes |
 |---|---|---|---|---|---|---|---|---|

@@ -99,3 +99,15 @@ def test_examples(workbooks):
     rcs = workbooks[1052][1][0]
     assert ids[(1052, "Candidate_Rot_6Axis_MWD+SRGM")] == ModelId(
         "iscwsa", owsg_prefix(rcs), "iscwsa:rot6axis")
+
+
+def test_repeated_file_and_sheet_rejected(tmp_path):
+    p = tmp_path / "ids.csv"
+    p.write_text(
+        "iscwsa_file,sheet,namespace,model_id,library\n"
+        "807,MWD+SRGM,generic_iscwsa,A001Mc,iscwsa:rev5\n"
+        "807,MWD+SRGM,generic_iscwsa,A002Mc,iscwsa:rev5\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError, match="MWD"):
+        load_model_ids(p)

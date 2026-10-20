@@ -54,7 +54,7 @@ def test_errata_applied(out):
     assert all(e["status"] == "proposed" for e in wf["errata"])
 
 
-# ---- Task 4: parameters, status and framework for every sheet ----
+# ---- parameters, status and framework for every sheet ----
 from tools.extract_xlsx import PARAM_NAMES, ExtractError, build_library, build_model, parse_param  # noqa: E402
 from tools.inventory import ModelId, load_model_ids  # noqa: E402
 from tools.sheet import WORKBOOKS_FILE, read_workbook  # noqa: E402
@@ -177,11 +177,11 @@ def test_a001mc_unchanged(out):
     o = json.loads(committed.read_bytes())
     for doc in (n, o):
         doc.pop("hash_value")
-        doc["libraries"][0].pop("hash_value")   # Task 6 regenerates the committed model against the new rev5
+        doc["libraries"][0].pop("hash_value")   # the committed model is regenerated against the new rev5
     assert n == o
 
 
-# ---- Task 5: every library ----
+# ---- every library ----
 import subprocess  # noqa: E402
 
 from tools.extract_xlsx import PROP, TERM_REQUIRES_FILE, build_libraries  # noqa: E402
@@ -315,7 +315,7 @@ def test_rev5_unchanged_for_a001mc(libraries, all_sheets):
         assert _strip(new["weighting_functions"][wf]) == _strip(old["weighting_functions"][wf]), wf
 
 
-# ---- Task 6: all 129 models ----
+# ---- all 129 models ----
 from tools.extract_xlsx import build_all  # noqa: E402
 
 
@@ -375,3 +375,19 @@ def test_mdi_oi_report():
     assert "0.02 in [MWD+IFR2+AX+SAG, MWD+IFR2+AX+SAG_Fl]" in line
     assert "0.03 in 30 sheets" in line
     assert all("family=" in d and " term=" in d for d in diffs)
+
+
+def test_cli_duplicate_model_id_is_a_clean_error(tmp_path, monkeypatch, capsys):
+    import tools.extract_xlsx as ex
+
+    csv_path = tmp_path / "ids.csv"
+    csv_path.write_text(
+        "iscwsa_file,sheet,namespace,model_id,library\n"
+        "807,A,generic_iscwsa,X1,iscwsa:rev5\n"
+        "807,B,generic_iscwsa,X1,iscwsa:rev5\n",
+        encoding="utf-8",
+    )
+    real = ex.load_model_ids
+    monkeypatch.setattr(ex, "load_model_ids", lambda path=csv_path: real(path))
+    assert ex.main(["--workbooks", str(tmp_path), "--all", "--out", str(tmp_path)]) == 1
+    assert "duplicate model ID" in capsys.readouterr().err

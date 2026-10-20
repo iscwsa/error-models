@@ -2,7 +2,7 @@
 """Inventory of the ISCWSA workbooks and the fixed (file, sheet) -> model-ID table (tools/model_ids.csv).
 
 The CSV is data, not derived at run time, so a renamed sheet keeps its UUID. `--propose` prints the
-decision-D1/D2 proposal, which was reviewed by hand before being committed.
+model-ID and library proposal, which was reviewed by hand before being committed.
 """
 from __future__ import annotations
 
@@ -33,6 +33,8 @@ def load_model_ids(path: Path = MODEL_IDS_FILE) -> dict[tuple[int, str], ModelId
     with open(path, encoding="utf-8", newline="") as f:
         for row in csv.DictReader(f):
             key = (int(row["iscwsa_file"]), row["sheet"])
+            if key in out:
+                raise ValueError(f"duplicate (file, sheet) row in {path}: file {key[0]}, sheet {key[1]!r}")
             mid = ModelId(row["namespace"], row["model_id"], row["library"])
             qual = (mid.namespace, mid.model_id)
             if qual in owner:
@@ -55,7 +57,7 @@ def owsg_prefix(sheet: Sheet) -> str | None:
 
 
 def propose(iscwsa_file: int, namespace: str, sheet: Sheet) -> ModelId:
-    """Decisions D1 (model ID) and D2 (library)."""
+    """The model-ID and library proposal."""
     prefix = owsg_prefix(sheet)
     if prefix is not None:
         model_id = prefix

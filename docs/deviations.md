@@ -21,7 +21,7 @@ There are two kinds of item:
   of them cannot be expressed in the JSON yet: an engine has to apply them by itself to reproduce 806. They will be
   specified in `docs/propagation.md` (planned).
 
-The check: the private independent engine (reads the JSON with `tools/formula.py`; no Well Architect, Compass or welleng
+The check: an independent engine built only from published sources (not part of this repository; it reads the JSON with `tools/formula.py`; no Well Architect, Compass or welleng
 code) reproduces all 19,476 station/term checks of 806 with the items below. The "without it" counts are the stations
 that fail when only that item is reverted, under the tolerance below (measured 2026-10-20).
 

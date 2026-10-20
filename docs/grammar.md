@@ -7,7 +7,7 @@ Formulas are the VBA-style expressions in the `Depth Formula`, `Inclination Form
 `Singularity * Formula` columns of the ISCWSA error-model spreadsheets. The reference parser and evaluator is
 `tools/formula.py` (hand-written tokenizer and recursive-descent parser; formulas are never passed to `eval`). The reference
 loader (which reads a model, applies its `requires` and converts the parameter units) is not in this repository: it lives in
-the private DGI engine check.
+an independent engine built only from published sources (not part of this repository).
 
 ## EBNF
 
@@ -65,7 +65,7 @@ The exponent of `^` may carry one sign (`2 ^ -2`). A parenthesised base is fine:
 | `BField` | nT | |
 | `GField` | m/s^2 | |
 | `EarthRate` | rad/s | |
-| `XCLTortuosity` | rad per m | the unit the main XCLA / XCLH text needs (it is compared with radians). The model parameter stays `{"value": 1, "unit": "deg/100ft"}` and an engine converts it (1 deg/100 ft = pi/180/30.48 rad/m). The private engine's loader converts the units `deg/100ft`, `deg/30m`, `deg/100m` and `deg/m` and refuses any other. The sheet's XCLA singularity text multiplies it by `RAD` as if it were deg per m; that is a proposed erratum (`tools/errata.json`, rows E5 and E6 of [`deviations.md`](deviations.md)) |
+| `XCLTortuosity` | rad per m | the unit the main XCLA / XCLH text needs (it is compared with radians). The model parameter stays `{"value": 1, "unit": "deg/100ft"}` and an engine converts it (1 deg/100 ft = pi/180/30.48 rad/m). An independent engine's loader converts the units `deg/100ft`, `deg/30m`, `deg/100m` and `deg/m` and refuses any other. The sheet's XCLA singularity text multiplies it by `RAD` as if it were deg per m; that is a proposed erratum (`tools/errata.json`, rows E5 and E6 of [`deviations.md`](deviations.md)) |
 | `NoiseReductionFactor`, `GXYRunningSpeed`, `GZRunningSpeed`, `XY_Gyro_Drift`, `XY_Gyro_Random_Walk`, `Z_Gyro_Drift` | as defined by the model | |
 
 ## Aliases
