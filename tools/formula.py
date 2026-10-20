@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import math
 import re
+import sys
 from dataclasses import dataclass
 from typing import Mapping
 
@@ -28,6 +29,7 @@ VARIABLES: frozenset[str] = frozenset(
     "XY_Gyro_Drift XY_Gyro_Random_Walk Z_Gyro_Drift".split()
 )
 _MIN_ARGS = {"Sin": 1, "Cos": 1, "Tan": 1, "Abs": 1, "Sqrt": 1, "Max": 2, "Min": 2}
+MAX_DEPTH = 200  # cap on nesting of parentheses, calls and unary signs
 _MAX_ARGS = {"Sin": 1, "Cos": 1, "Tan": 1, "Abs": 1, "Sqrt": 1}
 
 
@@ -39,7 +41,7 @@ class FormulaError(ValueError):
 
 # ---------------------------------------------------------------- tokenizer
 _TOKEN = re.compile(
-    r"\s*(?:(?P<num>\d+(?:\.\d*)?(?:[eE][+-]?\d+)?|\.\d+(?:[eE][+-]?\d+)?)"
+    r"\s*(?:(?P<num>[0-9]+(?:\.[0-9]*)?(?:[eE][+-]?[0-9]+)?|\.[0-9]+(?:[eE][+-]?[0-9]+)?)"
     r"|(?P<id>[A-Za-z_][A-Za-z_0-9]*)"
     r"|(?P<op>[-+*/^(),]))"
 )
@@ -267,6 +269,12 @@ class _Parser:
         self.toks = _tokenize(text)
         self.i = 0
         self.allowed = allowed
+        self.depth = 0
+
+    def _enter(self, pos: int) -> None:
+        self.depth += 1
+        if self.depth > MAX_DEPTH:
+            raise FormulaError(f"formula nesting deeper than {MAX_DEPTH}", pos)
 
     def peek(self):
         return self.toks[self.i]
@@ -310,10 +318,12 @@ class _Parser:
                 return node
 
     def unary(self) -> Node:
-        k, v, _ = self.peek()
+        k, v, p = self.peek()
         if k == "op" and v in "+-":
+            self._enter(p)
             self.i += 1
             operand = self.unary()
+            self.depth -= 1
             return Neg(operand) if v == "-" else operand
         return self.power()
 
@@ -339,10 +349,15 @@ class _Parser:
     def primary(self) -> Node:
         k, v, p = self.next()
         if k == "num":
-            return Num(float(v))
+            value = float(v)
+            if not math.isfinite(value):
+                raise FormulaError(f"number {v!r} is out of range", p)
+            return Num(value)
         if k == "op" and v == "(":
+            self._enter(p)
             node = self.expr()
             self.expect(")")
+            self.depth -= 1
             return node
         if k == "id":
             nk, nv, _ = self.peek()
@@ -350,12 +365,14 @@ class _Parser:
             if v in FUNCTIONS:
                 if not is_call:
                     raise FormulaError(f"function {v!r} requires arguments", p)
+                self._enter(self.peek()[2])
                 self.i += 1
                 args = [self.expr()]
                 while self.peek()[:2] == ("op", ","):
                     self.i += 1
                     args.append(self.expr())
                 self.expect(")")
+                self.depth -= 1
                 if len(args) < _MIN_ARGS[v] or len(args) > _MAX_ARGS.get(v, 10**9):
                     raise FormulaError(f"wrong number of arguments for {v}", p)
                 return Call(v, tuple(args))
@@ -370,7 +387,16 @@ class _Parser:
 
 
 def parse(text: str, allowed: frozenset[str] | None = None) -> Node:
-    return _Parser(text, allowed).parse()
+    # Each nesting level costs ~5 Python frames; make room for MAX_DEPTH.
+    need = 6 * MAX_DEPTH + 200
+    old = sys.getrecursionlimit()
+    if old < need:
+        sys.setrecursionlimit(need)
+    try:
+        return _Parser(text, allowed).parse()
+    finally:
+        if old < need:
+            sys.setrecursionlimit(old)
 
 
 def canonical(text: str) -> str:

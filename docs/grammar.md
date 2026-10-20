@@ -91,3 +91,9 @@ Evaluation follows IEEE 754 and never raises: `x / 0` gives `+inf` or `-inf` (by
 `NaN`; overflow gives `+inf`/`-inf`. `Max`/`Min` return `NaN` if any argument is `NaN`. Consumers must treat a
 non-finite result as "undefined at this survey station" rather than as an error. Only a variable missing from the
 environment raises (`FormulaError`). Where a formula is undefined at a vertical station, the library may carry singularity formulas; how an engine treats vertical stations is provisional, see "Vertical stations" in `conformance.md`.
+
+## Limits
+
+Digits are ASCII `0-9` only (other Unicode digits are rejected). A number literal must be finite: `1e999` is a
+`FormulaError`. Nesting of parentheses, function calls and unary signs is capped at depth 200; deeper input raises
+`FormulaError` (positioned at the offending token) rather than `RecursionError`.
