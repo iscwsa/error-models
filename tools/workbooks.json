@@ -1,0 +1,22 @@
+{
+	"iscwsa-mwd-error-models-rev5-23-sep-2022.xlsx": {
+		"sha256": "e4e3aa04e095dd0b72d5180f10846cfe9ec22db71ebbab7c2056992b188f9f13",
+		"iscwsa_file": 809,
+		"namespace": "iscwsa"
+	},
+	"toolgroup-owsg-a-rev-5-1-08-oct-2020-produced-23-sep-2022.xlsx": {
+		"sha256": "63006b322ae2d8e5cefd3962339f4d4bdcc65656e842578af1efd4008b777280",
+		"iscwsa_file": 807,
+		"namespace": "generic_iscwsa"
+	},
+	"toolgroup-owsg-b-rev-5-1-08-oct-2020-produced-23-sep-2022.xlsx": {
+		"sha256": "74c6bf47469b26af7ffe798aa01a36912dcc193f21a3d2ec4de36da2430ddd59",
+		"iscwsa_file": 808,
+		"namespace": "generic_iscwsa"
+	},
+	"iscwsa-rot-6axis-mwd-srgm-02jun2026.xlsx": {
+		"sha256": "cf512eacc9134170ba096c2a4a6366a7e69ad70cd6dd59ebe9c4341b27cfab09",
+		"iscwsa_file": 1052,
+		"namespace": "iscwsa"
+	}
+}

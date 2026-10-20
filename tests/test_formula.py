@@ -50,7 +50,7 @@ def test_sheet_xym3e_text_parses():
 def test_sheet_spellings():
     for t in ["(Sin(Inc))^0.25", "-(Cos(Inc) * Sin(Az+TF))", "-Sin(Az+TF)", "Latitude * pi",
               "Max(1,2)", "2 ^ -2", "Min(1, 2, 3)"]:
-        parse(t, allowed=VARIABLES | {"Az"})
+        parse(t, allowed=VARIABLES)
     assert ev("2 ^ -2") == 0.25
     assert ev("--3") == 3
 
@@ -129,5 +129,5 @@ def test_every_sheet_formula_parses():
         wb.close()
     assert formulas
     for f in sorted(formulas):
-        parse(f, allowed=VARIABLES | {"Az"})
+        parse(f, allowed=VARIABLES)
     print(len(formulas), "distinct formulas")

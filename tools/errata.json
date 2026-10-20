@@ -1,0 +1,42 @@
+[
+	{
+		"library": "iscwsa:rev5",
+		"weighting_function": "XYM3E",
+		"field": "inclination",
+		"sheet_text": "Cos(Inc) * Cos(AzT)  * Max(1, sqrt(10/(MD-MDPrev)))",
+		"corrected": "Abs(Cos(Inc)) * Cos(AzT) * Max(1, Sqrt(10 / (MD - MDPrev)))",
+		"source": "ISCWSA Error Model Diagnostics Rev 5.1 (iscwsa.net file 806)",
+		"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics, which match the |cos I| form (SPE 90408 Table 9 Alt. 3 / Rev 4 XYM3, XYM4) times the Rev 5 course-length factor.",
+		"status": "proposed"
+	},
+	{
+		"library": "iscwsa:rev5",
+		"weighting_function": "XYM3E",
+		"field": "azimuth",
+		"sheet_text": "(Cos(Inc) * Sin(AzT)  / Sin(Inc)) * Max(1, sqrt(10/(MD-MDPrev)))",
+		"corrected": "-(Abs(Cos(Inc)) * Sin(AzT) / Sin(Inc)) * Max(1, Sqrt(10 / (MD - MDPrev)))",
+		"source": "ISCWSA Error Model Diagnostics Rev 5.1 (iscwsa.net file 806)",
+		"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics, which match the |cos I| form (SPE 90408 Table 9 Alt. 3 / Rev 4 XYM3, XYM4) times the Rev 5 course-length factor.",
+		"status": "proposed"
+	},
+	{
+		"library": "iscwsa:rev5",
+		"weighting_function": "XYM4E",
+		"field": "inclination",
+		"sheet_text": "Cos(Inc) * Sin(AzT) * Max(1, sqrt(10/(MD-MDPrev)))",
+		"corrected": "Abs(Cos(Inc)) * Sin(AzT) * Max(1, sqrt(10/(MD-MDPrev)))",
+		"source": "ISCWSA Error Model Diagnostics Rev 5.1 (iscwsa.net file 806)",
+		"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics, which match the |cos I| form (SPE 90408 Table 9 Alt. 3 / Rev 4 XYM3, XYM4) times the Rev 5 course-length factor.",
+		"status": "proposed"
+	},
+	{
+		"library": "iscwsa:rev5",
+		"weighting_function": "XYM4E",
+		"field": "azimuth",
+		"sheet_text": "(Cos(Inc) * Cos(AzT)  / Sin(Inc)) * Max(1, sqrt(10/(MD-MDPrev)))",
+		"corrected": "(Abs(Cos(Inc)) * Cos(AzT)  / Sin(Inc)) * Max(1, sqrt(10/(MD-MDPrev)))",
+		"source": "ISCWSA Error Model Diagnostics Rev 5.1 (iscwsa.net file 806)",
+		"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics, which match the |cos I| form (SPE 90408 Table 9 Alt. 3 / Rev 4 XYM3, XYM4) times the Rev 5 course-length factor.",
+		"status": "proposed"
+	}
+]

@@ -276,7 +276,8 @@ def test_cli_exit_codes(repo, capsys):
 
 
 def test_this_repository_is_clean():
-    assert validate_repo(ROOT, registry_check=True) == []
+    # proposed errata are warnings until the user decides; anything else is a failure
+    assert {p.code for p in validate_repo(ROOT, registry_check=True)} <= {"ERRATA_PROPOSED"}
 
 
 def test_dotdot_release_tag_is_unknown_release(repo):

@@ -58,15 +58,13 @@ The exponent of `^` may carry one sign (`2 ^ -2`). A parenthesised base is fine:
 | Name | Unit | Notes |
 |------|------|-------|
 | `Inc`, `AzT`, `AzM`, `TF`, `Dip`, `Lat`, `IncPrev`, `AzPrev` | rad | |
+| `Az` | rad | azimuth as written in the sheets' singularity formulas (Rev5 ABXY-TI2 singularity_north/east) and in the ISCWSA MWD bias Rev0 terms (with TF); whether it is true or magnetic azimuth is not yet decided (Plan 2, from SPE 67616 and the Rev5 definition); kept as its own variable so the published text is unchanged |
 | `MD`, `TVD`, `MDPrev` | m | |
 | `BField` | nT | |
 | `GField` | m/s^2 | |
 | `EarthRate` | rad/s | |
 | `XCLTortuosity` | deg per m | the sheet text `XCLTortuosity * RAD * (MD - MDPrev)` converts to rad |
 | `NoiseReductionFactor`, `GXYRunningSpeed`, `GZRunningSpeed`, `XY_Gyro_Drift`, `XY_Gyro_Random_Walk`, `Z_Gyro_Drift` | as defined by the model | |
-
-The spreadsheets also use `Az` in a few formulas; it is not yet in the variable set (pending a later decision), and
-the workbook test allows it explicitly.
 
 ## Aliases
 

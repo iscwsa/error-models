@@ -23,7 +23,7 @@ ALIASES: dict[str, str] = {
 FUNCTIONS = {"Sin", "Cos", "Tan", "Abs", "Sqrt", "Max", "Min"}
 CONSTANTS = {"Pi": math.pi, "RAD": math.pi / 180}
 VARIABLES: frozenset[str] = frozenset(
-    "Inc AzT AzM MD TVD TF MDPrev IncPrev AzPrev Dip BField GField Lat EarthRate "
+    "Inc Az AzT AzM MD TVD TF MDPrev IncPrev AzPrev Dip BField GField Lat EarthRate "
     "XCLTortuosity NoiseReductionFactor GXYRunningSpeed GZRunningSpeed "
     "XY_Gyro_Drift XY_Gyro_Random_Walk Z_Gyro_Drift".split()
 )
