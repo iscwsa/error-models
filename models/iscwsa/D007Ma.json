@@ -32,7 +32,7 @@
 		{
 			"id": "iscwsa:rot6axis",
 			"uuid": "657e4601-621f-59da-b3a1-16f918b6b09c",
-			"hash_value": "0b732dff507b758e5a176099b50d7405fffa946179e4bbe3f90ac0881290b1cd"
+			"hash_value": "068721cd131a4715a7e2bc4e6a16b7bdb2eb5e1bc62340fd081e1806cf9248ea"
 		}
 	],
 	"applicability": {
@@ -219,5 +219,5 @@
 		}
 	],
 	"hash_function": "SHA256",
-	"hash_value": "4981f9d40714c25a33625491afe15550f16a5d1dee1a83a13d7824f36e1a303b"
+	"hash_value": "39629da8c23e1e2ac8aa9c69de8cb66776cedc80806e0b0e6eeb648000a22d20"
 }

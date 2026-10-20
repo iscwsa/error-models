@@ -35,7 +35,7 @@
 		{
 			"id": "iscwsa:rev5",
 			"uuid": "afcf8ed3-ac41-51f8-9999-8d126737f2f0",
-			"hash_value": "1a8c6a946284efa0c7e416e29d3315d52740429462041bba1394562411b1d9ca"
+			"hash_value": "c251a379c03c814bb4a198c576a11a4b30debf886bf7299116a0c214ca386596"
 		}
 	],
 	"applicability": {
@@ -235,5 +235,5 @@
 		}
 	],
 	"hash_function": "SHA256",
-	"hash_value": "454b39cbe27173ee60367505ccc4d5843ebfff1d74ba007bbf6cb19d66cb9364"
+	"hash_value": "e6eb77b465d870b5ad9c2b9e984432197d2db0adb9bf0cdea1dc32b0afbd4b12"
 }

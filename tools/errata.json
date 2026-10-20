@@ -46,7 +46,7 @@
 		"sheet_text": "XCLTortuosity * RAD * (MD - MDPrev)",
 		"corrected": "XCLTortuosity * (MD - MDPrev)",
 		"source": "Internal consistency with the sheet's own XCLA/XCLH azimuth/inclination formulas (iscwsa.net file 809, ISCWSA MWD+SRGM Rev5)",
-		"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0 (finding under review); engines should not rely on it.",
+		"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0; engines should not rely on it.",
 		"status": "proposed"
 	},
 	{
@@ -56,7 +56,7 @@
 		"sheet_text": "XCLTortuosity * RAD * (MD - MDPrev)",
 		"corrected": "XCLTortuosity * (MD - MDPrev)",
 		"source": "Internal consistency with the sheet's own XCLA/XCLH azimuth/inclination formulas (iscwsa.net file 809, ISCWSA MWD+SRGM Rev5)",
-		"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0 (finding under review); engines should not rely on it.",
+		"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0; engines should not rely on it.",
 		"status": "proposed"
 	},
 	{
@@ -106,7 +106,7 @@
 		"sheet_text": "XCLTortuosity * RAD * (MD - MDPrev)",
 		"corrected": "XCLTortuosity * (MD - MDPrev)",
 		"source": "Internal consistency with the sheet's own XCLA/XCLH azimuth/inclination formulas (iscwsa.net file 809, ISCWSA MWD+SRGM Rev5)",
-		"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0 (finding under review); engines should not rely on it.",
+		"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0; engines should not rely on it.",
 		"status": "proposed"
 	},
 	{
@@ -116,7 +116,7 @@
 		"sheet_text": "XCLTortuosity * RAD * (MD - MDPrev)",
 		"corrected": "XCLTortuosity * (MD - MDPrev)",
 		"source": "Internal consistency with the sheet's own XCLA/XCLH azimuth/inclination formulas (iscwsa.net file 809, ISCWSA MWD+SRGM Rev5)",
-		"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0 (finding under review); engines should not rely on it.",
+		"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0; engines should not rely on it.",
 		"status": "proposed"
 	}
 ]

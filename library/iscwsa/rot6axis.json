@@ -282,7 +282,7 @@
 					"sheet_text": "XCLTortuosity * RAD * (MD - MDPrev)",
 					"corrected": "XCLTortuosity * (MD - MDPrev)",
 					"source": "Internal consistency with the sheet's own XCLA/XCLH azimuth/inclination formulas (iscwsa.net file 809, ISCWSA MWD+SRGM Rev5)",
-					"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0 (finding under review); engines should not rely on it.",
+					"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0; engines should not rely on it.",
 					"status": "proposed"
 				},
 				{
@@ -290,11 +290,11 @@
 					"sheet_text": "XCLTortuosity * RAD * (MD - MDPrev)",
 					"corrected": "XCLTortuosity * (MD - MDPrev)",
 					"source": "Internal consistency with the sheet's own XCLA/XCLH azimuth/inclination formulas (iscwsa.net file 809, ISCWSA MWD+SRGM Rev5)",
-					"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0 (finding under review); engines should not rely on it.",
+					"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0; engines should not rely on it.",
 					"status": "proposed"
 				}
 			],
-			"hash_value": "e0c73f6b35fa1ee0054c552f36a6e65dcdba50eef26027e242b08bd9b30894f6"
+			"hash_value": "b47d0f6f7b7a2503a07f4a844805c48b5fc206049e287df130faa8b1e62e6bfe"
 		},
 		"XCLH": {
 			"depth": "0",
@@ -657,7 +657,7 @@
 		}
 	},
 	"hash_function": "SHA256",
-	"hash_value": "0b732dff507b758e5a176099b50d7405fffa946179e4bbe3f90ac0881290b1cd",
+	"hash_value": "068721cd131a4715a7e2bc4e6a16b7bdb2eb5e1bc62340fd081e1806cf9248ea",
 	"term_groups": [
 		{
 			"terms": [
