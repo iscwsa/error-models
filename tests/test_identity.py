@@ -1,0 +1,40 @@
+# This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.
+from tools.identity import (content_hash, entry_hash, model_uuid, entry_uuid,
+                            library_uuid, stamp)
+
+
+def test_hash_known_vector():
+    assert content_hash({"b": 1, "a": "x"}) == "cdab067e9f3beb32d1252cfd63e492592fecbf591b0d08cadb24bb17f3864246"
+
+
+def test_hash_ignores_schema_and_hash_value():
+    d = {"$schema": "u1", "a": 1, "hash_value": "zz"}
+    assert content_hash(d) == content_hash({"$schema": "u2", "a": 1})
+
+
+def test_hash_detects_magnitude_edit():
+    assert content_hash({"terms": [{"term": "DRFR", "magnitude": 0.35}]}) != content_hash({"terms": [{"term": "DRFR", "magnitude": 0.36}]})
+
+
+def test_uuids_deterministic():
+    assert model_uuid("iscwsa", "A001Mc") == model_uuid("iscwsa", "A001Mc") != model_uuid("generic_iscwsa", "A001Mc")
+    assert entry_uuid("lib", "x") != entry_uuid("lib", "y")
+    assert library_uuid("lib") == library_uuid("lib")
+
+
+def test_entry_hash_ignores_hash_value():
+    assert entry_hash({"a": 1, "hash_value": "q"}) == entry_hash({"a": 1})
+
+
+def test_stamp_library_and_no_mutation():
+    lib = {"$schema": "s", "terms": {"T": {"a": 1}}, "weighting_functions": {"W": {"b": 2}}}
+    out = stamp(lib)
+    assert "hash_value" not in lib and "hash_value" not in lib["terms"]["T"]
+    assert out["terms"]["T"]["hash_value"] == entry_hash({"a": 1})
+    assert out["weighting_functions"]["W"]["hash_value"] == entry_hash({"b": 2})
+    assert out["hash_value"] == content_hash(out)
+
+
+def test_stamp_model():
+    out = stamp({"a": 1})
+    assert out["hash_value"] == content_hash({"a": 1})
