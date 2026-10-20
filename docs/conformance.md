@@ -25,7 +25,25 @@ Conformance vectors let an implementation check that it evaluates a model the wa
    them MUST refuse models that use that library.
 3. An engine is conformant for a model if it reproduces that model's vectors within tolerance. At each station and term,
    `max|calc - ref| <= max(0.01 * max|ref|, 1e-4)` m^2, taken over the six printed covariance elements, where `max|ref|` is the
-   station's largest printed element for that term. The 1e-4 floor is two print steps: the vector files print covariances with
-   4 decimals (+-5e-5 rounding) and the station inclination and azimuth with 2 decimals, so a tighter criterion would test the
-   print format, not the engine. This tolerance is provisional until Plan 2.
+   station's largest printed element for that term. The 1e-4 m^2 floor is about two half-steps of the 4-decimal print of the
+   covariances (+-5e-5 rounding each); the station inclination and azimuth are printed with only 2 decimals, which is a further
+   reason not to tighten it. The 1% relative part is a provisional choice that matches the reference engine; it is not derived from
+   print precision. The tolerance as a whole is provisional, pending sub-committee review.
 4. Consumers MUST check `$schema` against the releases they support and refuse documents they do not recognise.
+
+## Capabilities
+
+A library's `requires` array lists capabilities from this table. The rule is rule 2: an engine that does not support a listed
+capability MUST refuse the library, and every model that uses it.
+
+| Capability | Meaning |
+|------------|---------|
+| `xcl_position_direct` | The library's formulas use the previous-station variables `MDPrev`, `IncPrev` and `AzPrev`, and the XCLA and XCLH weighting functions are evaluated as position-direct (tangential) terms, as the XCL Supplement r16 describes, not through the usual weighting-function derivative matrices. |
+
+## Vertical stations
+
+The singularity formulas published for vertical stations (`singularity_north`, `singularity_east`, `singularity_vertical`) are
+carried verbatim in the libraries. How an engine should treat a vertical station overall (the tie-on, and the derivation of
+azimuth and dip there) is provisional, pending sub-committee review. The 806 vectors include vertical stations and are the
+normative check. A reference description of the propagation will be published separately as `docs/propagation.md` (not yet
+available).

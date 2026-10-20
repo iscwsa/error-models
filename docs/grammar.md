@@ -58,12 +58,12 @@ The exponent of `^` may carry one sign (`2 ^ -2`). A parenthesised base is fine:
 | Name | Unit | Notes |
 |------|------|-------|
 | `Inc`, `AzT`, `AzM`, `TF`, `Dip`, `Lat`, `IncPrev`, `AzPrev` | rad | |
-| `Az` | rad | azimuth as written in the sheets' singularity formulas (Rev5 ABXY-TI2 singularity_north/east) and in the ISCWSA MWD bias Rev0 terms (with TF); whether it is true or magnetic azimuth is not yet decided (Plan 2, from SPE 67616 and the Rev5 definition); kept as its own variable so the published text is unchanged |
+| `Az` | rad | azimuth as written in the sheets' singularity formulas (Rev5 ABXY-TI2 singularity_north/east) and in the ISCWSA MWD bias Rev0 terms (with TF); whether it is true or magnetic azimuth is an open question for the sub-committee; kept as its own variable so the published text is unchanged |
 | `MD`, `TVD`, `MDPrev` | m | |
 | `BField` | nT | |
 | `GField` | m/s^2 | |
 | `EarthRate` | rad/s | |
-| `XCLTortuosity` | rad per m | the unit the main XCLA / XCLH text needs (it is compared with radians). The model parameter stays `{"value": 1, "unit": "deg/100ft"}` and an engine converts it (1 deg/100 ft = pi/180/30.48 rad/m). The sheet's XCLA singularity text multiplies it by `RAD` as if it were deg per m; that is a proposed erratum (`tools/errata.json`) |
+| `XCLTortuosity` | rad per m | the unit the main XCLA / XCLH text needs (it is compared with radians). The model parameter stays `{"value": 1, "unit": "deg/100ft"}` and an engine converts it (1 deg/100 ft = pi/180/30.48 rad/m). The reference loader converts the units `deg/100ft`, `deg/30m`, `deg/100m` and `deg/m` and refuses any other. The sheet's XCLA singularity text multiplies it by `RAD` as if it were deg per m; that is a proposed erratum (`tools/errata.json`) |
 | `NoiseReductionFactor`, `GXYRunningSpeed`, `GZRunningSpeed`, `XY_Gyro_Drift`, `XY_Gyro_Random_Walk`, `Z_Gyro_Drift` | as defined by the model | |
 
 ## Aliases
@@ -90,4 +90,4 @@ Evaluation follows IEEE 754 and never raises: `x / 0` gives `+inf` or `-inf` (by
 `0 / 0` gives `NaN`. Domain errors (`Sqrt` of a negative, `Sin(inf)`, a negative base to a fractional power) give
 `NaN`; overflow gives `+inf`/`-inf`. `Max`/`Min` return `NaN` if any argument is `NaN`. Consumers must treat a
 non-finite result as "undefined at this survey station" rather than as an error. Only a variable missing from the
-environment raises (`FormulaError`).
+environment raises (`FormulaError`). Where a formula is undefined at a vertical station, the library may carry singularity formulas; how an engine treats vertical stations is provisional, see "Vertical stations" in `conformance.md`.

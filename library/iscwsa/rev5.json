@@ -211,7 +211,7 @@
 					"sheet_text": "Cos(Inc) * Cos(AzT)  * Max(1, sqrt(10/(MD-MDPrev)))",
 					"corrected": "Abs(Cos(Inc)) * Cos(AzT) * Max(1, Sqrt(10 / (MD - MDPrev)))",
 					"source": "ISCWSA Error Model Diagnostics Rev 5.1 (iscwsa.net file 806)",
-					"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics, which match the |cos I| form (SPE 90408 Table 9 Alt. 3 / Rev 4 XYM3, XYM4) times the Rev 5 course-length factor.",
+					"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics (372 failing stations), which match the Abs(Cos(I)) form printed in the Rev 5.13 definition (section 5.1.2, p. 31; SPE 90408 Table 9 / Appendix B Alt. 3 uses the same weight without the absolute value) times the Rev 5 course-length factor.",
 					"status": "proposed"
 				},
 				{
@@ -219,11 +219,11 @@
 					"sheet_text": "(Cos(Inc) * Sin(AzT)  / Sin(Inc)) * Max(1, sqrt(10/(MD-MDPrev)))",
 					"corrected": "-(Abs(Cos(Inc)) * Sin(AzT) / Sin(Inc)) * Max(1, Sqrt(10 / (MD - MDPrev)))",
 					"source": "ISCWSA Error Model Diagnostics Rev 5.1 (iscwsa.net file 806)",
-					"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics, which match the |cos I| form (SPE 90408 Table 9 Alt. 3 / Rev 4 XYM3, XYM4) times the Rev 5 course-length factor.",
+					"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics (372 failing stations), which match the Abs(Cos(I)) form printed in the Rev 5.13 definition (section 5.1.2, p. 31; SPE 90408 Table 9 / Appendix B Alt. 3 uses the same weight without the absolute value) times the Rev 5 course-length factor.",
 					"status": "proposed"
 				}
 			],
-			"hash_value": "9e0421e14ae55ed95dd7c98829c39cbba666be316153b639b962c3c6ab1eb5c0"
+			"hash_value": "35358ac7e91c884d96410f4ece46cc8bd1359dc5b2ece815ab6fd00602340a8d"
 		},
 		"XYM4E": {
 			"depth": "0",
@@ -241,7 +241,7 @@
 					"sheet_text": "Cos(Inc) * Sin(AzT) * Max(1, sqrt(10/(MD-MDPrev)))",
 					"corrected": "Abs(Cos(Inc)) * Sin(AzT) * Max(1, Sqrt(10 / (MD - MDPrev)))",
 					"source": "ISCWSA Error Model Diagnostics Rev 5.1 (iscwsa.net file 806)",
-					"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics, which match the |cos I| form (SPE 90408 Table 9 Alt. 3 / Rev 4 XYM3, XYM4) times the Rev 5 course-length factor.",
+					"reason": "Corrected for consistency with XYM3E and with the Abs(Cos(I)) form printed in the Rev 5.13 definition (section 5.1.2, p. 31; SPE 90408 Table 9 / Appendix B Alt. 3 uses the same weight without the absolute value); the Rev 5.1 diagnostics do not exercise the difference.",
 					"status": "proposed"
 				},
 				{
@@ -249,11 +249,11 @@
 					"sheet_text": "(Cos(Inc) * Cos(AzT)  / Sin(Inc)) * Max(1, sqrt(10/(MD-MDPrev)))",
 					"corrected": "Abs(Cos(Inc)) * Cos(AzT) / Sin(Inc) * Max(1, Sqrt(10 / (MD - MDPrev)))",
 					"source": "ISCWSA Error Model Diagnostics Rev 5.1 (iscwsa.net file 806)",
-					"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics, which match the |cos I| form (SPE 90408 Table 9 Alt. 3 / Rev 4 XYM3, XYM4) times the Rev 5 course-length factor.",
+					"reason": "Corrected for consistency with XYM3E and with the Abs(Cos(I)) form printed in the Rev 5.13 definition (section 5.1.2, p. 31; SPE 90408 Table 9 / Appendix B Alt. 3 uses the same weight without the absolute value); the Rev 5.1 diagnostics do not exercise the difference.",
 					"status": "proposed"
 				}
 			],
-			"hash_value": "420dc6b5d3dfd702bad3b350444c156b62ef6e32f830f7800538acd7e071ba28"
+			"hash_value": "4ab114170a98731831f48f8ccb348c3824933338369385cff4303b2072d9a057"
 		},
 		"XCLA": {
 			"depth": "0",
@@ -270,7 +270,7 @@
 					"sheet_text": "XCLTortuosity * RAD * (MD - MDPrev)",
 					"corrected": "XCLTortuosity * (MD - MDPrev)",
 					"source": "Internal consistency with the sheet's own XCLA/XCLH azimuth/inclination formulas (iscwsa.net file 809, ISCWSA MWD+SRGM Rev5)",
-					"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable",
+					"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0 (finding under review); engines should not rely on it.",
 					"status": "proposed"
 				},
 				{
@@ -278,11 +278,11 @@
 					"sheet_text": "XCLTortuosity * RAD * (MD - MDPrev)",
 					"corrected": "XCLTortuosity * (MD - MDPrev)",
 					"source": "Internal consistency with the sheet's own XCLA/XCLH azimuth/inclination formulas (iscwsa.net file 809, ISCWSA MWD+SRGM Rev5)",
-					"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable",
+					"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0 (finding under review); engines should not rely on it.",
 					"status": "proposed"
 				}
 			],
-			"hash_value": "8b4900fe33060ad19b4e4fcff1b503e06174fd2eb7c84baeca0f8425297ece57"
+			"hash_value": "42db9d33acaf044c7fe59e9d849cf2e49e38b8205aad0fe251288495cffd00c2"
 		},
 		"XCLH": {
 			"depth": "0",
@@ -612,5 +612,5 @@
 		}
 	},
 	"hash_function": "SHA256",
-	"hash_value": "e96e7b837e4fab6a826d53dd224bd1e73477471706a4ddcc378999f16a6b786f"
+	"hash_value": "f7c527bbb18f9ff191470630c0dc9eba0065e211f2810169aaf468d1e67cd7af"
 }
