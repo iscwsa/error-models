@@ -63,7 +63,7 @@ The exponent of `^` may carry one sign (`2 ^ -2`). A parenthesised base is fine:
 | `BField` | nT | |
 | `GField` | m/s^2 | |
 | `EarthRate` | rad/s | |
-| `XCLTortuosity` | deg per m | the sheet text `XCLTortuosity * RAD * (MD - MDPrev)` converts to rad |
+| `XCLTortuosity` | rad per m | the unit the main XCLA / XCLH text needs (it is compared with radians). The model parameter stays `{"value": 1, "unit": "deg/100ft"}` and an engine converts it (1 deg/100 ft = pi/180/30.48 rad/m). The sheet's XCLA singularity text multiplies it by `RAD` as if it were deg per m; that is a proposed erratum (`tools/errata.json`) |
 | `NoiseReductionFactor`, `GXYRunningSpeed`, `GZRunningSpeed`, `XY_Gyro_Drift`, `XY_Gyro_Random_Walk`, `Z_Gyro_Drift` | as defined by the model | |
 
 ## Aliases

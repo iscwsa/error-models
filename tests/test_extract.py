@@ -27,7 +27,7 @@ def out(tmp_path_factory):
 def test_generated_files_validate(out):
     problems = validate_repo(out, registry_check=True)
     assert {p.code for p in problems} == {"ERRATA_PROPOSED"}
-    assert len(problems) == 4
+    assert len(problems) == 6   # XYM3E, XYM4E (2 fields each), XCLA singularity north and east
 
 
 def test_model_magnitudes_round_trip(out):

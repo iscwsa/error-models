@@ -38,5 +38,25 @@
 		"source": "ISCWSA Error Model Diagnostics Rev 5.1 (iscwsa.net file 806)",
 		"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics, which match the |cos I| form (SPE 90408 Table 9 Alt. 3 / Rev 4 XYM3, XYM4) times the Rev 5 course-length factor.",
 		"status": "proposed"
+	},
+	{
+		"library": "iscwsa:rev5",
+		"weighting_function": "XCLA",
+		"field": "singularity_north",
+		"sheet_text": "XCLTortuosity * RAD * (MD - MDPrev)",
+		"corrected": "XCLTortuosity * (MD - MDPrev)",
+		"source": "Internal consistency with the sheet's own XCLA/XCLH azimuth/inclination formulas (iscwsa.net file 809, ISCWSA MWD+SRGM Rev5)",
+		"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable",
+		"status": "proposed"
+	},
+	{
+		"library": "iscwsa:rev5",
+		"weighting_function": "XCLA",
+		"field": "singularity_east",
+		"sheet_text": "XCLTortuosity * RAD * (MD - MDPrev)",
+		"corrected": "XCLTortuosity * (MD - MDPrev)",
+		"source": "Internal consistency with the sheet's own XCLA/XCLH azimuth/inclination formulas (iscwsa.net file 809, ISCWSA MWD+SRGM Rev5)",
+		"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable",
+		"status": "proposed"
 	}
 ]

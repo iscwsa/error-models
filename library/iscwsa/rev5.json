@@ -259,12 +259,30 @@
 			"depth": "0",
 			"inclination": "0",
 			"azimuth": "Max(Sin(Abs(AzT - AzPrev)), XCLTortuosity * (MD - MDPrev) / Sin(Inc))",
-			"singularity_north": "XCLTortuosity * RAD * (MD - MDPrev)",
-			"singularity_east": "XCLTortuosity * RAD * (MD - MDPrev)",
+			"singularity_north": "XCLTortuosity * (MD - MDPrev)",
+			"singularity_east": "XCLTortuosity * (MD - MDPrev)",
 			"comment": "Tangential Calculation. Singularity when vertical. Formula for MD in metres. Az difference < 180 deg.",
 			"source": "SPE 187249 Jerry Codling",
 			"uuid": "c6ecb8fb-b0cf-5158-8aa9-697141a6b975",
-			"hash_value": "d7efb3dfbcb98b0373aab942cb7b09b2e65120f1f65700a83bd5da41d3dd5ad2"
+			"errata": [
+				{
+					"field": "singularity_north",
+					"sheet_text": "XCLTortuosity * RAD * (MD - MDPrev)",
+					"corrected": "XCLTortuosity * (MD - MDPrev)",
+					"source": "Internal consistency with the sheet's own XCLA/XCLH azimuth/inclination formulas (iscwsa.net file 809, ISCWSA MWD+SRGM Rev5)",
+					"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable",
+					"status": "proposed"
+				},
+				{
+					"field": "singularity_east",
+					"sheet_text": "XCLTortuosity * RAD * (MD - MDPrev)",
+					"corrected": "XCLTortuosity * (MD - MDPrev)",
+					"source": "Internal consistency with the sheet's own XCLA/XCLH azimuth/inclination formulas (iscwsa.net file 809, ISCWSA MWD+SRGM Rev5)",
+					"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable",
+					"status": "proposed"
+				}
+			],
+			"hash_value": "8b4900fe33060ad19b4e4fcff1b503e06174fd2eb7c84baeca0f8425297ece57"
 		},
 		"XCLH": {
 			"depth": "0",
@@ -594,5 +612,5 @@
 		}
 	},
 	"hash_function": "SHA256",
-	"hash_value": "078e0cb94949d41fd4ca5d7fd68ba3154d8df0ee1e0c0378c6a0e247643b7510"
+	"hash_value": "e96e7b837e4fab6a826d53dd224bd1e73477471706a4ddcc378999f16a6b786f"
 }

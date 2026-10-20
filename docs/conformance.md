@@ -23,6 +23,9 @@ Conformance vectors let an implementation check that it evaluates a model the wa
    it cannot evaluate. It MUST NOT skip the item or substitute zero.
 2. A library's `requires` lists the capabilities needed beyond the base grammar. An engine that lacks any of
    them MUST refuse models that use that library.
-3. An engine is conformant for a model if it reproduces that model's vectors within tolerance:
-   `|calc - ref| <= 5e-5 m^2` absolute, or `<= 1e-4` relative. These tolerances are provisional until Plan 2.
+3. An engine is conformant for a model if it reproduces that model's vectors within tolerance. At each station and term,
+   `max|calc - ref| <= max(0.01 * max|ref|, 1e-4)` m^2, taken over the six printed covariance elements, where `max|ref|` is the
+   station's largest printed element for that term. The 1e-4 floor is two print steps: the vector files print covariances with
+   4 decimals (+-5e-5 rounding) and the station inclination and azimuth with 2 decimals, so a tighter criterion would test the
+   print format, not the engine. This tolerance is provisional until Plan 2.
 4. Consumers MUST check `$schema` against the releases they support and refuse documents they do not recognise.
