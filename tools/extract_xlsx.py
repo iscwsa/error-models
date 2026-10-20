@@ -17,12 +17,15 @@ import openpyxl
 from tools.formula import canonical
 from tools.inventory import ModelId, load_model_ids
 from tools.identity import entry_uuid, library_uuid, model_uuid, stamp
-from tools.sheet import WORKBOOKS_FILE, Sheet, SheetTerm, WorkbookError, check_workbook, read_sheet
+from tools.sheet import WORKBOOKS_FILE, Sheet, SheetTerm, WorkbookError, check_workbook, read_sheet, read_workbook
 
-PROP = {"R": "Random", "S": "Systematic", "W": "Well", "G": "Global"}
-_FLAGS = {"R": (0, 0, 0), "S": (1, 0, 0), "W": (1, 1, 0), "G": (1, 1, 1)}
+PROP = {"R": "Random", "S": "Systematic", "W": "Well", "G": "Global", "B": "Bias"}
+# "B" (SPE 67616 bias terms, ISCWSA MWD bias Rev0-2 sheets) carries P flags 0,0,0 like "R"
+_FLAGS = {"R": (0, 0, 0), "S": (1, 0, 0), "W": (1, 1, 0), "G": (1, 1, 1), "B": (0, 0, 0)}
 SCHEMA_BASE = "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/"
 ERRATA_FILE = Path(__file__).resolve().parent / "errata.json"
+TERM_REQUIRES_FILE = Path(__file__).resolve().parent / "term_requires.json"
+TERM_GROUPS_FILE = Path(__file__).resolve().parent / "term_groups.json"
 # SheetTerm attribute -> weighting function field
 _FORMULA_FIELDS = {
     "depth": "depth",
@@ -120,7 +123,12 @@ def _apply_errata(wf_id: str, wf: dict, raw: dict[str, str], errata: list[dict],
         })
 
 
-def build_library(library_id: str, sheets: list[Sheet], errata: list[dict]) -> dict:
+def build_library(library_id: str, sheets: list[Sheet], errata: list[dict], groups: list[dict] | None = None,
+                  log: list[str] | None = None, term_requires: dict[str, list[str]] | None = None) -> dict:
+    """One library from its sheets. `log` receives a line for each wf_comment/wf_source conflict (first one kept)."""
+    if term_requires is None:
+        term_requires = json.loads(TERM_REQUIRES_FILE.read_text(encoding="utf-8"))
+    logged: set[tuple[str, str, str]] = set()
     wfs: dict[str, dict] = {}
     raws: dict[str, dict[str, str]] = {}
     terms: dict[str, dict] = {}
@@ -134,6 +142,14 @@ def build_library(library_id: str, sheets: list[Sheet], errata: list[dict]) -> d
             if t.wf_id in raws:
                 if {f: canonical(x) for f, x in raw.items()} != {f: canonical(x) for f, x in raws[t.wf_id].items()}:
                     raise ExtractError(f"weighting function {t.wf_id!r} has different formulas in different terms")
+                kept = {"wf_comment": wfs[t.wf_id].get("comment", ""), "wf_source": wfs[t.wf_id]["source"]}
+                seen = {"wf_comment": t.wf_comment or "", "wf_source": t.wf_source or ""}
+                for field in ("wf_comment", "wf_source"):
+                    key = (t.wf_id, field, seen[field])
+                    if seen[field] != kept[field] and key not in logged and log is not None:
+                        logged.add(key)
+                        log.append(f"{library_id}: weighting function {t.wf_id}: {field} {seen[field]!r} "
+                                   f"(term {t.code}, sheet {sheet.name!r}) differs from the kept {kept[field]!r}")
             else:
                 wf = {f: canonical(x) for f, x in raw.items()}
                 if t.wf_comment:
@@ -150,6 +166,8 @@ def build_library(library_id: str, sheets: list[Sheet], errata: list[dict]) -> d
                 "weighting_function": t.wf_id,
                 "uuid": entry_uuid(library_id, "term", t.code),
             }
+            if t.code in term_requires:
+                term["requires"] = list(term_requires[t.code])
             if t.code in terms and terms[t.code] != term:
                 raise ExtractError(f"term {t.code!r} is defined differently on different sheets")
             terms[t.code] = term
@@ -163,13 +181,27 @@ def build_library(library_id: str, sheets: list[Sheet], errata: list[dict]) -> d
         "library_id": library_id,
         "uuid": library_uuid(library_id),
         "publisher": "ISCWSA",
-        "requires": ["xcl_position_direct"],
+        "requires": sorted({cap for term in terms.values() for cap in term.get("requires", [])}),
         "weighting_functions": wfs,
         "terms": terms,
         "hash_function": "SHA256",
         "hash_value": "",
     }
+    if groups:
+        doc["term_groups"] = groups
     return stamp(doc)
+
+
+def build_libraries(sheets_by_library: dict[str, list[Sheet]], errata: list[dict], groups: dict,
+                    log: list[str] | None = None) -> dict[str, dict]:
+    """Every library from the sheets that tools/model_ids.csv assigns to it, with its term_groups."""
+    term_requires = json.loads(TERM_REQUIRES_FILE.read_text(encoding="utf-8"))
+    out = {lib_id: build_library(lib_id, sheets, errata, groups.get(lib_id), log, term_requires)
+           for lib_id, sheets in sheets_by_library.items()}
+    defined = {code for lib in out.values() for code in lib["terms"]}
+    if len(out) > 1 and set(term_requires) - defined:
+        raise ExtractError(f"tools/term_requires.json names unknown terms {sorted(set(term_requires) - defined)}")
+    return out
 
 
 def _iso_date(value) -> str:
@@ -212,6 +244,8 @@ def _related(text, all_ids: set[str]) -> tuple[list[str], list[str]]:
 def build_model(sheet: Sheet, model_id: ModelId, library: dict, all_ids: set[str]) -> dict:
     m = sheet.meta
     qualified = f"{model_id.namespace}:{model_id.model_id}"
+    if library["library_id"] != model_id.library:
+        raise ExtractError(f"{qualified}: library {library['library_id']!r} is not the model's library {model_id.library!r}")
     framework = _FRAMEWORKS.get(model_id.library)
     if framework is None:
         raise ExtractError(f"{qualified}: no framework for library {model_id.library!r}")
@@ -288,13 +322,48 @@ def _find_workbook(directory: Path, sheet: str) -> tuple[Path, dict]:
     return hits[0], check_workbook(hits[0])
 
 
+def build_all_libraries(workbooks: Path, log: list[str]) -> dict[str, dict]:
+    """Read every workbook in tools/workbooks.json and build the libraries tools/model_ids.csv names."""
+    known = json.loads(WORKBOOKS_FILE.read_text(encoding="utf-8"))
+    ids = load_model_ids()
+    by_library: dict[str, list[Sheet]] = {}
+    for name, entry in known.items():
+        path = workbooks / name
+        check_workbook(path)
+        sheets, _ = read_workbook(path)
+        for sheet in sheets:
+            model_id = ids.get((entry["iscwsa_file"], sheet.name))
+            if model_id is None:
+                raise ExtractError(f"sheet {sheet.name!r} (file {entry['iscwsa_file']}) is not in tools/model_ids.csv")
+            by_library.setdefault(model_id.library, []).append(sheet)
+    errata = json.loads(ERRATA_FILE.read_text(encoding="utf-8"))
+    groups = json.loads(TERM_GROUPS_FILE.read_text(encoding="utf-8"))
+    return build_libraries(by_library, errata, groups, log)
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="python -m tools.extract_xlsx")
     parser.add_argument("--workbooks", required=True, type=Path)
-    parser.add_argument("--sheet", required=True)
-    parser.add_argument("--library", required=True)
+    parser.add_argument("--all-libraries", action="store_true", help="build the seven libraries from every sheet")
+    parser.add_argument("--sheet")
+    parser.add_argument("--library")
     parser.add_argument("--out", type=Path, default=Path("."))
     args = parser.parse_args(argv)
+    if args.all_libraries:
+        log: list[str] = []
+        try:
+            libraries = build_all_libraries(args.workbooks.expanduser(), log)
+        except (ExtractError, WorkbookError) as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 1
+        for lib_id, library in libraries.items():
+            ns, _, name = lib_id.partition(":")
+            write_json(args.out / "library" / ns / f"{name}.json", library)
+        for line in log:
+            print(f"log: {line}", file=sys.stderr)
+        return 0
+    if not (args.sheet and args.library):
+        parser.error("--sheet and --library are required unless --all-libraries is given")
     try:
         path, entry = _find_workbook(args.workbooks.expanduser(), args.sheet)
         sheet = read_sheet(path, args.sheet)

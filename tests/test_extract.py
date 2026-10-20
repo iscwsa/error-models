@@ -25,8 +25,7 @@ def out(tmp_path_factory):
 
 
 def test_generated_files_validate(out):
-    # REQUIRES_MISMATCH ignored until Task 5 makes the extractor attach per-term requires
-    problems = [p for p in validate_repo(out, registry_check=True) if p.code != "REQUIRES_MISMATCH"]
+    problems = validate_repo(out, registry_check=True)
     assert {p.code for p in problems} == {"ERRATA_PROPOSED"}
     assert len(problems) == 6   # XYM3E, XYM4E (2 fields each), XCLA singularity north and east
 
@@ -170,14 +169,140 @@ def test_parameter_value_schema_allows_boolean():
 
 
 def test_a001mc_unchanged(out):
-    """Regenerating iscwsa:A001Mc matches the committed file (framework excepted, if it changed)."""
+    """Regenerating iscwsa:A001Mc matches the committed file except the library hash (rev5 gained term requires)."""
     committed = ROOT / "models/iscwsa/A001Mc.json"
     if not committed.exists():
         pytest.skip("no committed A001Mc")
-    new = (out / "models/iscwsa/A001Mc.json").read_bytes()
-    old = committed.read_bytes()
-    if new != old:   # only `framework` (and the hash it feeds) may differ
-        n, o = json.loads(new), json.loads(old)
-        assert n["metadata"].pop("framework") != o["metadata"].pop("framework")
-        n.pop("hash_value"), o.pop("hash_value")
-        assert n == o
+    n = json.loads((out / "models/iscwsa/A001Mc.json").read_bytes())
+    o = json.loads(committed.read_bytes())
+    for doc in (n, o):
+        doc.pop("hash_value")
+        doc["libraries"][0].pop("hash_value")   # Task 6 regenerates the committed model against the new rev5
+    assert n == o
+
+
+# ---- Task 5: every library ----
+import subprocess  # noqa: E402
+
+from tools.extract_xlsx import PROP, TERM_REQUIRES_FILE, build_libraries  # noqa: E402
+
+COUNTS = {   # (terms, weighting functions) per library: the 2026-10-20 probe
+    "iscwsa:rev0": (36, 33), "iscwsa:rev1": (38, 35), "iscwsa:rev2": (38, 35), "iscwsa:rev3": (41, 39),
+    "iscwsa:rev4": (43, 39), "iscwsa:rev5": (96, 59), "iscwsa:rot6axis": (38, 27),
+}
+ROT_TERMS = ("ROT-AMXY-PS ROT-AN1 ROT-AN2 ROT-ANZ ROT-ASXY ROT-AXY-ATTEN ROT-CA1 ROT-CA2 ROT-DSC1 ROT-DSC2 "
+             "ROT-EDDY ROT-MSXY ROT-MXY-ATTEN").split()
+
+
+@pytest.fixture(scope="module")
+def libraries(all_sheets):
+    ids = load_model_ids()
+    by_lib: dict[str, list] = {}
+    for f, s in all_sheets:
+        by_lib.setdefault(ids[(f, s.name)].library, []).append(s)
+    errata = json.loads((ROOT / "tools/errata.json").read_text(encoding="utf-8"))
+    groups = json.loads((ROOT / "tools/term_groups.json").read_text(encoding="utf-8"))
+    log: list[str] = []
+    return build_libraries(by_lib, errata, groups, log=log), log
+
+
+def test_libraries_build(libraries):
+    libs, _ = libraries
+    assert set(libs) == set(COUNTS)
+    for lib_id, (n_terms, n_wfs) in COUNTS.items():
+        lib = libs[lib_id]
+        assert (len(lib["terms"]), len(lib["weighting_functions"])) == (n_terms, n_wfs), lib_id
+        assert lib["library_id"] == lib_id
+        assert "extends" not in lib
+    assert set(ROT_TERMS) <= set(libs["iscwsa:rot6axis"]["terms"])
+    assert not set(ROT_TERMS) & set(libs["iscwsa:rev5"]["terms"])
+
+
+def test_rot6axis_keeps_its_own_text(libraries):
+    libs, _ = libraries
+    assert libs["iscwsa:rot6axis"]["weighting_functions"]["ABXY-TI2"]["singularity_north"] == "-Sin(AzM) / GField"
+    assert libs["iscwsa:rev5"]["weighting_functions"]["ABXY-TI2"]["singularity_north"] == "-Sin(Az) / GField"
+
+
+def test_every_group_defined(libraries, tmp_path):
+    libs, _ = libraries
+    for lib_id, lib in libs.items():
+        assert lib["term_groups"], lib_id
+        for g in lib["term_groups"]:
+            assert set(g["terms"]) <= set(lib["terms"]), (lib_id, g)
+    shutil.copyfile(ROOT / "namespaces.json", tmp_path / "namespaces.json")
+    for lib_id, lib in libs.items():
+        write_json_lib(tmp_path, lib_id, lib)
+    codes = {p.code for p in validate_repo(tmp_path, registry_check=True)}
+    assert "GROUP_UNKNOWN_TERM" not in codes
+    assert codes <= {"ERRATA_PROPOSED"}
+
+
+def write_json_lib(root, lib_id, lib):
+    from tools.extract_xlsx import write_json
+    write_json(root / "library" / "iscwsa" / f"{lib_id.partition(':')[2]}.json", lib)
+
+
+def test_requires_per_term(libraries):
+    libs, _ = libraries
+    spec = json.loads(TERM_REQUIRES_FILE.read_text(encoding="utf-8"))
+    gyro = "AXYZ-MIS AXYZ-SF AXYZ-ZB DSTS EXT-REF GXY-B1R GXY-B1S GXY-B2R GXY-B2S GXY-G1 GXY-G4 GXY-GD GXY-GRW GXY-RN GZ-GD".split()
+    assert {t for t, caps in spec.items() if caps == ["gyro_modes"]} == set(gyro)
+    assert spec["DSTB"] == ["bias_terms"] and spec["AMIB"] == ["bias_terms"]
+    assert spec["XCLA"] == ["xcl_position_direct"] and spec["XCLH"] == ["xcl_position_direct"]
+    rev5 = libs["iscwsa:rev5"]
+    assert set(rev5["requires"]) == {"xcl_position_direct", "gyro_modes"}
+    assert rev5["terms"]["XCLA"]["requires"] == ["xcl_position_direct"]
+    assert all(rev5["terms"][t]["requires"] == ["gyro_modes"] for t in gyro)
+    assert all("requires" not in t for c, t in rev5["terms"].items() if c not in spec)
+    for lib in libs.values():
+        assert set(lib["requires"]) == {c for t in lib["terms"].values() for c in t.get("requires", [])}
+    assert libs["iscwsa:rev0"]["requires"] == ["bias_terms"] or "bias_terms" in libs["iscwsa:rev0"]["requires"]
+
+
+def test_gyro_terms_are_gyro_only(all_sheets):
+    spec = json.loads(TERM_REQUIRES_FILE.read_text(encoding="utf-8"))
+    gyro_terms, other_terms = set(), set()
+    for _, s in all_sheets:
+        (gyro_terms if s.meta["Tool Type"] == "Gyro" else other_terms).update(t.code for t in s.terms)
+    assert gyro_terms - other_terms == {t for t, caps in spec.items() if caps == ["gyro_modes"]}
+
+
+def test_bias_propagation():
+    assert PROP["B"] == "Bias"
+    schema = json.loads((ROOT / "schemas/library_term.json").read_text(encoding="utf-8"))
+    assert "Bias" in schema["properties"]["propagation"]["enum"]
+
+
+def test_extractor_log_lists_wf_conflicts(libraries):
+    _, log = libraries
+    assert all(isinstance(line, str) for line in log)
+    assert all(("wf_comment" in line or "wf_source" in line) for line in log)
+
+
+def test_library_id_must_match_model(all_sheets):
+    ids = load_model_ids()
+    f, s = all_sheets[0]
+    lib = {"library_id": "iscwsa:rev9", "uuid": "u", "hash_value": "h"}
+    with pytest.raises(ExtractError, match="rev9"):
+        build_model(s, ids[(f, s.name)], lib, set())
+
+
+def _strip(entry):
+    return {k: v for k, v in entry.items() if k not in ("requires", "hash_value")}
+
+
+def test_rev5_unchanged_for_a001mc(libraries, all_sheets):
+    libs, _ = libraries
+    old = json.loads(subprocess.run(["git", "show", "c82dbaf:library/iscwsa/rev5.json"], cwd=ROOT, check=True,
+                                    capture_output=True).stdout.decode("utf-8"))
+    ids = load_model_ids()
+    sheet = next(s for f, s in all_sheets if ids[(f, s.name)].model_id == "A001Mc" and ids[(f, s.name)].namespace == "iscwsa")
+    new = libs["iscwsa:rev5"]
+    assert new["hash_value"] != old["hash_value"]
+    used_terms = {t.code for t in sheet.terms}
+    assert used_terms
+    for code in used_terms:
+        assert _strip(new["terms"][code]) == _strip(old["terms"][code]), code
+        wf = old["terms"][code]["weighting_function"]
+        assert _strip(new["weighting_functions"][wf]) == _strip(old["weighting_functions"][wf]), wf

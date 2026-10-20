@@ -20,7 +20,8 @@
 				"Random",
 				"Systematic",
 				"Well",
-				"Global"
+				"Global",
+				"Bias"
 			]
 		},
 		"weighting_function": {

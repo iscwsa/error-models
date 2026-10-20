@@ -23,7 +23,7 @@ The check: the private independent engine (reads the JSON with `tools/formula.py
 code) reproduces all 19,476 station/term checks of 806 with the items below. The "without it" counts are the stations
 that fail when only that item is reverted, under the tolerance below (measured 2026-10-20).
 
-## Errata (library `iscwsa:rev5`)
+## Errata (libraries `iscwsa:rev5` and `iscwsa:rot6axis`)
 
 | # | Entry | Sheet text (file 809) | Library text | Basis | Without it |
 |---|---|---|---|---|---|
@@ -35,6 +35,9 @@ that fail when only that item is reverted, under the tolerance below (measured 2
 
 Notes:
 
+- `iscwsa:rot6axis` (the RCS candidate sheet, file 1052) carries the same sheet text for E1-E6 (apart from spacing and
+  `Sqrt` against `sqrt`), so it has the same six errata, with the same corrected text, source and reason, all proposed.
+  The other libraries (`rev0`-`rev4`) have none of these weighting functions.
 - SPE 90408 (Table 9 and Appendix B, Alternative 3) gives the misalignment weight as `cos I`, **without** the absolute
   value. It differs from the Rev 5.13 definition only for inclinations above 90°. The 806 well 3 reaches 110° and passes
   with `Abs`, so the diagnostics follow the Rev 5.13 form.

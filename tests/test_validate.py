@@ -277,8 +277,10 @@ def test_cli_exit_codes(repo, capsys):
 
 def test_this_repository_is_clean():
     # proposed errata are warnings until the user decides; anything else is a failure
-    # REQUIRES_MISMATCH is tolerated only until Task 5 regenerates library/iscwsa/rev5.json with per-term requires
-    assert {p.code for p in validate_repo(ROOT, registry_check=True)} <= {"ERRATA_PROPOSED", "REQUIRES_MISMATCH"}
+    # LIBRARY_HASH on models/iscwsa/A001Mc.json is tolerated until Task 6 regenerates that model against the new rev5
+    problems = [p for p in validate_repo(ROOT, registry_check=True)
+                if not (p.code == "LIBRARY_HASH" and p.file.replace("\\", "/") == "models/iscwsa/A001Mc.json")]
+    assert {p.code for p in problems} == {"ERRATA_PROPOSED"}
 
 
 def test_dotdot_release_tag_is_unknown_release(repo):
