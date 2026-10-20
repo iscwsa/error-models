@@ -40,7 +40,9 @@ def stamp(doc: dict) -> dict:
     """Return a deep copy with entry hashes (libraries) and hash_value filled."""
     out = copy.deepcopy(doc)
     for section in ("weighting_functions", "terms"):
-        for entry in out.get(section, {}).values():
-            entry["hash_value"] = entry_hash(entry)
+        entries = out.get(section)
+        if isinstance(entries, Mapping):  # models carry terms as a list
+            for entry in entries.values():
+                entry["hash_value"] = entry_hash(entry)
     out["hash_value"] = content_hash(out)
     return out

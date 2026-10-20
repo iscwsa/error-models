@@ -38,3 +38,17 @@ def test_stamp_library_and_no_mutation():
 def test_stamp_model():
     out = stamp({"a": 1})
     assert out["hash_value"] == content_hash({"a": 1})
+
+
+def test_stamp_model_with_list_terms():
+    model = {"terms": [{"term": "DRFR", "magnitude": 0.35}]}
+    out = stamp(model)
+    assert out["terms"] == [{"term": "DRFR", "magnitude": 0.35}]
+    assert out["hash_value"] == content_hash(model)
+    assert "hash_value" not in out["terms"][0]
+
+
+def test_uuid_known_vectors():
+    assert model_uuid("iscwsa", "A001Mc") == "e02849fe-b12c-570d-ab65-fb8463ab7b43"
+    assert entry_uuid("iscwsa:rev5", "DBH") == "44148c16-59a7-5df0-8d32-abfc255d48ff"
+    assert library_uuid("iscwsa:rev5") == "afcf8ed3-ac41-51f8-9999-8d126737f2f0"
