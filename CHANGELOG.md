@@ -5,7 +5,7 @@
 
 ## Unreleased
 
-### Added (Plan 2: all sheets)
+### Added (all sheets)
 
 - 129 models from every ISCWSA sheet (files 807, 808, 809, 1052), with 7 libraries: `iscwsa:rev0` to `rev5` and `iscwsa:rot6axis`. See the status table in the README.
 - `term_groups`: terms that co-occur with equal magnitude and propagation are grouped.

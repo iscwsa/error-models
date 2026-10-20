@@ -24,14 +24,26 @@ def test_status_table_lists_every_model():
     assert set(ids) == on_disk
 
 
+def test_status_table_counts():
+    text = (ROOT / "README.md").read_text(encoding="utf-8")
+    section = text.split("### MODEL STATUS", 1)[1].split("\n---", 1)[0]
+    rows = [r for r in section.splitlines() if r.startswith("| `")]
+    cells = [[c.strip() for c in r.strip().strip("|").split("|")] for r in rows]
+    assert sum(1 for c in cells if c[4] == "loaded") == 111
+    assert sum(1 for c in cells if c[4] == "refused") == 18
+    assert sum(1 for c in cells if c[7] == "19476/19476") == 2
+
+
 def test_changelog_lists_every_erratum():
     changelog = (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")
     assert "## Unreleased" in changelog
     for e in json.loads((ROOT / "tools" / "errata.json").read_text(encoding="utf-8")):
-        row = f"`{e['library']}` {e['weighting_function']} {e['field']}"
+        row = f"| `{e['library']}` {e['weighting_function']} {e['field']} | {e['status']} |"
         assert row in changelog, row
-        assert e["status"] in changelog
 
 
-def test_xcla_reason_has_no_stale_wording():
+def test_no_internal_names_or_stale_wording():
+    files = [ROOT / "README.md", ROOT / "CHANGELOG.md", *(ROOT / "docs").glob("*.md")]
+    for f in files:
+        assert not re.search(r"\b(Plan|Task) \d", f.read_text(encoding="utf-8")), f
     assert "finding under review" not in (ROOT / "tools" / "errata.json").read_text(encoding="utf-8")

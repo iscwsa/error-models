@@ -294,7 +294,7 @@ def test_library_id_must_match_model(all_sheets):
 
 def _strip(entry):
     out = {k: v for k, v in entry.items() if k not in ("requires", "hash_value")}
-    if "errata" in out:  # the reason wording of the XCLA errata changed in Task 8 (wording only)
+    if "errata" in out:  # the reason wording of the XCLA errata changed (wording-only change)
         out["errata"] = [{k: v for k, v in e.items() if k != "reason"} for e in out["errata"]]
     return out
 

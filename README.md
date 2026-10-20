@@ -116,16 +116,16 @@ The load, self-check and 806 results come from a private DGI engine check that r
 | `generic_iscwsa:A017Mc_Fl` | EMS+SRGM+SAG_Fl | `iscwsa:rev5` | current | loaded | pass | pass (0 stations excluded) | formula from source, not validated numerically |  |
 | `generic_iscwsa:A018Mb` | DIPMETER | `iscwsa:rev5` | current | loaded | pass | pass (0 stations excluded) | formula from source, not validated numerically |  |
 | `generic_iscwsa:A018Mb_Fl` | DIPMETER_Fl | `iscwsa:rev5` | current | loaded | pass | pass (0 stations excluded) | formula from source, not validated numerically |  |
-| `generic_iscwsa:A019Gb` | GYRO-MWD | `iscwsa:rev5` | current | refused | pass | — | — | Plan 3 (gyro modes) |
-| `generic_iscwsa:A019Gb_Fl` | GYRO-MWD_Fl | `iscwsa:rev5` | current | refused | pass | — | — | Plan 3 (gyro modes) |
-| `generic_iscwsa:A020Gb` | GYRO-NS | `iscwsa:rev5` | current | refused | pass | — | — | Plan 3 (gyro modes) |
-| `generic_iscwsa:A020Gb_Fl` | GYRO-NS_Fl | `iscwsa:rev5` | current | refused | pass | — | — | Plan 3 (gyro modes) |
-| `generic_iscwsa:A021Gc` | GYRO-NS-CT | `iscwsa:rev5` | current | refused | pass | — | — | Plan 3 (gyro modes) |
-| `generic_iscwsa:A021Gc_Fl` | GYRO-NS-CT_Fl | `iscwsa:rev5` | current | refused | pass | — | — | Plan 3 (gyro modes) |
-| `generic_iscwsa:A022Gb` | CB_Film_GMS | `iscwsa:rev5` | current | refused | pass | — | — | Plan 3 (gyro modes) |
-| `generic_iscwsa:A022Gb_Fl` | CB_Film_GMS_Fl | `iscwsa:rev5` | current | refused | pass | — | — | Plan 3 (gyro modes) |
-| `generic_iscwsa:A023Gb` | CB_Film_GSS | `iscwsa:rev5` | current | refused | pass | — | — | Plan 3 (gyro modes) |
-| `generic_iscwsa:A023Gb_Fl` | CB_Film_GSS_Fl | `iscwsa:rev5` | current | refused | pass | — | — | Plan 3 (gyro modes) |
+| `generic_iscwsa:A019Gb` | GYRO-MWD | `iscwsa:rev5` | current | refused | pass | — | — | needs gyro_modes (not yet supported) |
+| `generic_iscwsa:A019Gb_Fl` | GYRO-MWD_Fl | `iscwsa:rev5` | current | refused | pass | — | — | needs gyro_modes (not yet supported) |
+| `generic_iscwsa:A020Gb` | GYRO-NS | `iscwsa:rev5` | current | refused | pass | — | — | needs gyro_modes (not yet supported) |
+| `generic_iscwsa:A020Gb_Fl` | GYRO-NS_Fl | `iscwsa:rev5` | current | refused | pass | — | — | needs gyro_modes (not yet supported) |
+| `generic_iscwsa:A021Gc` | GYRO-NS-CT | `iscwsa:rev5` | current | refused | pass | — | — | needs gyro_modes (not yet supported) |
+| `generic_iscwsa:A021Gc_Fl` | GYRO-NS-CT_Fl | `iscwsa:rev5` | current | refused | pass | — | — | needs gyro_modes (not yet supported) |
+| `generic_iscwsa:A022Gb` | CB_Film_GMS | `iscwsa:rev5` | current | refused | pass | — | — | needs gyro_modes (not yet supported) |
+| `generic_iscwsa:A022Gb_Fl` | CB_Film_GMS_Fl | `iscwsa:rev5` | current | refused | pass | — | — | needs gyro_modes (not yet supported) |
+| `generic_iscwsa:A023Gb` | CB_Film_GSS | `iscwsa:rev5` | current | refused | pass | — | — | needs gyro_modes (not yet supported) |
+| `generic_iscwsa:A023Gb_Fl` | CB_Film_GSS_Fl | `iscwsa:rev5` | current | refused | pass | — | — | needs gyro_modes (not yet supported) |
 | `generic_iscwsa:A024Mb` | CB_Film_MMS | `iscwsa:rev5` | current | loaded | pass | pass (0 stations excluded) | formula from source, not validated numerically |  |
 | `generic_iscwsa:A024Mb_Fl` | CB_Film_MMS_Fl | `iscwsa:rev5` | current | loaded | pass | pass (0 stations excluded) | formula from source, not validated numerically |  |
 | `generic_iscwsa:A025Mb` | CB_Film_MSS | `iscwsa:rev5` | current | loaded | pass | pass (0 stations excluded) | formula from source, not validated numerically |  |
@@ -206,11 +206,11 @@ The load, self-check and 806 results come from a private DGI engine check that r
 | `iscwsa:MWD_SAG_Rev2` | ISCWSA MWD+SAG Rev2 | `iscwsa:rev2` | superseded | loaded | pass | pass (0 stations excluded) | formula from source, not validated numerically |  |
 | `iscwsa:MWD_SAG_Rev3` | ISCWSA MWD+SAG Rev3 | `iscwsa:rev3` | superseded | loaded | pass | pass (0 stations excluded) | formula from source, not validated numerically |  |
 | `iscwsa:MWD_SAG_Rev3_Fl` | ISCWSA MWD+SAG Rev3_Fl | `iscwsa:rev3` | superseded | loaded | pass | pass (0 stations excluded) | formula from source, not validated numerically |  |
-| `iscwsa:MWD_bias_Rev0` | ISCWSA MWD bias Rev0 | `iscwsa:rev0` | superseded | refused | pass | — | — | Plan 3 (bias terms) |
-| `iscwsa:MWD_bias_Rev1` | ISCWSA MWD bias Rev1 | `iscwsa:rev1` | superseded | refused | pass | — | — | Plan 3 (bias terms) |
-| `iscwsa:MWD_bias_Rev2` | ISCWSA MWD bias Rev2 | `iscwsa:rev2` | superseded | refused | pass | — | — | Plan 3 (bias terms) |
+| `iscwsa:MWD_bias_Rev0` | ISCWSA MWD bias Rev0 | `iscwsa:rev0` | superseded | refused | pass | — | — | needs bias_terms (not yet supported) |
+| `iscwsa:MWD_bias_Rev1` | ISCWSA MWD bias Rev1 | `iscwsa:rev1` | superseded | refused | pass | — | — | needs bias_terms (not yet supported) |
+| `iscwsa:MWD_bias_Rev2` | ISCWSA MWD bias Rev2 | `iscwsa:rev2` | superseded | refused | pass | — | — | needs bias_terms (not yet supported) |
 
-111 loaded, 18 refused (10 need `gyro_modes` and 3 need `bias_terms`, both Plan 3; 5 have no `XCLTortuosity` value in the sheet).
+111 loaded, 18 refused (10 need `gyro_modes` and 3 need `bias_terms`; 5 have no `XCLTortuosity` value in the sheet).
 
 ---
 ### LINKS
