@@ -36,7 +36,7 @@ The role of the ISCWSA Error Model Maintenance Group is to define the mathematic
 
 **Layout.** `schemas/` holds the JSON Schemas (`model.json`, `library.json` and their sub-schemas), `library/<ns>/` the term libraries, and `models/<ns>/` the error models, where `<ns>` is the namespace. Qualified names are written `<ns>:<name>`, e.g. the library id `iscwsa:rev5`. The other directories:
 
-- `docs/` - the formula grammar (`grammar.md`) and the conformance rules (`conformance.md`).
+- `docs/` - the formula grammar (`grammar.md`), the conformance rules (`conformance.md`), and where the libraries and the reference results differ from the published sources (`deviations.md`).
 - `tools/` - the reference tools: formula parser and evaluator, spreadsheet extractor, validator, diagnostics reader, hashing and identity.
 - `conformance/` - ISCWSA's published diagnostics, unchanged, as test vectors, and `manifest.json` mapping each file to the model it exercises.
 
@@ -63,7 +63,7 @@ Namespace UUID: `7c9fcf73-f032-422d-b9aa-a2d69fa46e1d`
 - `python -m tools.validate --registry .` validates every library and model (schemas, formulas, hashes, identifiers, namespaces). Proposed errata are reported as warnings; `--release` turns them into errors.
 - `python -m tools.extract_xlsx --workbooks <dir> --sheet <sheet name> --library <id>` regenerates a library and its model from the ISCWSA spreadsheets, applying `tools/errata.json`.
 
-The `iscwsa:rev5` library currently carries proposed errata (corrections to the spreadsheet formula text, each with its reason in `tools/errata.json`) that await a sub-committee decision.
+The `iscwsa:rev5` library currently carries proposed errata (corrections to the spreadsheet formula text, each with its reason in `tools/errata.json`) that await a sub-committee decision. `docs/deviations.md` lists them with the evidence, together with the evaluation conventions the diagnostics need.
 
 ---
 ### LINKS

@@ -6,7 +6,7 @@
 		"sheet_text": "Cos(Inc) * Cos(AzT)  * Max(1, sqrt(10/(MD-MDPrev)))",
 		"corrected": "Abs(Cos(Inc)) * Cos(AzT) * Max(1, Sqrt(10 / (MD - MDPrev)))",
 		"source": "ISCWSA Error Model Diagnostics Rev 5.1 (iscwsa.net file 806)",
-		"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics (372 failing stations), which match the Abs(Cos(I)) form printed in the Rev 5.13 definition (section 5.1.2, p. 31; SPE 90408 Table 9 / Appendix B Alt. 3 uses the same weight without the absolute value) times the Rev 5 course-length factor.",
+		"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics (378 failing stations under the conformance tolerance), which match the Abs(Cos(I)) form printed in the Rev 5.13 definition (section 5.1.2, p. 31; SPE 90408 Table 9 / Appendix B Alt. 3 uses the same weight without the absolute value) times the Rev 5 course-length factor.",
 		"status": "proposed"
 	},
 	{
@@ -16,7 +16,7 @@
 		"sheet_text": "(Cos(Inc) * Sin(AzT)  / Sin(Inc)) * Max(1, sqrt(10/(MD-MDPrev)))",
 		"corrected": "-(Abs(Cos(Inc)) * Sin(AzT) / Sin(Inc)) * Max(1, Sqrt(10 / (MD - MDPrev)))",
 		"source": "ISCWSA Error Model Diagnostics Rev 5.1 (iscwsa.net file 806)",
-		"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics (372 failing stations), which match the Abs(Cos(I)) form printed in the Rev 5.13 definition (section 5.1.2, p. 31; SPE 90408 Table 9 / Appendix B Alt. 3 uses the same weight without the absolute value) times the Rev 5 course-length factor.",
+		"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics (378 failing stations under the conformance tolerance), which match the Abs(Cos(I)) form printed in the Rev 5.13 definition (section 5.1.2, p. 31; SPE 90408 Table 9 / Appendix B Alt. 3 uses the same weight without the absolute value) times the Rev 5 course-length factor.",
 		"status": "proposed"
 	},
 	{

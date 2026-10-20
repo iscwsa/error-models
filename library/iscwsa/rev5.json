@@ -211,7 +211,7 @@
 					"sheet_text": "Cos(Inc) * Cos(AzT)  * Max(1, sqrt(10/(MD-MDPrev)))",
 					"corrected": "Abs(Cos(Inc)) * Cos(AzT) * Max(1, Sqrt(10 / (MD - MDPrev)))",
 					"source": "ISCWSA Error Model Diagnostics Rev 5.1 (iscwsa.net file 806)",
-					"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics (372 failing stations), which match the Abs(Cos(I)) form printed in the Rev 5.13 definition (section 5.1.2, p. 31; SPE 90408 Table 9 / Appendix B Alt. 3 uses the same weight without the absolute value) times the Rev 5 course-length factor.",
+					"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics (378 failing stations under the conformance tolerance), which match the Abs(Cos(I)) form printed in the Rev 5.13 definition (section 5.1.2, p. 31; SPE 90408 Table 9 / Appendix B Alt. 3 uses the same weight without the absolute value) times the Rev 5 course-length factor.",
 					"status": "proposed"
 				},
 				{
@@ -219,11 +219,11 @@
 					"sheet_text": "(Cos(Inc) * Sin(AzT)  / Sin(Inc)) * Max(1, sqrt(10/(MD-MDPrev)))",
 					"corrected": "-(Abs(Cos(Inc)) * Sin(AzT) / Sin(Inc)) * Max(1, Sqrt(10 / (MD - MDPrev)))",
 					"source": "ISCWSA Error Model Diagnostics Rev 5.1 (iscwsa.net file 806)",
-					"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics (372 failing stations), which match the Abs(Cos(I)) form printed in the Rev 5.13 definition (section 5.1.2, p. 31; SPE 90408 Table 9 / Appendix B Alt. 3 uses the same weight without the absolute value) times the Rev 5 course-length factor.",
+					"reason": "The Rev 5 sheet text contradicts ISCWSA's own Rev 5.1 diagnostics (378 failing stations under the conformance tolerance), which match the Abs(Cos(I)) form printed in the Rev 5.13 definition (section 5.1.2, p. 31; SPE 90408 Table 9 / Appendix B Alt. 3 uses the same weight without the absolute value) times the Rev 5 course-length factor.",
 					"status": "proposed"
 				}
 			],
-			"hash_value": "35358ac7e91c884d96410f4ece46cc8bd1359dc5b2ece815ab6fd00602340a8d"
+			"hash_value": "8b68e9fce0ab29ecd1da37788a260af1b785503e7d3e854d9925eab8752915ff"
 		},
 		"XYM4E": {
 			"depth": "0",
@@ -612,5 +612,5 @@
 		}
 	},
 	"hash_function": "SHA256",
-	"hash_value": "f7c527bbb18f9ff191470630c0dc9eba0065e211f2810169aaf468d1e67cd7af"
+	"hash_value": "c80884c100a4c20a1d639e83b8ad84962eeded23a5003382d33d7cee491bf4ea"
 }

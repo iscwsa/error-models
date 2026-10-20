@@ -24,11 +24,11 @@ Conformance vectors let an implementation check that it evaluates a model the wa
 2. A library's `requires` lists the capabilities needed beyond the base grammar. An engine that lacks any of
    them MUST refuse models that use that library.
 3. An engine is conformant for a model if it reproduces that model's vectors within tolerance. At each station and term,
-   `max|calc - ref| <= max(0.01 * max|ref|, 1e-4)` m^2, taken over the six printed covariance elements, where `max|ref|` is the
-   station's largest printed element for that term. The 1e-4 m^2 floor is about two half-steps of the 4-decimal print of the
-   covariances (+-5e-5 rounding each); the station inclination and azimuth are printed with only 2 decimals, which is a further
-   reason not to tighten it. The 1% relative part is a provisional choice that matches the reference engine; it is not derived from
-   print precision. The tolerance as a whole is provisional, pending sub-committee review.
+   `max|calc - ref| <= max(0.001 * max|ref|, 1e-4)` m^2, taken over the six printed covariance elements, where `max|ref|` is the
+   station's largest printed element for that term. The 1e-4 m^2 floor is two half-steps of the 4-decimal print of the
+   covariances (+-5e-5 rounding each). The 0.1% relative part allows for the 2-decimal print of the station inclination and
+   azimuth; the reference engine's worst relative difference above the floor on the 806 vectors is 0.05%. The tolerance is
+   provisional, pending sub-committee review; [`deviations.md`](deviations.md) gives the evidence.
 4. Consumers MUST check `$schema` against the releases they support and refuse documents they do not recognise.
 
 ## Capabilities
@@ -46,4 +46,6 @@ The singularity formulas published for vertical stations (`singularity_north`, `
 carried verbatim in the libraries. How an engine should treat a vertical station overall (the tie-on, and the derivation of
 azimuth and dip there) is provisional, pending sub-committee review. The 806 vectors include vertical stations and are the
 normative check. A reference description of the propagation will be published separately as `docs/propagation.md` (not yet
-available).
+available). Until then, [`deviations.md`](deviations.md) lists the conventions the 806 vectors need that the published text
+does not state, including two (the XCLA azimuth change after a vertical station, and the XYM3E/XYM4E first-station rule) that
+the JSON cannot yet express.
