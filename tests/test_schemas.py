@@ -112,3 +112,33 @@ def test_metadata_replaces_text_allowed():
     assert errors("model.json", model) == []
     model["metadata"]["replaces_text"] = ""
     assert errors("model.json", model)
+
+
+def test_library_with_term_groups_valid():
+    lib = load("minimal_library.json")
+    assert lib["term_groups"]
+    assert errors("library.json", lib) == []
+    lib["term_groups"][0]["terms"] = ["iscwsa:PA", "PB"]
+    assert errors("library.json", lib) == []
+
+
+def test_group_needs_two_terms():
+    lib = load("minimal_library.json")
+    lib["term_groups"][0]["terms"] = ["PA"]
+    assert errors("library.json", lib)
+    lib["term_groups"][0]["terms"] = ["PA", "PA"]
+    assert errors("library.json", lib)
+
+
+def test_group_needs_source():
+    lib = load("minimal_library.json")
+    lib["term_groups"][0]["source"] = ""
+    assert errors("library.json", lib)
+
+
+def test_term_requires_optional_string_array():
+    lib = load("minimal_library.json")
+    lib["terms"]["DREF"]["requires"] = ["gyro_modes"]
+    assert errors("library.json", lib) == []
+    lib["terms"]["DREF"]["requires"] = [""]
+    assert errors("library.json", lib)

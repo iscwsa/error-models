@@ -55,6 +55,14 @@
 		{
 			"term": "DREF",
 			"magnitude": 0.35
+		},
+		{
+			"term": "PA",
+			"magnitude": 0.2
+		},
+		{
+			"term": "PB",
+			"magnitude": 0.2
 		}
 	],
 	"hash_function": "SHA256",

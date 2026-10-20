@@ -42,6 +42,13 @@
 				"$ref": "./library_term.json"
 			}
 		},
+		"term_groups": {
+			"type": "array",
+			"description": "Paired terms: all members or none, with equal magnitude and the same propagation.",
+			"items": {
+				"$ref": "./term_group.json"
+			}
+		},
 		"hash_function": {
 			"$ref": "./hash_function.json"
 		},
