@@ -85,6 +85,9 @@
 		},
 		"sheet_status": {
 			"type": "string"
+		},
+		"replaces_text": {
+			"$ref": "./strings/non_empty.json"
 		}
 	},
 	"required": [

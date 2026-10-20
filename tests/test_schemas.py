@@ -104,3 +104,11 @@ def test_namespaces_json_entries():
     for key, entry in ns.items():
         assert errors("namespace.json", key) == []
         assert set(entry) == {"organisation", "contact", "added", "description"}
+
+
+def test_metadata_replaces_text_allowed():
+    model = load("minimal_model.json")
+    model["metadata"]["replaces_text"] = "Replaces Rev4"
+    assert errors("model.json", model) == []
+    model["metadata"]["replaces_text"] = ""
+    assert errors("model.json", model)
