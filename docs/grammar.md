@@ -1,0 +1,95 @@
+> [!NOTE]
+> This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.
+
+# Formula grammar
+
+Formulas are the VBA-style expressions in the `Depth Formula`, `Inclination Formula`, `Azimuth Formula` and
+`Singularity * Formula` columns of the ISCWSA error-model spreadsheets. The reference implementation is
+`tools/formula.py` (hand-written tokenizer and recursive-descent parser; formulas are never passed to `eval`).
+
+## EBNF
+
+```ebnf
+formula    = expr ;
+expr       = term , { ( "+" | "-" ) , term } ;
+term       = unary , { ( "*" | "/" ) , unary } ;
+unary      = ( "-" | "+" ) , unary | power ;
+power      = primary , [ "^" , [ "-" | "+" ] , primary ] ;
+primary    = number | constant | variable | call | "(" , expr , ")" ;
+call       = function , "(" , expr , { "," , expr } , ")" ;
+number     = digits , [ "." , [ digits ] ] , [ exponent ] | "." , digits , [ exponent ] ;
+exponent   = ( "e" | "E" ) , [ "+" | "-" ] , digits ;
+identifier = ( letter | "_" ) , { letter | digit | "_" } ;
+```
+
+Whitespace between tokens is insignificant. `function`, `constant` and `variable` are identifiers (after
+aliasing) from the tables below; a function name must be followed by `(`, and `variable` names must not be.
+Names are case-sensitive; the only alternative spellings are the aliases below.
+
+## Precedence (highest first)
+
+| Level | Operator | Associativity |
+|-------|----------|---------------|
+| 1 | `^` (power) | none: `2^3^2` is an error, write `2^(3^2)` or `(2^3)^2` |
+| 2 | unary `-`, `+` | prefix; binds looser than `^`, so `-2^2 = -4` |
+| 3 | `*`, `/` | left |
+| 4 | `+`, `-` | left |
+
+The exponent of `^` may carry one sign (`2 ^ -2`). A parenthesised base is fine: `(Sin(Inc))^0.25`.
+
+## Functions
+
+| Name | Arguments | Meaning |
+|------|-----------|---------|
+| `Sin`, `Cos`, `Tan` | 1 | trigonometric, argument in radians |
+| `Abs` | 1 | absolute value |
+| `Sqrt` | 1 | square root |
+| `Max`, `Min` | 2 or more | largest / smallest argument |
+
+## Constants
+
+| Name | Value |
+|------|-------|
+| `Pi` | pi |
+| `RAD` | pi / 180 (degrees to radians) |
+
+## Variables
+
+| Name | Unit | Notes |
+|------|------|-------|
+| `Inc`, `AzT`, `AzM`, `TF`, `Dip`, `Lat`, `IncPrev`, `AzPrev` | rad | |
+| `MD`, `TVD`, `MDPrev` | m | |
+| `BField` | nT | |
+| `GField` | m/s^2 | |
+| `EarthRate` | rad/s | |
+| `XCLTortuosity` | deg per m | the sheet text `XCLTortuosity * RAD * (MD - MDPrev)` converts to rad |
+| `NoiseReductionFactor`, `GXYRunningSpeed`, `GZRunningSpeed`, `XY_Gyro_Drift`, `XY_Gyro_Random_Walk`, `Z_Gyro_Drift` | as defined by the model | |
+
+The spreadsheets also use `Az` in a few formulas; it is not yet in the variable set (pending a later decision), and
+the workbook test allows it explicitly.
+
+## Aliases
+
+Applied at tokenization, so canonical text only ever contains the canonical name.
+
+| Sheet spelling | Canonical |
+|----------------|-----------|
+| `Sqr`, `sqrt` | `Sqrt` |
+| `Gfield` | `GField` |
+| `Bfield` | `BField` |
+| `pi` | `Pi` |
+| `Latitude` | `Lat` |
+
+## Canonical text
+
+`canonical(text)` re-renders with canonical names, single spaces around binary operators (none after unary
+minus), `, ` between arguments, and the minimal parentheses that preserve the parse tree (so `1 - (2 - 3)` and
+`(2^3)^2` keep theirs). Numbers are normalised (`1.0` becomes `1`).
+
+## Undefined results
+
+Evaluation follows IEEE 754 and never raises: `x / 0` gives `+inf` or `-inf` (by the signs of x and the zero), and
+`0 / 0` gives `NaN`. Domain errors (`Sqrt` of a negative, `Sin(inf)`, a negative base to a fractional power) give
+`NaN`; overflow gives `+inf`/`-inf`. `Max`/`Min` return `NaN` if any argument is `NaN`. Consumers must treat a
+non-finite result as "undefined at this survey station" rather than as an error. Only a variable missing from the
+environment raises (`FormulaError`).
