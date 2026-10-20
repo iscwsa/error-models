@@ -28,8 +28,14 @@ def model_uuid(namespace: str, model_id: str) -> str:
     return str(uuid.uuid5(NAMESPACE_UUID, f"{namespace}:{model_id}"))
 
 
-def entry_uuid(library_id: str, name: str) -> str:
-    return str(uuid.uuid5(NAMESPACE_UUID, f"{library_id}/{name}"))
+ENTRY_SECTIONS = ("weighting_function", "term")
+
+
+def entry_uuid(library_id: str, section: str, name: str) -> str:
+    """UUIDv5 of a library entry; the section keeps a weighting function and a term of the same key distinct."""
+    if section not in ENTRY_SECTIONS:
+        raise ValueError(f"section must be one of {ENTRY_SECTIONS}, got {section!r}")
+    return str(uuid.uuid5(NAMESPACE_UUID, f"{library_id}/{section}/{name}"))
 
 
 def library_uuid(library_id: str) -> str:

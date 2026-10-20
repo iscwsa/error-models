@@ -3,6 +3,8 @@ name: validate
 on:
   pull_request:
   push:
+permissions:
+  contents: read
 jobs:
   validate:
     runs-on: ubuntu-latest

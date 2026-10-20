@@ -23,9 +23,9 @@ def make_library(mutate=None, library_id="iscwsa:rev5"):
     lib = _fixture("minimal_library.json")
     lib["library_id"] = library_id
     lib["uuid"] = library_uuid(library_id)
-    for section in ("weighting_functions", "terms"):
+    for section, kind in (("weighting_functions", "weighting_function"), ("terms", "term")):
         for key, entry in lib[section].items():
-            entry["uuid"] = entry_uuid(library_id, key)
+            entry["uuid"] = entry_uuid(library_id, kind, key)
     if mutate:
         mutate(lib)
     return stamp(lib)
@@ -262,7 +262,6 @@ def test_errata_proposed_exit_codes(repo, capsys):
     _proposed(doc)
     doc = stamp(doc)
     path.write_text(json.dumps(doc, indent="\t"), encoding="utf-8")
-    model_path = repo / "models" / "iscwsa" / "minimal.json"
     edit(repo, "models/iscwsa/minimal.json", lambda d: d["libraries"][0].update(hash_value=doc["hash_value"]))
     assert main([str(repo)]) == 0
     assert "warning:" in capsys.readouterr().out
@@ -278,3 +277,52 @@ def test_cli_exit_codes(repo, capsys):
 
 def test_this_repository_is_clean():
     assert validate_repo(ROOT, registry_check=True) == []
+
+
+def test_dotdot_release_tag_is_unknown_release(repo):
+    def go(d):
+        d["$schema"] = TAG_BASE.format("..") + "model.json"
+    edit(repo, "models/iscwsa/minimal.json", go)
+    assert codes(repo) == ["UNKNOWN_RELEASE"]
+
+
+def test_tag_dir_missing_schema_files_is_unknown_release(repo):
+    (repo / "tools" / "schemas" / "v2.0").mkdir(parents=True)
+    (repo / "tools" / "schemas" / "v2.0" / "library.json").write_text("{}", encoding="utf-8")
+
+    def go(d):
+        d["$schema"] = TAG_BASE.format("v2.0") + "model.json"
+    edit(repo, "models/iscwsa/minimal.json", go)
+    assert codes(repo) == ["UNKNOWN_RELEASE"]
+
+
+def test_duplicate_library_id(repo):
+    shutil.copy(repo / "library" / "iscwsa" / "rev5.json", repo / "library" / "iscwsa" / "rev5_copy.json")
+    problems = validate_repo(repo)
+    assert [(p.code, p.file) for p in problems] == [("DUPLICATE_LIBRARY", "library/iscwsa/rev5_copy.json")]
+
+
+def test_duplicate_non_term_key_is_duplicate_key(repo):
+    path = repo / "library" / "iscwsa" / "rev5.json"
+    text = path.read_text(encoding="utf-8")
+    path.write_text(text.replace('"publisher"', '"publisher": "x", "publisher"', 1), encoding="utf-8")
+    assert [p.code for p in validate_repo(repo) if p.file.startswith("library/")] == ["DUPLICATE_KEY"]
+
+
+def test_duplicate_weighting_function_key_is_duplicate_term(repo):
+    path = repo / "library" / "iscwsa" / "rev5.json"
+    text = path.read_text(encoding="utf-8")
+    path.write_text(text.replace('"weighting_functions": {', '"weighting_functions": {"DREF": {}, ', 1), encoding="utf-8")
+    assert [p.code for p in validate_repo(repo) if p.file.startswith("library/")] == ["DUPLICATE_TERM"]
+
+
+def test_wf_and_term_same_key_have_distinct_uuids(repo):
+    lib = json.loads((repo / "library" / "iscwsa" / "rev5.json").read_text(encoding="utf-8"))
+    assert lib["weighting_functions"]["DREF"]["uuid"] != lib["terms"]["DREF"]["uuid"]
+    assert validate_repo(repo) == []
+
+
+def test_bad_registry_reported_once(repo):
+    (repo / "namespaces.json").write_text("{bad", encoding="utf-8")
+    problems = validate_repo(repo, registry_check=True)
+    assert [(p.code, p.file) for p in problems] == [("SCHEMA", "namespaces.json")]

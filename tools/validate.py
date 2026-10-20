@@ -25,6 +25,7 @@ NAMESPACE_RE = re.compile(r"^[a-z][a-z0-9_]{1,31}$")
 SCHEMA_URL_RE = re.compile(
     r"^https://raw\.githubusercontent\.com/iscwsa/error-models/([^/]+)/schemas/(model|library)\.json$"
 )
+TAG_RE = re.compile(r"^(?:main|v?\d[\w.\-]*)$")
 FORMULA_FIELDS = (
     "depth", "inclination", "azimuth",
     "singularity_north", "singularity_east", "singularity_vertical",
@@ -38,17 +39,19 @@ class Problem:
     detail: str
 
 
-class _DuplicateKey(Exception):
-    pass
+def _loads_tracking_duplicates(text: str):
+    """Parse JSON, returning (doc, [(mapping, key), ...]) for every repeated key."""
+    dups = []
 
+    def hook(pairs):
+        out = {}
+        for key, value in pairs:
+            if key in out:
+                dups.append((out, key))
+            out[key] = value
+        return out
 
-def _no_duplicates(pairs):
-    seen = {}
-    for key, value in pairs:
-        if key in seen:
-            raise _DuplicateKey(key)
-        seen[key] = value
-    return seen
+    return json.loads(text, object_pairs_hook=hook), dups
 
 
 def _schema_dir(root: Path, release: str) -> Path | None:
@@ -56,12 +59,14 @@ def _schema_dir(root: Path, release: str) -> Path | None:
 
     A root without its own schemas (e.g. a test repo) falls back to this checkout's.
     """
+    # The PACKAGE_ROOT fallback only exists so test repos built in tmp dirs can validate
+    # without copying the schemas; a real checkout always has its own schemas/.
     candidates = (
         [root / "schemas", PACKAGE_ROOT / "schemas"]
         if release == "main"
         else [root / "tools" / "schemas" / release, PACKAGE_ROOT / "tools" / "schemas" / release]
     )
-    return next((d for d in candidates if d.is_dir()), None)
+    return next((d for d in candidates if (d / "model.json").is_file() and (d / "library.json").is_file()), None)
 
 
 class _Schemas:
@@ -96,7 +101,7 @@ class _Schemas:
 def _release_of(doc) -> str | None:
     url = doc.get("$schema") if isinstance(doc, dict) else None
     m = SCHEMA_URL_RE.match(url) if isinstance(url, str) else None
-    return m.group(1) if m else None
+    return m.group(1) if m and TAG_RE.match(m.group(1)) and ".." not in m.group(1) else None
 
 
 def _path(error) -> str:
@@ -116,12 +121,17 @@ def _qualified_id(kind: str, doc: dict):
 
 def _load(path: Path, rel: str, problems: list[Problem]):
     try:
-        return json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=_no_duplicates)
-    except _DuplicateKey as exc:
-        problems.append(Problem("DUPLICATE_TERM", rel, f"duplicate key {exc.args[0]!r}"))
+        doc, dups = _loads_tracking_duplicates(path.read_text(encoding="utf-8"))
     except (ValueError, OSError) as exc:
         problems.append(Problem("SCHEMA", rel, f"cannot parse JSON: {exc}"))
-    return None
+        return None
+    if dups:
+        entry_maps = [doc.get(k) for k in ("terms", "weighting_functions")] if isinstance(doc, dict) else []
+        for mapping, key in dups:
+            code = "DUPLICATE_TERM" if any(mapping is m for m in entry_maps) else "DUPLICATE_KEY"
+            problems.append(Problem(code, rel, f"duplicate key {key!r}"))
+        return None
+    return doc
 
 
 def _check_formula(text, rel, where, problems):
@@ -136,11 +146,11 @@ def _check_library(doc, rel, problems):
     if doc["uuid"] != library_uuid(lib_id):
         problems.append(Problem("UUID", rel, f"library uuid should be {library_uuid(lib_id)}"))
     wfs, terms = doc["weighting_functions"], doc["terms"]
-    for section, entries in (("weighting_functions", wfs), ("terms", terms)):
+    for section, kind, entries in (("weighting_functions", "weighting_function", wfs), ("terms", "term", terms)):
         for key, entry in entries.items():
             where = f"{section}/{key}"
-            if entry["uuid"] != entry_uuid(lib_id, key):
-                problems.append(Problem("UUID", rel, f"{where}: uuid should be {entry_uuid(lib_id, key)}"))
+            if entry["uuid"] != entry_uuid(lib_id, kind, key):
+                problems.append(Problem("UUID", rel, f"{where}: uuid should be {entry_uuid(lib_id, kind, key)}"))
             if entry["hash_value"] != entry_hash(entry):
                 problems.append(Problem("ENTRY_HASH", rel, f"{where}: hash_value does not match content"))
             for erratum in entry.get("errata", []):
@@ -200,12 +210,13 @@ def validate_repo(root: Path, registry_check: bool = False) -> list[Problem]:
     problems: list[Problem] = []
     schemas = _Schemas(root)
     namespaces: set[str] = set()
-    if registry_check:
+    if registry_check:  # on failure, report once and skip the per-file namespace checks
         try:
             registry = json.loads((root / "namespaces.json").read_text(encoding="utf-8"))
             namespaces = {k for k in registry if k != "$comment"}
         except (OSError, ValueError) as exc:
             problems.append(Problem("SCHEMA", "namespaces.json", f"cannot read namespace registry: {exc}"))
+            registry_check = False
 
     files = []  # (kind, rel, doc, release)
     for kind, folder in (("library", "library"), ("model", "models")):
@@ -246,6 +257,9 @@ def validate_repo(root: Path, registry_check: bool = False) -> list[Problem]:
             continue
         if kind == "library":
             _check_library(doc, rel, problems)
+            if doc["library_id"] in libraries:
+                problems.append(Problem("DUPLICATE_LIBRARY", rel, f"library_id {doc['library_id']!r} already defined by another file"))
+                continue
             libraries[doc["library_id"]] = doc
             releases[doc["library_id"]] = release
         else:

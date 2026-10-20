@@ -1,4 +1,6 @@
 # This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.
+import pytest
+
 from tools.identity import (content_hash, entry_hash, model_uuid, entry_uuid,
                             library_uuid, stamp)
 
@@ -18,7 +20,7 @@ def test_hash_detects_magnitude_edit():
 
 def test_uuids_deterministic():
     assert model_uuid("iscwsa", "A001Mc") == model_uuid("iscwsa", "A001Mc") != model_uuid("generic_iscwsa", "A001Mc")
-    assert entry_uuid("lib", "x") != entry_uuid("lib", "y")
+    assert entry_uuid("lib", "term", "x") != entry_uuid("lib", "term", "y")
     assert library_uuid("lib") == library_uuid("lib")
 
 
@@ -50,5 +52,15 @@ def test_stamp_model_with_list_terms():
 
 def test_uuid_known_vectors():
     assert model_uuid("iscwsa", "A001Mc") == "e02849fe-b12c-570d-ab65-fb8463ab7b43"
-    assert entry_uuid("iscwsa:rev5", "DBH") == "44148c16-59a7-5df0-8d32-abfc255d48ff"
+    assert entry_uuid("iscwsa:rev5", "weighting_function", "DBH") == "4223ca47-c982-58cc-b112-d5ba3660cca9"
+    assert entry_uuid("iscwsa:rev5", "term", "DBH") == "af792c31-3330-5ef7-85e4-4f09425136f6"
     assert library_uuid("iscwsa:rev5") == "afcf8ed3-ac41-51f8-9999-8d126737f2f0"
+
+
+def test_entry_uuid_differs_between_sections():
+    assert entry_uuid("lib", "weighting_function", "K") != entry_uuid("lib", "term", "K")
+
+
+def test_entry_uuid_rejects_unknown_section():
+    with pytest.raises(ValueError):
+        entry_uuid("lib", "terms", "K")
