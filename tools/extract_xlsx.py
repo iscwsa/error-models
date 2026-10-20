@@ -15,6 +15,7 @@ from pathlib import Path
 import openpyxl
 
 from tools.formula import canonical
+from tools.inventory import ModelId, load_model_ids
 from tools.identity import entry_uuid, library_uuid, model_uuid, stamp
 from tools.sheet import WORKBOOKS_FILE, Sheet, SheetTerm, WorkbookError, check_workbook, read_sheet
 
@@ -32,6 +33,27 @@ _FORMULA_FIELDS = {
     "sing_vert": "singularity_vertical",
 }
 _PARAM = re.compile(r"^\s*(-?\d+(?:\.\d+)?)\s*(.*?)\s*$")
+_NOTE = re.compile(r"^\s*(-?\d+(?:\.\d+)?)\s*\[[^\]]*\]\s*$")
+# sheet tool-parameter label -> JSON key; an unlisted label is an error, never guessed
+PARAM_NAMES = {
+    "Misalignment Alt": "MisalignmentAlt",
+    "Misalignment Min Course Length": "MisalignmentMinCourseLength",
+    "Misalignment Minimum Course Length": "MisalignmentMinCourseLength",
+    "XCL Tortuosity": "XCLTortuosity",
+    "Start Inc": "StartInc",
+    "End Inc": "EndInc",
+    "Initialisation Inc": "InitialisationInc",
+    "Running Speed": "RunningSpeed",
+    "Min Dist Between Inits": "MinDistBetweenInits",
+    "Noise Reduction Factor": "NoiseReductionFactor",
+    "XYZ Accelerometer": "XYZAccelerometer",
+    "XY Static Gyro": "XYStaticGyro",
+    "XY Continuous Gyro": "XYContinuousGyro",
+    "Z Continuous Gyro": "ZContinuousGyro",
+    "External Ref": "ExternalRef",
+}
+_FRAMEWORKS = {"iscwsa:rot6axis": "ISCWSA RCS", **{f"iscwsa:rev{n}": f"ISCWSA Rev{n}" for n in range(6)}}
+_QUALIFIED = re.compile(r"[A-Za-z0-9_]+:[A-Za-z0-9_]+")
 
 
 class ExtractError(ValueError):
@@ -45,9 +67,15 @@ def _num(text: str):
 
 def parse_param(value) -> dict:
     """A sheet parameter cell (number or "<number> <unit>") as a parameter_value."""
-    if isinstance(value, (int, float)) and not isinstance(value, bool):
+    if isinstance(value, bool) or str(value).strip() in ("True", "False"):
+        flag = value if isinstance(value, bool) else str(value).strip() == "True"
+        return {"value": flag, "unit": "-", "text": str(value).strip()}
+    if isinstance(value, (int, float)):
         number = int(value) if float(value).is_integer() else value
         return {"value": number, "unit": "-", "text": str(number)}
+    n = _NOTE.match(str(value))
+    if n:   # a bracketed note is text, never a unit
+        return {"value": _num(n.group(1)), "unit": "-", "text": str(value)}
     m = _PARAM.match(str(value))
     if not m:
         raise ExtractError(f"cannot parse parameter {value!r}")
@@ -156,12 +184,41 @@ def _revision(value) -> str:
     return str(int(value)) if isinstance(value, float) and value.is_integer() else str(value)
 
 
-def build_model(sheet: Sheet, namespace: str, library: dict) -> dict:
+def _status(sheet: Sheet, model_id: ModelId) -> str:
+    if model_id.library == "iscwsa:rot6axis":
+        return "candidate"
+    text = sheet.meta.get("Status")
+    if text == "Agreed":
+        return "current"
+    if text == "Obsolete":
+        return "superseded"
+    raise ExtractError(f"sheet {sheet.name!r}: unknown Status {text!r}")
+
+
+def _param_key(label: str, sheet: Sheet) -> str:
+    try:
+        return PARAM_NAMES[label]
+    except KeyError:
+        raise ExtractError(f"sheet {sheet.name!r}: unknown tool parameter label {label!r}") from None
+
+
+def _related(text, all_ids: set[str]) -> tuple[list[str], list[str]]:
+    """Qualified repo IDs named before / after the "/" of `Replaces / Replaced By`; nothing else resolves."""
+    before, _, after = str(text or "").partition("/")
+    pick = lambda part: sorted({t for t in _QUALIFIED.findall(part) if t in all_ids})
+    return pick(before), pick(after)
+
+
+def build_model(sheet: Sheet, model_id: ModelId, library: dict, all_ids: set[str]) -> dict:
     m = sheet.meta
-    prefix = m["OWSG Prefix"]
+    qualified = f"{model_id.namespace}:{model_id.model_id}"
+    framework = _FRAMEWORKS.get(model_id.library)
+    if framework is None:
+        raise ExtractError(f"{qualified}: no framework for library {model_id.library!r}")
+    supersedes, superseded_by = _related(m.get("Replaces / Replaced By"), all_ids)
     meta = {
-        "model_uuid": model_uuid(namespace, prefix),
-        "model_id": f"{namespace}:{prefix}",
+        "model_uuid": model_uuid(model_id.namespace, model_id.model_id),
+        "model_id": qualified,
         "short_name": m["Short Name"],
         "long_name": m["Long Name"],
         "revision": _revision(m["Revision No"]),
@@ -169,8 +226,8 @@ def build_model(sheet: Sheet, namespace: str, library: dict) -> dict:
         "revision_comment": m.get("Revision Comment", ""),
         "source": m["Source"],
         "tool_type": m["Tool Type"],
-        "status": "current",
-        "framework": "ISCWSA Rev5",
+        "status": _status(sheet, model_id),
+        "framework": framework,
         "author": "ISCWSA",
         "tags": [],
     }
@@ -183,6 +240,10 @@ def build_model(sheet: Sheet, namespace: str, library: dict) -> dict:
         value = m.get(label)
         if value not in (None, "", []):
             meta[key] = value
+    if supersedes:
+        meta["supersedes"] = supersedes
+    if superseded_by:
+        meta["superseded_by"] = superseded_by
     doc = {
         "$schema": SCHEMA_BASE + "model.json",
         "metadata": meta,
@@ -195,7 +256,7 @@ def build_model(sheet: Sheet, namespace: str, library: dict) -> dict:
             "inc_max": parse_param(m["Inclination Range Max"]),
             "hor_ew_exclusion": parse_param(m["Hor East/West Exclusion"]),
         },
-        "parameters": {re.sub(r"\s+", "", k): parse_param(v) for k, v in sheet.tool_params.items()},
+        "parameters": {_param_key(k, sheet): parse_param(v) for k, v in sheet.tool_params.items()},
         "terms": [{"term": t.code, "magnitude": t.magnitude} for t in sorted(sheet.terms, key=lambda t: t.no)],
         "hash_function": "SHA256",
         "hash_value": "",
@@ -239,7 +300,12 @@ def main(argv=None) -> int:
         sheet = read_sheet(path, args.sheet)
         errata = json.loads(ERRATA_FILE.read_text(encoding="utf-8"))
         library = build_library(args.library, [sheet], errata)
-        model = build_model(sheet, entry["namespace"], library)
+        ids = load_model_ids()
+        model_id = ids.get((entry["iscwsa_file"], args.sheet))
+        if model_id is None:
+            raise ExtractError(f"sheet {args.sheet!r} (file {entry['iscwsa_file']}) is not in tools/model_ids.csv")
+        all_ids = {f"{i.namespace}:{i.model_id}" for i in ids.values()}
+        model = build_model(sheet, model_id, library, all_ids)
     except (ExtractError, WorkbookError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
