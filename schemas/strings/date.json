@@ -1,9 +1,10 @@
 {
-	"$schema"     : "https://json-schema.org/draft/2020-12/schema",
-	"$id"         : "https://github.com/iscwsa/error-models/blob/main/schemas/string/date.json",
-	"type"        : "string",
-	"title"       : "Date String",
-	"description" : "Ensures valid dates are provided",
-	"minLength"   : 1,
-	"format"      : "date"
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/strings/date.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "string",
+	"title": "Date String",
+	"description": "Ensures valid dates are provided",
+	"minLength": 1,
+	"format": "date"
 }

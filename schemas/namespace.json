@@ -1,0 +1,13 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/namespace.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "string",
+	"title": "Namespace",
+	"description": "Namespace syntax: lowercase letter, then 1 to 31 lowercase letters, digits or underscores",
+	"examples": [
+		"iscwsa",
+		"generic_iscwsa"
+	],
+	"pattern": "^[a-z][a-z0-9_]{1,31}$"
+}

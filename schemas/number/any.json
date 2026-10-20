@@ -1,7 +1,8 @@
 {
-	"$schema"     : "https://json-schema.org/draft/2020-12/schema",
-	"$id"         : "https://github.com/iscwsa/error-models/blob/main/schemas/number/any.json",
-	"type"        : "number",
-	"title"       : "Any Number",
-	"description" : "Any number is allowed"
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/number/any.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "number",
+	"title": "Any Number",
+	"description": "Any number is allowed"
 }

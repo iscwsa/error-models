@@ -1,0 +1,55 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/weighting_function.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "object",
+	"title": "Weighting Function",
+	"description": "Depth, inclination and azimuth formulas of an error source",
+	"properties": {
+		"depth": {
+			"$ref": "./strings/non_empty.json"
+		},
+		"inclination": {
+			"$ref": "./strings/non_empty.json"
+		},
+		"azimuth": {
+			"$ref": "./strings/non_empty.json"
+		},
+		"singularity_north": {
+			"$ref": "./strings/non_empty.json"
+		},
+		"singularity_east": {
+			"$ref": "./strings/non_empty.json"
+		},
+		"singularity_vertical": {
+			"$ref": "./strings/non_empty.json"
+		},
+		"comment": {
+			"type": "string"
+		},
+		"source": {
+			"type": "string"
+		},
+		"uuid": {
+			"$ref": "./strings/uuid.json"
+		},
+		"hash_value": {
+			"$ref": "./strings/hash_value.json"
+		},
+		"errata": {
+			"type": "array",
+			"items": {
+				"$ref": "./errata.json"
+			}
+		}
+	},
+	"required": [
+		"depth",
+		"inclination",
+		"azimuth",
+		"source",
+		"uuid",
+		"hash_value"
+	],
+	"additionalProperties": false
+}

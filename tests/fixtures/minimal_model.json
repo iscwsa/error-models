@@ -1,0 +1,62 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/model.json",
+	"metadata": {
+		"model_uuid": "00000000-0000-4000-8000-000000000001",
+		"model_id": "iscwsa:minimal",
+		"short_name": "Minimal",
+		"long_name": "Minimal test model",
+		"revision": "5.1",
+		"revision_date": "2022-09-23",
+		"revision_comment": "Test",
+		"source": "test",
+		"tool_type": "Magnetic",
+		"status": "current",
+		"framework": "ISCWSA Rev5",
+		"author": "Test",
+		"tags": []
+	},
+	"origin": {
+		"workbook": "test.xlsx",
+		"sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+		"sheet": "Sheet"
+	},
+	"libraries": [
+		{
+			"id": "iscwsa:rev5",
+			"uuid": "00000000-0000-4000-8000-000000000002",
+			"hash_value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+		}
+	],
+	"applicability": {
+		"inc_min": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0"
+		},
+		"inc_max": {
+			"value": 180,
+			"unit": "deg",
+			"text": "180"
+		},
+		"hor_ew_exclusion": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0"
+		}
+	},
+	"parameters": {
+		"dref": {
+			"value": 0.1,
+			"unit": "m",
+			"text": "0.1"
+		}
+	},
+	"terms": [
+		{
+			"term": "DREF",
+			"magnitude": 0.35
+		}
+	],
+	"hash_function": "SHA256",
+	"hash_value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

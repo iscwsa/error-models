@@ -1,0 +1,30 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/library.json",
+	"library_id": "iscwsa:rev5",
+	"uuid": "00000000-0000-4000-8000-000000000002",
+	"publisher": "ISCWSA",
+	"requires": [],
+	"weighting_functions": {
+		"DREF": {
+			"depth": "1",
+			"inclination": "0",
+			"azimuth": "0",
+			"source": "test",
+			"uuid": "00000000-0000-4000-8000-000000000003",
+			"hash_value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+		}
+	},
+	"terms": {
+		"DREF": {
+			"description": "Depth reference",
+			"type": "Random",
+			"units": "m",
+			"propagation": "Random",
+			"weighting_function": "DREF",
+			"uuid": "00000000-0000-4000-8000-000000000004",
+			"hash_value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+		}
+	},
+	"hash_function": "SHA256",
+	"hash_value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

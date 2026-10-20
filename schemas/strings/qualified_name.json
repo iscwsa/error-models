@@ -1,0 +1,12 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/strings/qualified_name.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "string",
+	"title": "Qualified Name",
+	"description": "<namespace>:<name>, e.g. iscwsa:rev5",
+	"examples": [
+		"iscwsa:rev5"
+	],
+	"pattern": "^[a-z][a-z0-9_]{1,31}:[A-Za-z0-9][A-Za-z0-9_.-]*$"
+}

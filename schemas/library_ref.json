@@ -1,0 +1,25 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/library_ref.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "object",
+	"title": "Library Reference",
+	"description": "A pinned reference to a library",
+	"properties": {
+		"id": {
+			"$ref": "./strings/qualified_name.json"
+		},
+		"uuid": {
+			"$ref": "./strings/uuid.json"
+		},
+		"hash_value": {
+			"$ref": "./strings/hash_value.json"
+		}
+	},
+	"required": [
+		"id",
+		"uuid",
+		"hash_value"
+	],
+	"additionalProperties": false
+}

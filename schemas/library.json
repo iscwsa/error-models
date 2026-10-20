@@ -1,0 +1,64 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/library.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "object",
+	"title": "Error Term Library",
+	"description": "Weighting functions and term definitions shared by models",
+	"properties": {
+		"$schema": {
+			"const": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/library.json"
+		},
+		"library_id": {
+			"$ref": "./strings/qualified_name.json"
+		},
+		"uuid": {
+			"$ref": "./strings/uuid.json"
+		},
+		"publisher": {
+			"$ref": "./strings/non_empty.json"
+		},
+		"extends": {
+			"type": "array",
+			"items": {
+				"$ref": "./library_ref.json"
+			}
+		},
+		"requires": {
+			"type": "array",
+			"items": {
+				"$ref": "./strings/non_empty.json"
+			}
+		},
+		"weighting_functions": {
+			"type": "object",
+			"additionalProperties": {
+				"$ref": "./weighting_function.json"
+			}
+		},
+		"terms": {
+			"type": "object",
+			"additionalProperties": {
+				"$ref": "./library_term.json"
+			}
+		},
+		"hash_function": {
+			"$ref": "./hash_function.json"
+		},
+		"hash_value": {
+			"$ref": "./strings/hash_value.json"
+		}
+	},
+	"required": [
+		"$schema",
+		"library_id",
+		"uuid",
+		"publisher",
+		"requires",
+		"weighting_functions",
+		"terms",
+		"hash_function",
+		"hash_value"
+	],
+	"additionalProperties": false
+}
