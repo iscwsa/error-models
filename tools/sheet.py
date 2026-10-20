@@ -89,6 +89,9 @@ def _label(value) -> str | None:
     return value or None
 
 
+NON_MODEL_SHEETS = frozenset({"Index", "Sheet1", "Sheet2"})
+
+
 def read_sheet(path: Path, sheet: str) -> Sheet:
     path = Path(path)
     check_workbook(path)
@@ -96,15 +99,51 @@ def read_sheet(path: Path, sheet: str) -> Sheet:
     try:
         if sheet not in wb.sheetnames:
             raise WorkbookError(f"{path.name} has no sheet {sheet!r}")
-        ws = wb[sheet]
-        rows = [list(r) for r in ws.iter_rows(values_only=True)]
+        rows = [list(r) for r in wb[sheet].iter_rows(values_only=True)]
     finally:
         wb.close()
+    parsed = _parse_sheet(path.name, sha256_of(path), sheet, rows)
+    if parsed is None:
+        raise WorkbookError(f"{sheet!r} has no row containing {_HEADER_CELL!r}")
+    return parsed
+
+
+def read_workbook(path: Path, check: bool = True) -> tuple[list[Sheet], list[str]]:
+    """Read every model sheet in workbook order in one pass.
+
+    Returns (model sheets, names of skipped non-model sheets). A sheet without a
+    "Depth Formula" header row is skipped only if it is one of NON_MODEL_SHEETS;
+    any other such sheet raises WorkbookError. check=False skips the sha256 check.
+    """
+    path = Path(path)
+    if check:
+        check_workbook(path)
+    digest = sha256_of(path)
+    wb = openpyxl.load_workbook(path, data_only=True, read_only=False)
+    try:
+        raw = [(n, [list(r) for r in wb[n].iter_rows(values_only=True)]) for n in wb.sheetnames]
+    finally:
+        wb.close()
+    sheets: list[Sheet] = []
+    skipped: list[str] = []
+    for name, rows in raw:
+        parsed = _parse_sheet(path.name, digest, name, rows)
+        if parsed is not None:
+            sheets.append(parsed)
+        elif name in NON_MODEL_SHEETS:
+            skipped.append(name)
+        else:
+            raise WorkbookError(f"{path.name}: sheet {name!r} has no row containing {_HEADER_CELL!r}")
+    return sheets, skipped
+
+
+def _parse_sheet(workbook: str, digest: str, sheet: str, rows: list[list]) -> Sheet | None:
+    """Parse one sheet's rows; None if it has no header row."""
     header = next(
         (i for i, r in enumerate(rows) if any(c == _HEADER_CELL for c in r[_FIRST_TERM_COL - 1:])), None
     )
     if header is None:
-        raise WorkbookError(f"{sheet!r} has no row containing {_HEADER_CELL!r}")
+        return None
     cols = {str(c).strip(): j for j, c in enumerate(rows[header]) if c is not None and j >= _FIRST_TERM_COL - 1}
 
     def cell(r, name):
@@ -139,8 +178,8 @@ def read_sheet(path: Path, sheet: str) -> Sheet:
 
     terms = []
     for r in rows[header + 1:]:
-        if cell(r, "No") is None:
-            break
+        if cell(r, "Code") is None:
+            continue
         terms.append(SheetTerm(
             no=int(cell(r, "No")),
             code=cell(r, "Code"),
@@ -160,4 +199,4 @@ def read_sheet(path: Path, sheet: str) -> Sheet:
             sing_east=_text(cell(r, "Singularity East Formula")),
             sing_vert=_text(cell(r, "Singularity Vert. Formula")),
         ))
-    return Sheet(path.name, sha256_of(path), sheet, meta, tool_params, terms)
+    return Sheet(workbook, digest, sheet, meta, tool_params, terms)
