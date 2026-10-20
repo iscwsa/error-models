@@ -1,0 +1,155 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/model.json",
+	"metadata": {
+		"model_uuid": "5f9740f3-a5c9-52bf-a842-a69b97d5af3f",
+		"model_id": "iscwsa:MWD_bias_Rev0",
+		"short_name": "ISCWSA MWD bias Rev0",
+		"long_name": "ISCWSA MWD bias (Fixed Rig) Rev0",
+		"revision": "0",
+		"revision_date": "2000-12-01",
+		"revision_comment": "Initial Release.",
+		"source": "SPE 67616",
+		"tool_type": "MWD",
+		"status": "superseded",
+		"framework": "ISCWSA Rev0",
+		"author": "ISCWSA",
+		"tags": [],
+		"application": "Use of Bias Models Not Recommended",
+		"sheet_status": "Obsolete",
+		"notes": "None",
+		"replaces_text": "None / ISCWSA MWD Bias Rev 1",
+		"range_comment": "None"
+	},
+	"origin": {
+		"workbook": "iscwsa-mwd-error-models-rev5-23-sep-2022.xlsx",
+		"sha256": "e4e3aa04e095dd0b72d5180f10846cfe9ec22db71ebbab7c2056992b188f9f13",
+		"sheet": "ISCWSA MWD bias Rev0"
+	},
+	"libraries": [
+		{
+			"id": "iscwsa:rev0",
+			"uuid": "0096d88f-36df-579b-9641-6376206bf985",
+			"hash_value": "dd2b48ad435df0ef06a68fb17d647bf4b48732b0b9d8b2f8a4cb6b486779a1df"
+		}
+	],
+	"applicability": {
+		"inc_min": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		},
+		"inc_max": {
+			"value": 180,
+			"unit": "deg",
+			"text": "180 deg"
+		},
+		"hor_ew_exclusion": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		}
+	},
+	"parameters": {
+		"MisalignmentAlt": {
+			"value": 3,
+			"unit": "-",
+			"text": "3"
+		}
+	},
+	"terms": [
+		{
+			"term": "DRFR",
+			"magnitude": 0.35
+		},
+		{
+			"term": "DSFS",
+			"magnitude": 0.00024
+		},
+		{
+			"term": "DSTB",
+			"magnitude": 4.4e-07
+		},
+		{
+			"term": "ABX",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ABY",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ABZ",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ASX",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASY",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASZ",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "MBX",
+			"magnitude": 70
+		},
+		{
+			"term": "MBY",
+			"magnitude": 70
+		},
+		{
+			"term": "MBZ",
+			"magnitude": 70
+		},
+		{
+			"term": "MSX",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "MSY",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "MSZ",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "DECG",
+			"magnitude": 0.36
+		},
+		{
+			"term": "DBHG",
+			"magnitude": 5000
+		},
+		{
+			"term": "AMIB",
+			"magnitude": 0.33
+		},
+		{
+			"term": "AMIC",
+			"magnitude": 0.25
+		},
+		{
+			"term": "AMID",
+			"magnitude": 0.5
+		},
+		{
+			"term": "MX",
+			"magnitude": 0.06
+		},
+		{
+			"term": "MY",
+			"magnitude": 0.06
+		},
+		{
+			"term": "SAG",
+			"magnitude": 0.2
+		}
+	],
+	"hash_function": "SHA256",
+	"hash_value": "3a698064d70e114a9b61b9384737673f2f7754b074be258f68582b6d48d2df2f"
+}

@@ -1,0 +1,97 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/model.json",
+	"metadata": {
+		"model_uuid": "c89120ba-0d42-5808-98fd-4c0696ecfae9",
+		"model_id": "generic_iscwsa:A028Ub",
+		"short_name": "INC-ONLY_PLANNED_5_DEG",
+		"long_name": "OWSG Inclination Only Planned With 5 Deg Maximum Expected Inclination",
+		"revision": "5",
+		"revision_date": "2020-10-08",
+		"revision_comment": "Rev No changed to match ISCWSA Models (Rev.5). XCLA & XCLH terms added. ",
+		"source": "OWSG - ISCWSA",
+		"tool_type": "Utility",
+		"status": "current",
+		"framework": "ISCWSA Rev5",
+		"author": "ISCWSA",
+		"tags": [],
+		"application": "Inclination only surveys for vertical wells with inclinations less than 5 deg (e.g. Totco Teledrift and Anderdrift)",
+		"sheet_status": "Agreed",
+		"checked": "Steve Grindrod 21-Oct-2020",
+		"notes": "For vertical wells with inclinations less than 5 deg.",
+		"revision_history": [
+			"Rev 0.1 05-Jun-2013 Draft Release for Comment.",
+			"Rev 1.0 01-Nov-2013 Initial Release. Based on Recommendations for management of Inclination-Only survey data (Rev. B) 26-Sep-2013",
+			"Rev 2.0 28-Apr-2017 Updated DSFS value to Recommendations for management of Inclination-Only survey data (Rev. C) 02-Oct-2015"
+		],
+		"replaces_text": "OWSG_A028Ua_INC-ONLY_PLANNED_5_DEG / ",
+		"range_comment": "Maximum recommended inclination for inclination-only surveys."
+	},
+	"origin": {
+		"workbook": "toolgroup-owsg-a-rev-5-1-08-oct-2020-produced-23-sep-2022.xlsx",
+		"sha256": "63006b322ae2d8e5cefd3962339f4d4bdcc65656e842578af1efd4008b777280",
+		"sheet": "INC-ONLY_PLANNED_5_DEG"
+	},
+	"libraries": [
+		{
+			"id": "iscwsa:rev5",
+			"uuid": "afcf8ed3-ac41-51f8-9999-8d126737f2f0",
+			"hash_value": "1a8c6a946284efa0c7e416e29d3315d52740429462041bba1394562411b1d9ca"
+		}
+	],
+	"applicability": {
+		"inc_min": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		},
+		"inc_max": {
+			"value": 5,
+			"unit": "deg",
+			"text": "5 deg"
+		},
+		"hor_ew_exclusion": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		}
+	},
+	"parameters": {
+		"MisalignmentAlt": {
+			"value": 3,
+			"unit": "-",
+			"text": "3"
+		}
+	},
+	"terms": [
+		{
+			"term": "DRFR",
+			"magnitude": 0.35
+		},
+		{
+			"term": "DSFS",
+			"magnitude": 0.00056
+		},
+		{
+			"term": "DSTG",
+			"magnitude": 2.5e-07
+		},
+		{
+			"term": "XYM3",
+			"magnitude": 2.5
+		},
+		{
+			"term": "XYM4",
+			"magnitude": 2.5
+		},
+		{
+			"term": "XCLA",
+			"magnitude": 0.167
+		},
+		{
+			"term": "XCLH",
+			"magnitude": 0.167
+		}
+	],
+	"hash_function": "SHA256",
+	"hash_value": "13978fdf4ae3b9127e748fdfcf3da47f13686cd4beb76be769cf4577fe510a26"
+}

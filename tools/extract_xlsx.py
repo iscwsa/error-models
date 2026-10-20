@@ -322,11 +322,11 @@ def _find_workbook(directory: Path, sheet: str) -> tuple[Path, dict]:
     return hits[0], check_workbook(hits[0])
 
 
-def build_all_libraries(workbooks: Path, log: list[str]) -> dict[str, dict]:
-    """Read every workbook in tools/workbooks.json and build the libraries tools/model_ids.csv names."""
+def _read_all(workbooks: Path) -> list[tuple[ModelId, Sheet]]:
+    """Every model sheet of every workbook in tools/workbooks.json, with its ID, in workbook then sheet order."""
     known = json.loads(WORKBOOKS_FILE.read_text(encoding="utf-8"))
     ids = load_model_ids()
-    by_library: dict[str, list[Sheet]] = {}
+    out: list[tuple[ModelId, Sheet]] = []
     for name, entry in known.items():
         path = workbooks / name
         check_workbook(path)
@@ -335,20 +335,88 @@ def build_all_libraries(workbooks: Path, log: list[str]) -> dict[str, dict]:
             model_id = ids.get((entry["iscwsa_file"], sheet.name))
             if model_id is None:
                 raise ExtractError(f"sheet {sheet.name!r} (file {entry['iscwsa_file']}) is not in tools/model_ids.csv")
-            by_library.setdefault(model_id.library, []).append(sheet)
+            out.append((model_id, sheet))
+    return out
+
+
+def _build_libraries_from(pairs: list[tuple[ModelId, Sheet]], log: list[str]) -> dict[str, dict]:
+    by_library: dict[str, list[Sheet]] = {}
+    for model_id, sheet in pairs:
+        by_library.setdefault(model_id.library, []).append(sheet)
     errata = json.loads(ERRATA_FILE.read_text(encoding="utf-8"))
     groups = json.loads(TERM_GROUPS_FILE.read_text(encoding="utf-8"))
     return build_libraries(by_library, errata, groups, log)
+
+
+def build_all_libraries(workbooks: Path, log: list[str]) -> dict[str, dict]:
+    """Read every workbook in tools/workbooks.json and build the libraries tools/model_ids.csv names."""
+    return _build_libraries_from(_read_all(workbooks), log)
+
+
+def _fmt_mag(value) -> str:
+    return repr(value)
+
+
+def log_magnitude_differences(pairs: list[tuple[ModelId, Sheet]], log: list[str]) -> None:
+    """Log every term whose magnitude differs between Generic sheets of one family.
+
+    A family is the set of Generic (generic_iscwsa) sheets with the same `Tool Type` (Magnetic, Gyro, ...). Within a
+    family, a term code that has more than one magnitude is logged once, as
+    `magnitude_diff: family=<Tool Type> term=<code> <mag> in [<sheets>]; <mag> in <n> sheets`; groups of up to four
+    sheets name them, larger groups give the count. Nothing is changed: this is for the user to review.
+    """
+    families: dict[str, list[Sheet]] = {}
+    for model_id, sheet in pairs:
+        if model_id.namespace == "generic_iscwsa":
+            families.setdefault(str(sheet.meta["Tool Type"]), []).append(sheet)
+    for family in sorted(families):
+        by_term: dict[str, dict[float, list[str]]] = {}
+        for sheet in families[family]:
+            for t in sheet.terms:
+                by_term.setdefault(t.code, {}).setdefault(t.magnitude, []).append(sheet.name)
+        for code in sorted(by_term):
+            groups = by_term[code]
+            if len(groups) < 2:
+                continue
+            parts = [f"{_fmt_mag(mag)} in [{', '.join(names)}]" if len(names) <= 4 else f"{_fmt_mag(mag)} in {len(names)} sheets"
+                     for mag, names in sorted(groups.items(), key=lambda kv: (len(kv[1]), kv[0]))]
+            log.append(f"magnitude_diff: family={family} term={code} " + "; ".join(parts))
+
+
+def build_all(workbooks: Path, log: list[str]) -> tuple[dict[str, dict], dict[tuple[str, str], dict]]:
+    """(libraries by ID, models by (namespace, model_id)) for every sheet; the log lists conflicts and differences."""
+    pairs = _read_all(workbooks)
+    libraries = _build_libraries_from(pairs, log)
+    all_ids = {f"{m.namespace}:{m.model_id}" for m, _ in pairs}
+    models = {(m.namespace, m.model_id): build_model(sheet, m, libraries[m.library], all_ids) for m, sheet in pairs}
+    log_magnitude_differences(pairs, log)
+    return libraries, models
 
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="python -m tools.extract_xlsx")
     parser.add_argument("--workbooks", required=True, type=Path)
     parser.add_argument("--all-libraries", action="store_true", help="build the seven libraries from every sheet")
+    parser.add_argument("--all", action="store_true", help="build the seven libraries and every model")
     parser.add_argument("--sheet")
     parser.add_argument("--library")
     parser.add_argument("--out", type=Path, default=Path("."))
     args = parser.parse_args(argv)
+    if args.all:
+        log: list[str] = []
+        try:
+            libraries, models = build_all(args.workbooks.expanduser(), log)
+        except (ExtractError, WorkbookError) as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 1
+        for lib_id, library in libraries.items():
+            ns, _, name = lib_id.partition(":")
+            write_json(args.out / "library" / ns / f"{name}.json", library)
+        for (ns, name), model in models.items():
+            write_json(args.out / "models" / ns / f"{name}.json", model)
+        for line in log:
+            print(f"log: {line}", file=sys.stderr)
+        return 0
     if args.all_libraries:
         log: list[str] = []
         try:
@@ -363,7 +431,7 @@ def main(argv=None) -> int:
             print(f"log: {line}", file=sys.stderr)
         return 0
     if not (args.sheet and args.library):
-        parser.error("--sheet and --library are required unless --all-libraries is given")
+        parser.error("--sheet and --library are required unless --all or --all-libraries is given")
     try:
         path, entry = _find_workbook(args.workbooks.expanduser(), args.sheet)
         sheet = read_sheet(path, args.sheet)

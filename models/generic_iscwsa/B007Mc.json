@@ -1,0 +1,247 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/model.json",
+	"metadata": {
+		"model_uuid": "c98b8bf5-868d-53f1-b89f-97355abdcc68",
+		"model_id": "generic_iscwsa:B007Mc",
+		"short_name": "MWD+LRGM+AX",
+		"long_name": "OWSG MWD + LRGM + Axial Correction",
+		"revision": "5.1",
+		"revision_date": "2020-10-08",
+		"revision_comment": "Rev No changed to match ISCWSA Models (Rev.5). XCLA & XCLH terms added. XYM3 replaced by XYM3E. XYM4 replaced by XYM4E. SAG replaced by SAGE. DECG replaced by DEC-U DEC-OS DEC-OH DEC-OI. DBHG replaced by DBH-U DBH-OS DBH-OH DBH-OI.MFIG replaced by MFI-U MFI-OS MFI-OH MFI-OI. MDIG replaced by MDI-U MDI-OS MDI-OH MDI-OI. Updated Short Name, Long Name, Application.",
+		"source": "OWSG - SPE 67616 and 63275",
+		"tool_type": "Magnetic",
+		"status": "current",
+		"framework": "ISCWSA Rev5",
+		"author": "ISCWSA",
+		"tags": [],
+		"application": "MWD using Low Resolution Geomagnetic Model (e.g. Updated less frequently than yearly, EMM, CGRF, IGRF, WMM) with Axial Correction",
+		"sheet_status": "Agreed",
+		"checked": "Steve Grindrod 21-Oct-2020",
+		"notes": "Based on ISCWSA MWD Rev 3 with Axial Correction (Tool Face Independent - Sliding)",
+		"revision_history": [
+			"Rev 0.1 05-Jun-2013 Draft Release for Comment.",
+			"Rev 1.0 01-Nov-2013 Initial Release.",
+			"Rev 2.0 20-May-2015 DECR, DBHR, MDIR and MFIR terms added."
+		],
+		"replaces_text": "OWSG_B007Mb_MWD+IGRF+AX / ",
+		"range_comment": "Azimuth correction does not work close to horizontal magnetic East or West."
+	},
+	"origin": {
+		"workbook": "toolgroup-owsg-b-rev-5-1-08-oct-2020-produced-23-sep-2022.xlsx",
+		"sha256": "74c6bf47469b26af7ffe798aa01a36912dcc193f21a3d2ec4de36da2430ddd59",
+		"sheet": "MWD+LRGM+AX"
+	},
+	"libraries": [
+		{
+			"id": "iscwsa:rev5",
+			"uuid": "afcf8ed3-ac41-51f8-9999-8d126737f2f0",
+			"hash_value": "1a8c6a946284efa0c7e416e29d3315d52740429462041bba1394562411b1d9ca"
+		}
+	],
+	"applicability": {
+		"inc_min": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		},
+		"inc_max": {
+			"value": 180,
+			"unit": "deg",
+			"text": "180 deg"
+		},
+		"hor_ew_exclusion": {
+			"value": 15,
+			"unit": "deg",
+			"text": "15 deg"
+		}
+	},
+	"parameters": {
+		"MisalignmentAlt": {
+			"value": 3,
+			"unit": "-",
+			"text": "3"
+		},
+		"MisalignmentMinCourseLength": {
+			"value": 10,
+			"unit": "m",
+			"text": "10 m"
+		},
+		"XCLTortuosity": {
+			"value": 1,
+			"unit": "deg/100ft",
+			"text": "1 deg / 100 ft"
+		}
+	},
+	"terms": [
+		{
+			"term": "DRFR",
+			"magnitude": 0.35
+		},
+		{
+			"term": "DSFS",
+			"magnitude": 0.00056
+		},
+		{
+			"term": "DSTG",
+			"magnitude": 2.5e-07
+		},
+		{
+			"term": "ABIXY-TI1S",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ABIXY-TI2S",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ABIZ",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ASIXY-TI1S",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASIXY-TI2S",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASIXY-TI3S",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASIZ",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "MBIXY-TI1S",
+			"magnitude": 70
+		},
+		{
+			"term": "MBIXY-TI2S",
+			"magnitude": 70
+		},
+		{
+			"term": "MSIXY-TI1S",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "MSIXY-TI2S",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "MSIXY-TI3S",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "DEC-U",
+			"magnitude": 0.29
+		},
+		{
+			"term": "DEC-OS",
+			"magnitude": 0.24
+		},
+		{
+			"term": "DEC-OH",
+			"magnitude": 0.21
+		},
+		{
+			"term": "DEC-OI",
+			"magnitude": 0.05
+		},
+		{
+			"term": "DECR",
+			"magnitude": 0.1
+		},
+		{
+			"term": "DBH-U",
+			"magnitude": 4108
+		},
+		{
+			"term": "DBH-OS",
+			"magnitude": 3359
+		},
+		{
+			"term": "DBH-OH",
+			"magnitude": 2840
+		},
+		{
+			"term": "DBH-OI",
+			"magnitude": 356
+		},
+		{
+			"term": "DBHR",
+			"magnitude": 3000
+		},
+		{
+			"term": "MDI-U",
+			"magnitude": 0.16
+		},
+		{
+			"term": "MDI-OS",
+			"magnitude": 0.14
+		},
+		{
+			"term": "MDI-OH",
+			"magnitude": 0.11
+		},
+		{
+			"term": "MDI-OI",
+			"magnitude": 0.03
+		},
+		{
+			"term": "MDIR",
+			"magnitude": 0.08
+		},
+		{
+			"term": "MFI-U",
+			"magnitude": 107
+		},
+		{
+			"term": "MFI-OS",
+			"magnitude": 88
+		},
+		{
+			"term": "MFI-OH",
+			"magnitude": 73
+		},
+		{
+			"term": "MFI-OI",
+			"magnitude": 13
+		},
+		{
+			"term": "MFIR",
+			"magnitude": 60
+		},
+		{
+			"term": "SAGE",
+			"magnitude": 0.2
+		},
+		{
+			"term": "XYM1",
+			"magnitude": 0.1
+		},
+		{
+			"term": "XYM2",
+			"magnitude": 0.1
+		},
+		{
+			"term": "XYM3E",
+			"magnitude": 0.3
+		},
+		{
+			"term": "XYM4E",
+			"magnitude": 0.3
+		},
+		{
+			"term": "XCLA",
+			"magnitude": 0.167
+		},
+		{
+			"term": "XCLH",
+			"magnitude": 0.167
+		}
+	],
+	"hash_function": "SHA256",
+	"hash_value": "e779cc321fe60f31e6491d1db3431ccdc0d77b9b1e3df451e2955f962857de56"
+}

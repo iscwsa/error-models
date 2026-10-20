@@ -1,0 +1,239 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/model.json",
+	"metadata": {
+		"model_uuid": "0020f9b2-5e61-58fa-b35b-dadffab65fd5",
+		"model_id": "generic_iscwsa:B015Mc",
+		"short_name": "EMS+HRGM+AX+SAG",
+		"long_name": "OWSG EMS + HRGM + Axial Correction + Sag Correction",
+		"revision": "5.1",
+		"revision_date": "2020-10-08",
+		"revision_comment": "Rev No changed to match ISCWSA Models (Rev.5). XCLA & XCLH terms added. XYM3 replaced by XYM3E. XYM4 replaced by XYM4E. SAG replaced by SAGE. DECG replaced by DEC-U DEC-CH DEC-OH DEC-OI. DBHG replaced by DBH-U DBH-CH DBH-OH DBH-OI. MFIG replaced by MFI-U MFI-CH MFI-OH MFI-OI. MDIG replaced by MDI-U MDI-CH MDI-OH MDI-OI. Updated Application.",
+		"source": "OWSG - SPE 67616 and 63275",
+		"tool_type": "Magnetic",
+		"status": "current",
+		"framework": "ISCWSA Rev5",
+		"author": "ISCWSA",
+		"tags": [],
+		"application": "EMS using 1-year High Resolution Geomagnetic Model with spherical harmonic degree of 720 or higher (e.g. BGGM2019+, HDGM, MVHD) with Axial Correction and Sag Correction",
+		"sheet_status": "Agreed",
+		"checked": "Steve Grindrod 21-Oct-2020",
+		"notes": "Based on ISCWSA MWD Rev 3 with Axial Correction (Tool Face Independent - Sliding)",
+		"revision_history": [
+			"Rev 0.1 05-Jun-2013 Draft Release for Comment.",
+			"Rev 1.0 01-Nov-2013 Initial Release.",
+			"Rev 2.0 20-May-2015 DECS and DBHS terms added. MDIG increased from 0.16 to 0.18 deg. MFIG increased from 107 to 123 nT."
+		],
+		"replaces_text": "OWSG_B015Mb_EMS+HRGM+AX+SAG / ",
+		"range_comment": "Azimuth correction does not work close to horizontal magnetic East or West."
+	},
+	"origin": {
+		"workbook": "toolgroup-owsg-b-rev-5-1-08-oct-2020-produced-23-sep-2022.xlsx",
+		"sha256": "74c6bf47469b26af7ffe798aa01a36912dcc193f21a3d2ec4de36da2430ddd59",
+		"sheet": "EMS+HRGM+AX+SAG"
+	},
+	"libraries": [
+		{
+			"id": "iscwsa:rev5",
+			"uuid": "afcf8ed3-ac41-51f8-9999-8d126737f2f0",
+			"hash_value": "1a8c6a946284efa0c7e416e29d3315d52740429462041bba1394562411b1d9ca"
+		}
+	],
+	"applicability": {
+		"inc_min": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		},
+		"inc_max": {
+			"value": 180,
+			"unit": "deg",
+			"text": "180 deg"
+		},
+		"hor_ew_exclusion": {
+			"value": 15,
+			"unit": "deg",
+			"text": "15 deg"
+		}
+	},
+	"parameters": {
+		"MisalignmentAlt": {
+			"value": 3,
+			"unit": "-",
+			"text": "3"
+		},
+		"MisalignmentMinCourseLength": {
+			"value": 10,
+			"unit": "m",
+			"text": "10 m"
+		},
+		"XCLTortuosity": {
+			"value": 1,
+			"unit": "deg/100ft",
+			"text": "1 deg / 100 ft"
+		}
+	},
+	"terms": [
+		{
+			"term": "DRFR",
+			"magnitude": 0.35
+		},
+		{
+			"term": "DSFS",
+			"magnitude": 0.00056
+		},
+		{
+			"term": "DSTG",
+			"magnitude": 2.5e-07
+		},
+		{
+			"term": "ABIXY-TI1S",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ABIXY-TI2S",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ABIZ",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ASIXY-TI1S",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASIXY-TI2S",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASIXY-TI3S",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASIZ",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "MBIXY-TI1S",
+			"magnitude": 70
+		},
+		{
+			"term": "MBIXY-TI2S",
+			"magnitude": 70
+		},
+		{
+			"term": "MSIXY-TI1S",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "MSIXY-TI2S",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "MSIXY-TI3S",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "DEC-U",
+			"magnitude": 0.16
+		},
+		{
+			"term": "DEC-CH",
+			"magnitude": 0.13
+		},
+		{
+			"term": "DEC-OH",
+			"magnitude": 0.21
+		},
+		{
+			"term": "DEC-OI",
+			"magnitude": 0.05
+		},
+		{
+			"term": "DECS",
+			"magnitude": 0.1
+		},
+		{
+			"term": "DBH-U",
+			"magnitude": 2359
+		},
+		{
+			"term": "DBH-CH",
+			"magnitude": 1789
+		},
+		{
+			"term": "DBH-OH",
+			"magnitude": 2840
+		},
+		{
+			"term": "DBH-OI",
+			"magnitude": 356
+		},
+		{
+			"term": "DBHS",
+			"magnitude": 3000
+		},
+		{
+			"term": "MDI-U",
+			"magnitude": 0.09
+		},
+		{
+			"term": "MDI-CH",
+			"magnitude": 0.07
+		},
+		{
+			"term": "MDI-OH",
+			"magnitude": 0.11
+		},
+		{
+			"term": "MDI-OI",
+			"magnitude": 0.03
+		},
+		{
+			"term": "MFI-U",
+			"magnitude": 61
+		},
+		{
+			"term": "MFI-CH",
+			"magnitude": 46
+		},
+		{
+			"term": "MFI-OH",
+			"magnitude": 73
+		},
+		{
+			"term": "MFI-OI",
+			"magnitude": 13
+		},
+		{
+			"term": "SAGE",
+			"magnitude": 0.08
+		},
+		{
+			"term": "XYM1",
+			"magnitude": 0.1
+		},
+		{
+			"term": "XYM2",
+			"magnitude": 0.1
+		},
+		{
+			"term": "XYM3E",
+			"magnitude": 0.3
+		},
+		{
+			"term": "XYM4E",
+			"magnitude": 0.3
+		},
+		{
+			"term": "XCLA",
+			"magnitude": 0.167
+		},
+		{
+			"term": "XCLH",
+			"magnitude": 0.167
+		}
+	],
+	"hash_function": "SHA256",
+	"hash_value": "f63e0474929ce869d12dd41fbc9ab29c0167afb86991bd99e388859c349d5b12"
+}

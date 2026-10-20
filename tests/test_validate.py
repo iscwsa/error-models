@@ -277,9 +277,7 @@ def test_cli_exit_codes(repo, capsys):
 
 def test_this_repository_is_clean():
     # proposed errata are warnings until the user decides; anything else is a failure
-    # LIBRARY_HASH on models/iscwsa/A001Mc.json is tolerated until Task 6 regenerates that model against the new rev5
-    problems = [p for p in validate_repo(ROOT, registry_check=True)
-                if not (p.code == "LIBRARY_HASH" and p.file.replace("\\", "/") == "models/iscwsa/A001Mc.json")]
+    problems = validate_repo(ROOT, registry_check=True)
     assert {p.code for p in problems} == {"ERRATA_PROPOSED"}
 
 

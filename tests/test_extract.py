@@ -251,13 +251,15 @@ def test_requires_per_term(libraries):
     assert spec["DSTB"] == ["bias_terms"] and spec["AMIB"] == ["bias_terms"]
     assert spec["XCLA"] == ["xcl_position_direct"] and spec["XCLH"] == ["xcl_position_direct"]
     rev5 = libs["iscwsa:rev5"]
-    assert set(rev5["requires"]) == {"xcl_position_direct", "gyro_modes"}
+    assert rev5["requires"] == ["gyro_modes", "xcl_position_direct"]
     assert rev5["terms"]["XCLA"]["requires"] == ["xcl_position_direct"]
     assert all(rev5["terms"][t]["requires"] == ["gyro_modes"] for t in gyro)
     assert all("requires" not in t for c, t in rev5["terms"].items() if c not in spec)
     for lib in libs.values():
-        assert set(lib["requires"]) == {c for t in lib["terms"].values() for c in t.get("requires", [])}
-    assert libs["iscwsa:rev0"]["requires"] == ["bias_terms"] or "bias_terms" in libs["iscwsa:rev0"]["requires"]
+        assert lib["requires"] == sorted({c for t in lib["terms"].values() for c in t.get("requires", [])})
+    assert libs["iscwsa:rev0"]["requires"] == ["bias_terms"]
+    assert libs["iscwsa:rev3"]["requires"] == []
+    assert libs["iscwsa:rev4"]["requires"] == []
 
 
 def test_gyro_terms_are_gyro_only(all_sheets):
@@ -277,7 +279,9 @@ def test_bias_propagation():
 def test_extractor_log_lists_wf_conflicts(libraries):
     _, log = libraries
     assert all(isinstance(line, str) for line in log)
-    assert all(("wf_comment" in line or "wf_source" in line) for line in log)
+    conflicts = [line for line in log if "wf_comment" in line or "wf_source" in line]
+    for wf in ("ABXY-TI1", "ABXY-TI2"):
+        assert len([line for line in conflicts if wf in line and "rot6axis" in line]) == 1, wf
 
 
 def test_library_id_must_match_model(all_sheets):
@@ -306,3 +310,65 @@ def test_rev5_unchanged_for_a001mc(libraries, all_sheets):
         assert _strip(new["terms"][code]) == _strip(old["terms"][code]), code
         wf = old["terms"][code]["weighting_function"]
         assert _strip(new["weighting_functions"][wf]) == _strip(old["weighting_functions"][wf]), wf
+
+
+# ---- Task 6: all 129 models ----
+from tools.extract_xlsx import build_all  # noqa: E402
+
+
+@pytest.fixture(scope="module")
+def generated(tmp_path_factory):
+    path = tmp_path_factory.mktemp("all")
+    shutil.copyfile(ROOT / "namespaces.json", path / "namespaces.json")
+    assert main(["--workbooks", WB_DIR, "--all", "--out", str(path)]) == 0
+    return path
+
+
+def test_all_models_generated(generated):
+    files = sorted((generated / "models").glob("*/*.json"))
+    assert len(files) == 129
+    assert len(list((generated / "models/iscwsa").glob("*.json"))) == 28
+    assert len(list((generated / "models/generic_iscwsa").glob("*.json"))) == 101
+    assert len(list((generated / "library/iscwsa").glob("*.json"))) == 7
+
+
+def test_all_magnitudes_round_trip(generated, all_sheets):
+    ids = load_model_ids()
+    for f, s in all_sheets:
+        mid = ids[(f, s.name)]
+        model = json.loads((generated / "models" / mid.namespace / f"{mid.model_id}.json").read_text(encoding="utf-8"))
+        assert [(t["term"], t["magnitude"]) for t in model["terms"]] == [(t.code, t.magnitude) for t in s.terms], s.name
+        assert model["origin"]["sheet"] == s.name
+
+
+def test_deterministic(generated, tmp_path):
+    shutil.copyfile(ROOT / "namespaces.json", tmp_path / "namespaces.json")
+    assert main(["--workbooks", WB_DIR, "--all", "--out", str(tmp_path)]) == 0
+    a = sorted(p.relative_to(generated) for p in generated.rglob("*.json"))
+    assert a == sorted(p.relative_to(tmp_path) for p in tmp_path.rglob("*.json"))
+    assert len(a) == 129 + 7 + 1   # models, libraries, namespaces.json
+    for rel in a:
+        assert (generated / rel).read_bytes() == (tmp_path / rel).read_bytes(), rel
+
+
+def test_repo_validates(generated):
+    problems = validate_repo(generated, registry_check=True)
+    assert {p.code for p in problems} == {"ERRATA_PROPOSED"}
+    assert len(problems) == 12   # 6 in rev5, 6 in rot6axis
+
+
+def test_committed_models_match_generator(generated):
+    for rel in sorted(p.relative_to(generated) for p in generated.rglob("*.json")):
+        assert (ROOT / rel).read_bytes() == (generated / rel).read_bytes(), rel
+
+
+def test_mdi_oi_report():
+    log: list[str] = []
+    build_all(Path(WB_DIR), log)
+    diffs = [line for line in log if line.startswith("magnitude_diff:")]
+    mdi = [line for line in diffs if " term=MDI-OI " in line]
+    assert len(mdi) == 1
+    line = mdi[0]
+    assert "0.02 in [MWD+IFR2+AX+SAG, MWD+IFR2+AX+SAG_Fl]" in line
+    assert "0.03 in 30 sheets" in line
+    assert all("family=" in d and " term=" in d for d in diffs)

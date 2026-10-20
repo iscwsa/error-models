@@ -34,8 +34,9 @@ def test_first_station_drfr():
 
 
 @pytest.mark.parametrize("n", [1, 2, 3])
-def test_sources_match_model(n):
-    model = json.loads((ROOT / "models/iscwsa/A001Mc.json").read_text(encoding="utf-8"))
+@pytest.mark.parametrize("model_path", ["models/iscwsa/A001Mc.json", "models/generic_iscwsa/A001Mc.json"])
+def test_sources_match_model(n, model_path):
+    model = json.loads((ROOT / model_path).read_text(encoding="utf-8"))
     lib = json.loads((ROOT / "library/iscwsa/rev5.json").read_text(encoding="utf-8"))["terms"]
     app = model["applicability"]
     src = read_hpt(vec(n)).sources
@@ -65,7 +66,8 @@ def test_dat_files_unchanged():
 
 def test_manifest_files_exist():
     man = json.loads((ROOT / "conformance/manifest.json").read_text(encoding="utf-8"))
-    assert [e["well"] for e in man] == [1, 2, 3]
+    assert [(e["model"], e["well"]) for e in man] == [
+        (m, w) for m in ("iscwsa:A001Mc", "generic_iscwsa:A001Mc") for w in (1, 2, 3)]
+    assert len({e["file"] for e in man}) == 3
     for e in man:
-        assert e["model"] == "iscwsa:A001Mc"
         assert (ROOT / "conformance" / e["file"]).is_file()
