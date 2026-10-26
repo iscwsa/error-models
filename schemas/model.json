@@ -103,5 +103,32 @@
 		"hash_function",
 		"hash_value"
 	],
+	"allOf": [
+		{
+			"$comment": "origin names the workbook a model was read from; only a published example (status reference) has none",
+			"if": {
+				"properties": {
+					"metadata": {
+						"properties": {
+							"status": {
+								"const": "reference"
+							}
+						},
+						"required": [
+							"status"
+						]
+					}
+				},
+				"required": [
+					"metadata"
+				]
+			},
+			"else": {
+				"required": [
+					"origin"
+				]
+			}
+		}
+	],
 	"additionalProperties": false
 }

@@ -183,3 +183,11 @@ def test_model_accepts_optional_gyro():
     assert errors("model.json", model) == []
     model["gyro"] = {"stationary": GYRO["stationary"]}
     assert errors("model.json", model)
+
+
+def test_origin_required_unless_reference():
+    model = load("minimal_model.json")
+    del model["origin"]
+    assert any(e.validator == "required" for e in errors("model.json", model))
+    model["metadata"]["status"] = "reference"
+    assert errors("model.json", model) == []

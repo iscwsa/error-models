@@ -1,0 +1,2 @@
+# Generated JSON is compared byte for byte by the tests; keep it LF on every checkout.
+*.json text eol=lf
