@@ -101,6 +101,12 @@ def test_vector_schema_rejects_bad_vectors():
     doc = json.loads(T3.read_text(encoding="utf-8"))
     doc["cases"][0]["results"][0]["sigma_hla"] = [1.0, 2.0]
     assert list(_schema_validator().iter_errors(doc))
+    doc = json.loads(T3.read_text(encoding="utf-8"))
+    doc["cases"][0]["depth"] = "station"
+    assert list(_schema_validator().iter_errors(doc))
+    doc = json.loads(T3.read_text(encoding="utf-8"))
+    doc["cases"][4]["results"][0]["bias_hla"] = [1.0]
+    assert list(_schema_validator().iter_errors(doc))
     doc = json.loads(AE.read_text(encoding="utf-8"))
     doc["kind"] = "nonsense"
     assert list(_schema_validator().iter_errors(doc))
@@ -115,9 +121,11 @@ def test_vector_schema_rejects_bad_vectors():
 def test_vector_counts():
     t3 = read_vectors(T3)
     assert t3.kind == "hla"
-    assert len(t3.cases) == 4 and sum(len(c["results"]) for c in t3.cases) == 6
+    assert len(t3.cases) == 7 and sum(len(c["results"]) for c in t3.cases) == 9
     assert t3.inputs == {"tie_on": "zero_uncertainty", "toolface": "borehole"}
-    assert [len(c["legs"]) for c in t3.cases] == [1, 1, 1, 3]
+    assert [len(c["legs"]) for c in t3.cases] == [1, 1, 1, 1, 1, 1, 3]
+    assert [c.get("depth", "survey") for c in t3.cases] == ["survey"] * 3 + ["assigned", "survey", "assigned", "survey"]
+    assert [c["case"] for c in t3.cases if "bias_hla" in c["results"][0]] == [5, 6]
     ae = read_vectors(AE)
     assert ae.kind == "total_nev"
     count = {}
@@ -139,7 +147,7 @@ def test_vector_models_exist():
     for vs in (read_vectors(T3), read_vectors(AE)):
         for c in vs.cases:
             used |= {c["model"]} if "model" in c else {leg["model"] for leg in c["legs"]}
-    assert len(used) == 8
+    assert len(used) == 9
     for m in used:
         ns, name = m.split(":")
         assert any((ROOT / d / ns / f"{name}.json").is_file() for d in ("models", "conformance/models")), m
@@ -159,6 +167,7 @@ def test_spot_values():
 def test_tolerance_rules():
     hla = tolerance("hla")
     assert hla(20.2, 20.116) and not hla(20.25, 20.116)
+    assert hla(-12.47, -12.411) and not hla(-12.48, -12.411)      # a negative bias: 0.5% of its size
     assert hla(0.001, 0.0) and not hla(0.003, 0.0)
     assert hla(0.51, 0.5, correlation=True) and not hla(0.52, 0.5, correlation=True)
     nev = tolerance("total_nev")

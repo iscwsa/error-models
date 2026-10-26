@@ -40,8 +40,8 @@ def test_status_table_lists_every_model():
 def test_status_table_counts():
     cells = _rows(_status_section())
     models = [c for c in cells if c[3] != "reference"]
-    assert sum(1 for c in models if c[4] == "loaded") == 121
-    assert sum(1 for c in models if c[4].startswith("refused")) == 8
+    assert sum(1 for c in models if c[4] == "loaded") == 124
+    assert sum(1 for c in models if c[4].startswith("refused")) == 5
     assert sum(1 for c in models if c[6] == "19476/19476") == 2
     assert not any(c[4].startswith("refused") and "gyro_modes" in c[4] for c in models)
 
@@ -108,6 +108,7 @@ def test_propagation_sections():
         "Position-direct XCLA and XCLH",
         "Gyro survey modes",
         "Bias terms",
+        "Uncertainty at an assigned depth",
     ]
 
 

@@ -5,6 +5,14 @@
 
 ## Unreleased
 
+### Added (survey bias, assigned depth)
+
+- SPE 67616 Table 3 cases 4 to 6 in `conformance/vectors/spe67616/table3.json`: the uncertainty at the assigned depth (case `depth: assigned`) and the survey bias (result `bias_hla`, model `iscwsa:MWD_bias_Rev0`, new in the manifest). `schemas/vectors.json` gains both optional fields.
+- `docs/propagation.md`: "Bias terms" now gives SPE 67616's survey bias (Eqs. A-17 to A-19) in place of "nothing published defines" it, and a new section "Uncertainty at an assigned depth" (A-20 to A-23). "Across wells" now says only global terms couple two wells (A-24); it said well-by-well terms did too.
+- `docs/deviations.md` rows C29 (bias term weighting; 11 of 18 printed values fail if the biases are added to the basic model) and C30 (relative uncertainty between wells, open reading). C11 no longer says bias propagation is unspecified.
+- The `hla` tolerance takes 0.5% of the reference's size (`abs(ref)`), for negative biases.
+- The 3 ISCWSA MWD bias Rev0-2 models load in the reference engine (status table).
+
 ### Added (gyro modes, conformance)
 
 - `docs/propagation.md`: how the formulas propagate into a covariance. It covers the position derivative, the propagation modes within a leg, across legs and across wells, the tie-on, vertical stations, the toolface, position-direct XCLA/XCLH and the gyro survey modes. Each rule names its published basis.

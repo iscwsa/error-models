@@ -36,8 +36,12 @@ SPE 67616 Appendix A gives each error source a propagation mode.
   Systematic (S): the vector errors are summed along the leg first and the outer product is taken once, so the error is
   fully correlated along the leg. The tie-on source e* is added to the sum (next section).
 - **Across wells.** Well-by-well (W) is correlated along a well and independent between wells. Global (G) is correlated
-  along every well and between wells. For one well, S, W and G give the same result. Only well-by-well and
-  global terms couple two wells.
+  along every well and between wells. For one well, S, W and G give the same result. Only global terms couple two wells:
+  the covariance of the relative position r_A - r_B of two stations is C_A + C_B - Σ_G (E_A E_B^T + E_B E_A^T), where
+  E is a global source's vector error summed from the slot to the station (SPE 67616 Eqs. A-14, A-24), and the relative
+  bias is M_A - M_B (A-25).
+  - **Open reading (C30).** A global term name used in both wells is one error source, fully correlated; a name in one well
+    only is independent. The paper prints no two-well result, so no printed value decides it.
 - **Across legs.** A leg is a contiguous set of stations surveyed with one tool (SPE 67616, introduction). Random terms stay
   independent at every station. Systematic terms sum within a leg, and different legs are independent. Well-by-well and
   global terms are one sum across all legs. SPE 67616 says r1, r2 and r3, the properties of an error source, "should be the
@@ -171,6 +175,26 @@ SPE 90408 Appendix E, Example Models #2 to #5 (continuous) and #1 and #6 (statio
 
 ## Bias terms
 
-SPE 67616 Table 3 is the no-bias option, and nothing published defines how a bias term moves the expected position. The
-terms `DSTB` and `AMIB` carry propagation `Bias` and `requires: ["bias_terms"]`, and engines refuse a model that uses them
-(C11 in `deviations.md`). Three models are refused for this reason.
+A bias term moves the most likely position away from the surveyed one; it adds no covariance. SPE 67616 Appendix A defines
+it (Eqs. A-17 to A-19), and Table 3 prints it as the "bias" option (cases 5 and 6).
+
+- The bias vector of a term is built like a vector error, with the term's mean μ in place of σ: m_k = μ (dr_k/dp_k +
+  dr_k+1/dp_k) · w_k, and only the interval ending at the station of interest counts there (A-17, A-18). The bias at a
+  station is the sum of m over every station and leg from the slot (A-19), and A-27 rotates it into the borehole frame.
+- The sign is the paper's: "from survey to most likely position". A positive μ with a positive weight gives a positive
+  bias; for depth, "most likely depths are greater than survey depths".
+- `DSTB` and `AMIB` carry propagation `Bias` and `requires: ["bias_terms"]`, so an engine without survey bias refuses a
+  model that uses them (C11 in `deviations.md`).
+  - **Convention C29.** A bias term has the weighting function of the term it models, AMID for `AMIB` and DST for `DSTB`;
+    the σ is a separate symmetric term or 0. Table 4's footnotes give the bias option as AMID μ 0.33° with σ 0.5°, and DST μ
+    4.4e-7 m^-1 with σ 0, which is term for term the `iscwsa:MWD_bias_Rev0` sheet. Table 3 cases 5 and 6 fix it.
+
+## Uncertainty at an assigned depth
+
+Table 3 also prints the "D" option: the uncertainty, and the bias, at the along-hole depth assigned to a station rather
+than at the point where the survey was taken (cases 4 and 6). It is a calculation option of the vector, not a property of
+the model; a vector case with `depth: assigned` asks for it.
+
+- At the station of interest only, the vector error loses σ · w_D · v, where w_D is the term's depth weight there and v
+  the along-hole unit vector (A-20); the bias vector loses μ · w_D · v (A-22). The errors at the stations before it are
+  unchanged (A-21, A-23). A term with no depth weight is unaffected.

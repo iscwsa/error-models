@@ -103,12 +103,13 @@ def read_vectors(path: Path) -> VectorSet:
 def tolerance(kind: str):
     """The pass rule for a vector kind, as `ok(calc, ref)` (provisional, see docs/conformance.md).
 
-    `hla`: a sigma is within max(0.5% of the reference, 0.002); pass `correlation=True` for a correlation, which is within 0.01.
+    `hla`: a sigma or bias is within max(0.5% of the reference's size, 0.002); pass `correlation=True` for a correlation,
+    which is within 0.01.
     `total_nev`: within 2 where the reference is under 200 in size, else within 1% of it (the paper's own criterion).
     """
     if kind == "hla":
         def hla(calc, ref, correlation=False):
-            limit = 0.01 if correlation else max(0.005 * ref, 0.002)
+            limit = 0.01 if correlation else max(0.005 * abs(ref), 0.002)
             return abs(calc - ref) <= limit + _SLACK
         return hla
     if kind == "total_nev":

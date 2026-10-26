@@ -115,7 +115,7 @@
 | iscwsa:MWD_AX_SAG_Rev2 | ISCWSA MWD+AX+SAG Rev2 | iscwsa:rev2 | superseded | loaded | pass (108 excluded) | — | — | — |
 | iscwsa:MWD_AX_SAG_Rev3 | ISCWSA MWD+AX+SAG Rev3 | iscwsa:rev3 | superseded | loaded | pass (108 excluded) | — | — | — |
 | iscwsa:MWD_AX_SAG_Rev3_Fl | ISCWSA MWD+AX+SAG Rev3_Fl | iscwsa:rev3 | superseded | loaded | pass (108 excluded) | — | — | — |
-| iscwsa:MWD_Rev0 | ISCWSA MWD Rev0 | iscwsa:rev0 | superseded | loaded | pass (0 excluded) | — | 5/5 | — |
+| iscwsa:MWD_Rev0 | ISCWSA MWD Rev0 | iscwsa:rev0 | superseded | loaded | pass (0 excluded) | — | 6/6 | — |
 | iscwsa:MWD_Rev1 | ISCWSA MWD Rev1 | iscwsa:rev1 | superseded | loaded | pass (0 excluded) | — | — | — |
 | iscwsa:MWD_Rev2 | ISCWSA MWD Rev2 | iscwsa:rev2 | superseded | loaded | pass (0 excluded) | — | — | — |
 | iscwsa:MWD_Rev3 | ISCWSA MWD Rev3 | iscwsa:rev3 | superseded | loaded | pass (0 excluded) | — | — | — |
@@ -126,11 +126,11 @@
 | iscwsa:MWD_SAG_Rev2 | ISCWSA MWD+SAG Rev2 | iscwsa:rev2 | superseded | loaded | pass (0 excluded) | — | — | — |
 | iscwsa:MWD_SAG_Rev3 | ISCWSA MWD+SAG Rev3 | iscwsa:rev3 | superseded | loaded | pass (0 excluded) | — | — | — |
 | iscwsa:MWD_SAG_Rev3_Fl | ISCWSA MWD+SAG Rev3_Fl | iscwsa:rev3 | superseded | loaded | pass (0 excluded) | — | — | — |
-| iscwsa:MWD_bias_Rev0 | ISCWSA MWD bias Rev0 | iscwsa:rev0 | superseded | refused (bias_terms) | — | — | — | — |
-| iscwsa:MWD_bias_Rev1 | ISCWSA MWD bias Rev1 | iscwsa:rev1 | superseded | refused (bias_terms) | — | — | — | — |
-| iscwsa:MWD_bias_Rev2 | ISCWSA MWD bias Rev2 | iscwsa:rev2 | superseded | refused (bias_terms) | — | — | — | — |
+| iscwsa:MWD_bias_Rev0 | ISCWSA MWD bias Rev0 | iscwsa:rev0 | superseded | loaded | pass (0 excluded) | — | 2/2 | — |
+| iscwsa:MWD_bias_Rev1 | ISCWSA MWD bias Rev1 | iscwsa:rev1 | superseded | loaded | pass (0 excluded) | — | — | — |
+| iscwsa:MWD_bias_Rev2 | ISCWSA MWD bias Rev2 | iscwsa:rev2 | superseded | loaded | pass (0 excluded) | — | — | — |
 
-129 models: 121 loaded, 8 refused, 0 self-check failures.
+129 models: 124 loaded, 5 refused, 0 self-check failures.
 
 ## Conformance reference models
 

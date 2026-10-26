@@ -89,6 +89,96 @@
 			]
 		},
 		{
+			"case": 4,
+			"well": 2,
+			"md_unit": "ft",
+			"depth": "assigned",
+			"legs": [
+				{
+					"model": "iscwsa:MWD_Rev0",
+					"to_md": 12500
+				}
+			],
+			"results": [
+				{
+					"md": 12500,
+					"sigma_hla": [
+						16.185,
+						29.551,
+						9.08
+					],
+					"corr_hl_ha_la": [
+						0.03,
+						-0.429,
+						0.073
+					]
+				}
+			]
+		},
+		{
+			"case": 5,
+			"well": 2,
+			"md_unit": "ft",
+			"legs": [
+				{
+					"model": "iscwsa:MWD_bias_Rev0",
+					"to_md": 12500
+				}
+			],
+			"results": [
+				{
+					"md": 12500,
+					"sigma_hla": [
+						15.71,
+						27.288,
+						8.526
+					],
+					"corr_hl_ha_la": [
+						0.05,
+						-0.607,
+						0.145
+					],
+					"bias_hla": [
+						-6.788,
+						-12.411,
+						11.698
+					]
+				}
+			]
+		},
+		{
+			"case": 6,
+			"well": 2,
+			"md_unit": "ft",
+			"depth": "assigned",
+			"legs": [
+				{
+					"model": "iscwsa:MWD_bias_Rev0",
+					"to_md": 12500
+				}
+			],
+			"results": [
+				{
+					"md": 12500,
+					"sigma_hla": [
+						15.71,
+						27.288,
+						8.419
+					],
+					"corr_hl_ha_la": [
+						0.05,
+						-0.574,
+						0.148
+					],
+					"bias_hla": [
+						-6.788,
+						-12.411,
+						-4.758
+					]
+				}
+			]
+		},
+		{
 			"case": 7,
 			"well": 3,
 			"md_unit": "m",

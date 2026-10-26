@@ -74,5 +74,10 @@
 		"kind": "hla",
 		"model": "iscwsa:MWD_AX_Rev0",
 		"file": "vectors/spe67616/table3.json"
+	},
+	{
+		"kind": "hla",
+		"model": "iscwsa:MWD_bias_Rev0",
+		"file": "vectors/spe67616/table3.json"
 	}
 ]
