@@ -16,7 +16,7 @@
 		"tags": [
 			"Example"
 		],
-		"application": "Continuous z gyro initialised from an external reference",
+		"application": "Continuous z gyro initialised from an external reference; applicable below 90 deg, where the z gyro's 1 / Cos(Inc) weight is singular (the paper prints '-')",
 		"notes": "Published example, not a tool model. Magnitudes are SPE 90408 Table D7; the depth systematic reference of Table 10 is not included."
 	},
 	"libraries": [
@@ -38,9 +38,9 @@
 			"text": "0 deg"
 		},
 		"inc_max": {
-			"value": 150,
+			"value": 89,
 			"unit": "deg",
-			"text": "150 deg"
+			"text": "89 deg"
 		},
 		"hor_ew_exclusion": {
 			"value": 0,
@@ -157,5 +157,5 @@
 		}
 	],
 	"hash_function": "SHA256",
-	"hash_value": "3b5ce0f804003ea7220896eddf36c3d7667a07310b15dd72613a05b612c3aa28"
+	"hash_value": "1a177edcfd38377914bd6865cae4411b03df666aaf830c31a1950cbef858031a"
 }

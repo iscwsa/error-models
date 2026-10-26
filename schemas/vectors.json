@@ -171,6 +171,41 @@
 						"wells"
 					],
 					"properties": {
+						"vertical_reference": {
+							"description": "Optional. A pure vertical error that has no depth / inclination / azimuth weighting function (SPE 90408 Table 10, the depth systematic reference: virtually a TVD reference error): its sigma, squared, is added to VV at every station",
+							"type": "object",
+							"required": [
+								"sigma",
+								"source",
+								"applies_to"
+							],
+							"properties": {
+								"sigma": {
+									"type": "object",
+									"required": [
+										"value",
+										"unit"
+									],
+									"properties": {
+										"value": {
+											"type": "number",
+											"exclusiveMinimum": 0
+										},
+										"unit": {
+											"const": "m"
+										}
+									},
+									"additionalProperties": false
+								},
+								"source": {
+									"type": "string"
+								},
+								"applies_to": {
+									"const": "VV"
+								}
+							},
+							"additionalProperties": false
+						},
 						"azimuth": {
 							"description": "utm_grid: azimuths are UTM grid azimuths, so the grid convergence at the well's longitude and zone applies",
 							"enum": [

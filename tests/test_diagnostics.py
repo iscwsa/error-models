@@ -104,6 +104,12 @@ def test_vector_schema_rejects_bad_vectors():
     doc = json.loads(AE.read_text(encoding="utf-8"))
     doc["kind"] = "nonsense"
     assert list(_schema_validator().iter_errors(doc))
+    doc = json.loads(AE.read_text(encoding="utf-8"))
+    doc["inputs"]["vertical_reference"]["sigma"]["value"] = 0
+    assert list(_schema_validator().iter_errors(doc))
+    doc = json.loads(AE.read_text(encoding="utf-8"))
+    del doc["inputs"]["vertical_reference"]          # optional
+    assert list(_schema_validator().iter_errors(doc)) == []
 
 
 def test_vector_counts():
@@ -121,6 +127,9 @@ def test_vector_counts():
     assert count["iscwsa:SPE90408_Ex1"] == 66 and count["iscwsa:SPE90408_Ex6"] == 90
     assert sum(count[f"iscwsa:SPE90408_Ex{i}"] for i in (2, 3, 4, 5)) == 336
     assert ae.inputs["azimuth"] == "utm_grid"
+    assert ae.inputs["vertical_reference"] == {"sigma": {"value": 0.5, "unit": "m"}, "source": "SPE 90408 Table 10",
+                                               "applies_to": "VV"}
+    assert "vertical_reference" not in t3.inputs
     assert ae.inputs["wells"] == {"1": {"lon": 2.0, "zone": 31}, "2": {"lon": -90.0, "zone": 15},
                                   "3": {"lon": 147.0, "zone": 55}}
 

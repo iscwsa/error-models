@@ -131,7 +131,7 @@ def build_model(data: dict, spec: dict, rev5: dict, library: dict) -> dict:
         ],
         "applicability": {
             "inc_min": _pv(0, "deg"),
-            "inc_max": _pv(150, "deg"),
+            "inc_max": _pv(spec.get("inc_max", 150), "deg"),
             "hor_ew_exclusion": _pv(0, "deg"),
         },
         "parameters": {"MisalignmentAlt": _pv(3, "-")},

@@ -54,7 +54,8 @@
 		{
 			"number": 2,
 			"long_name": "SPE 90408 Example Model #2: XY accelerometer, external reference, Z continuous gyro",
-			"application": "Continuous z gyro initialised from an external reference",
+			"application": "Continuous z gyro initialised from an external reference; applicable below 90 deg, where the z gyro's 1 / Cos(Inc) weight is singular (the paper prints '-')",
+			"inc_max": 89,
 			"groups": ["xy_accelerometer", "external_reference", "z_continuous_gyro", "misalignment", "depth"],
 			"gyro": {
 				"accelerometer": "xy",

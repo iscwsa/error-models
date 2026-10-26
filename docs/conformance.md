@@ -56,6 +56,10 @@ Conformance vectors let an implementation check that it evaluates a model the wa
      the print step of the sigmas. Provisional.
 4. Consumers MUST check `$schema` against the releases they support and refuse documents they do not recognise.
 
+## Vertical reference
+
+A `total_nev` vector may declare a `vertical_reference` input: a sigma (in m) that is added to VV, as sigma squared, at every station, because SPE 90408's Table 10 depth systematic reference (virtually a TVD reference error, independent of well bore direction) has no depth, inclination or azimuth weighting function. A calculation that is given no such input adds no term.
+
 ## Known misses
 
 A `total_nev` file may list `known_misses`: printed values (model, well, MD and element) that an independent calculation does

@@ -7,6 +7,14 @@
 	},
 	"inputs": {
 		"azimuth": "utm_grid",
+		"vertical_reference": {
+			"sigma": {
+				"value": 0.5,
+				"unit": "m"
+			},
+			"source": "SPE 90408 Table 10",
+			"applies_to": "VV"
+		},
 		"wells": {
 			"1": {
 				"lon": 2.0,
