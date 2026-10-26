@@ -66,7 +66,15 @@ The exponent of `^` may carry one sign (`2 ^ -2`). A parenthesised base is fine:
 | `GField` | m/s^2 | |
 | `EarthRate` | rad/s | |
 | `XCLTortuosity` | rad per m | the unit the main XCLA / XCLH text needs (it is compared with radians). The model parameter stays `{"value": 1, "unit": "deg/100ft"}` and an engine converts it (1 deg/100 ft = pi/180/30.48 rad/m). An independent engine's loader converts the units `deg/100ft`, `deg/30m`, `deg/100m` and `deg/m` and refuses any other. The sheet's XCLA singularity text multiplies it by `RAD` as if it were deg per m; that is a proposed erratum (`tools/errata.json`, rows E5 and E6 of [`deviations.md`](deviations.md)) |
-| `NoiseReductionFactor`, `GXYRunningSpeed`, `GZRunningSpeed`, `XY_Gyro_Drift`, `XY_Gyro_Random_Walk`, `Z_Gyro_Drift` | as defined by the model | |
+| `NoiseReductionFactor` | none | 1 at a station in stationary gyro mode; the model's `gyro.init_factor` where a stationary term is evaluated for an initialisation. If the model gives no `init_factor`, it is 1. Basis: SPE 90408 Tables 3 and 4, note 3 |
+| `GXYRunningSpeed`, `GZRunningSpeed`, `GXYZRunningSpeed` | m/hr | the `gyro_speed` of the model's continuous gyro block with those axes (`xy`, `z`, `xyz`), as the continuous-mode terms of SPE 90408 Tables 6, 7 and 8 use it. A continuous term whose model has no block with its axes is refused, never given a default speed |
+| `XY_Gyro_Drift`, `XY_Gyro_Random_Walk` | as the term's units | accumulators of the two-axis (xy) continuous gyro terms (SPE 90408 Table 7). Each is the term's own value at the previous station of the same continuous run: 0 at the initialisation station, and kept unchanged while another continuous mode runs |
+| `Z_Gyro_Drift`, `Z_Gyro_Random_Walk` | as the term's units | the same for the z-axis continuous gyro terms (SPE 90408 Table 8) |
+| `XYZ_Gyro_Drift`, `XYZ_Gyro_Random_Walk` | as the term's units | the same for the three-axis (xyz) continuous gyro terms (SPE 90408 Table 6) |
+| `IncCant` | rad | the inclination seen by a canted xy accelerometer: `Inc - k * Cant`, with `Cant` the model's `gyro.accelerometer_cant` and k = -1 when `gyro.cant_switching` is true and `Inc` is above 90°, k = 1 otherwise. With no cant given it equals `Inc`. Basis: SPE 90408 Table 2 |
+
+A continuous term's gyro axes and kind (drift or random walk) are those of the one accumulator its azimuth formula names;
+`continuous_kind` in `tools/formula.py` returns them.
 
 ## Aliases
 

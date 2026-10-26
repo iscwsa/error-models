@@ -39,7 +39,7 @@ capability MUST refuse the library, and every model that uses it.
 | Capability | Meaning |
 |------------|---------|
 | `xcl_position_direct` | The library's formulas use the previous-station variables `MDPrev`, `IncPrev` and `AzPrev`, and the XCLA and XCLH weighting functions are evaluated as position-direct (tangential) terms, as the XCL Supplement r16 describes, not through the usual weighting-function derivative matrices. |
-| `gyro_modes` | The term needs the gyro survey modes (stationary and continuous gyro runs, and the initialisation they use). The terms are the 15 that appear only on the `Tool Type: Gyro` sheets. An engine without them MUST refuse a model that uses one of these terms. |
+| `gyro_modes` | The term needs the survey-mode switching of SPE 90408 Fig. C1, as `propagation.md` describes. The terms are the 15 that appear only on the `Tool Type: Gyro` sheets. An engine without them MUST refuse a model that uses one of these terms. |
 | `bias_terms` | The term has propagation `Bias` (the SPE 67616 bias terms `DSTB` and `AMIB` in the ISCWSA MWD bias sheets). A bias term shifts the expected position; it does not add covariance. An engine that cannot apply it MUST refuse a model that uses it. |
 
 ## Vertical stations

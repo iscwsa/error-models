@@ -26,6 +26,7 @@ SCHEMA_BASE = "https://raw.githubusercontent.com/iscwsa/error-models/main/schema
 ERRATA_FILE = Path(__file__).resolve().parent / "errata.json"
 TERM_REQUIRES_FILE = Path(__file__).resolve().parent / "term_requires.json"
 TERM_GROUPS_FILE = Path(__file__).resolve().parent / "term_groups.json"
+TERM_GYRO_FILE = Path(__file__).resolve().parent / "term_gyro.json"
 # SheetTerm attribute -> weighting function field
 _FORMULA_FIELDS = {
     "depth": "depth",
@@ -135,6 +136,7 @@ def build_library(library_id: str, sheets: list[Sheet], errata: list[dict], grou
     """One library from its sheets. `log` receives a line for each wf_comment/wf_source conflict (first one kept)."""
     if term_requires is None:
         term_requires = json.loads(TERM_REQUIRES_FILE.read_text(encoding="utf-8"))
+    term_gyro = json.loads(TERM_GYRO_FILE.read_text(encoding="utf-8"))  # SPE 90408 table -> mode and init
     logged: set[tuple[str, str, str]] = set()
     wfs: dict[str, dict] = {}
     raws: dict[str, dict[str, str]] = {}
@@ -175,6 +177,7 @@ def build_library(library_id: str, sheets: list[Sheet], errata: list[dict], grou
             }
             if t.code in term_requires:
                 term["requires"] = list(term_requires[t.code])
+            term.update(term_gyro.get(wfs[t.wf_id]["source"], {}))
             if t.code in terms and terms[t.code] != term:
                 raise ExtractError(f"term {t.code!r} is defined differently on different sheets")
             terms[t.code] = term

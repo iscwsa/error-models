@@ -1277,7 +1277,9 @@
 			"requires": [
 				"gyro_modes"
 			],
-			"hash_value": "66d5b814c97a6803da4bea0d0f20da609e88c7e65e70e595cad66dbcf81f3844"
+			"mode": "stationary",
+			"init": true,
+			"hash_value": "6ee83f6ef6910b5c5bc5499c372274427212f212195f8cd1bfadd93b6327adb0"
 		},
 		"GXY-B2R": {
 			"description": "Gyro: 2-Axis XY Gyro Bias 2 - Random",
@@ -1289,7 +1291,9 @@
 			"requires": [
 				"gyro_modes"
 			],
-			"hash_value": "c6062f9b61e43a6897798ac38877de787df81e8a2abebae7e13df316a43becaf"
+			"mode": "stationary",
+			"init": true,
+			"hash_value": "7e2ce074b37551c2cfe9c0fb5d36ff3b8f82b330e45ce514f6206b888207466b"
 		},
 		"GXY-G1": {
 			"description": "Gyro: 2-Axis XY Gyro g-dep Error 1",
@@ -1301,7 +1305,9 @@
 			"requires": [
 				"gyro_modes"
 			],
-			"hash_value": "15a8e07604a9c7f91b8990fbb2ec2b48c6fb8f3e250981be057b1237a69e3fe3"
+			"mode": "stationary",
+			"init": true,
+			"hash_value": "1194308a183f0072b91d5945fff268bab9d7fbae62a76b111c40b64588632161"
 		},
 		"GXY-G4": {
 			"description": "Gyro: 2-Axis XY Gyro g-dep Error 4",
@@ -1313,7 +1319,9 @@
 			"requires": [
 				"gyro_modes"
 			],
-			"hash_value": "584a417a4c2112b0d03b717e23b433e8f33945a33133fb43086b16e581186f57"
+			"mode": "stationary",
+			"init": true,
+			"hash_value": "d336b7989c36fcbb44dc9f4ce98725a52fc0c16b9078e388c7e781cb98d5dde0"
 		},
 		"GXY-RN": {
 			"description": "Gyro: 2-Axis XY Gyro Random Noise",
@@ -1325,7 +1333,9 @@
 			"requires": [
 				"gyro_modes"
 			],
-			"hash_value": "5a64dd1f663a2332b8386ea6028092764d67703ece5ad8ecbfca48741c00b313"
+			"mode": "stationary",
+			"init": true,
+			"hash_value": "19e69151051351cfbcee4b49ccfefd9cd7b0763d4e0c8302652ccc184e2f2f89"
 		},
 		"GXY-B1S": {
 			"description": "Gyro: 2-Axis XY Gyro Bias 1 - Systematic",
@@ -1337,7 +1347,9 @@
 			"requires": [
 				"gyro_modes"
 			],
-			"hash_value": "c6a55c5ae136d4652fce59fb8fa2a419c383419ab8f8189fbf5bda9f384c2f92"
+			"mode": "stationary",
+			"init": true,
+			"hash_value": "f6b522aa475917067939304160de956caf24273a65871d4dcbd3b151c7d83f4d"
 		},
 		"GXY-B2S": {
 			"description": "Gyro: 2-Axis XY Gyro Bias 2 - Systematic",
@@ -1349,7 +1361,9 @@
 			"requires": [
 				"gyro_modes"
 			],
-			"hash_value": "c50ce0e6c842001b096218aea09d3a109f085c32fb7e1438b36921809e90100d"
+			"mode": "stationary",
+			"init": true,
+			"hash_value": "18670074bdc9c789e3cc4dbd8342bec4165f4ad5a7841f3fe70218643f6c5962"
 		},
 		"GXY-GD": {
 			"description": "Gyro: 2-Axis XY Gyro - Continuous Survey Gyro Drift",
@@ -1361,7 +1375,9 @@
 			"requires": [
 				"gyro_modes"
 			],
-			"hash_value": "b3873f3976f529a76d7793adfb28037233bea12f10c5720302cf905c89492013"
+			"mode": "continuous",
+			"init": false,
+			"hash_value": "5fc60339c8c750dcd23be7faa147164b650fc4a01f4c815323fa6ee9802b26a6"
 		},
 		"GXY-GRW": {
 			"description": "Gyro: 2-Axis XY Gyro - Continuous Survey Random Walk",
@@ -1373,7 +1389,9 @@
 			"requires": [
 				"gyro_modes"
 			],
-			"hash_value": "08c5b65301ef4a81b6978f1403e06e39577b84506aab9ba43bc61f262a7208bf"
+			"mode": "continuous",
+			"init": false,
+			"hash_value": "58e12c9ef288c55b005c6b9de6a3df768f9c6d26e6f3eb271d717101e1850076"
 		},
 		"EXT-REF": {
 			"description": "Gyro: External Reference - External Reference error",
@@ -1385,7 +1403,9 @@
 			"requires": [
 				"gyro_modes"
 			],
-			"hash_value": "6654bb26cd6e55c26f68f51591084a5ba66b0b6a18d51c21dece0582e7217003"
+			"mode": "stationary",
+			"init": true,
+			"hash_value": "d3bf8aede9207978464e26da87f2eddd3541fcfb32e4fe67a390010e15a74611"
 		},
 		"GZ-GD": {
 			"description": "Gyro: Z-Axis Gyro - Continuous Survey Gyro Drift",
@@ -1397,7 +1417,9 @@
 			"requires": [
 				"gyro_modes"
 			],
-			"hash_value": "35302607608d27c86a9d163914a108afaae4ce3ba48aab1613b97357e0763746"
+			"mode": "continuous",
+			"init": false,
+			"hash_value": "e946cd70002736c59419d3e314e9e214269cffa836ea14e307d7baf2461c6100"
 		},
 		"DSTS": {
 			"description": "Depth: Depth Stretch - Systematic",
@@ -1485,7 +1507,7 @@
 		}
 	},
 	"hash_function": "SHA256",
-	"hash_value": "c251a379c03c814bb4a198c576a11a4b30debf886bf7299116a0c214ca386596",
+	"hash_value": "5dcc49c8fc45aac90dd94fda894441f042d48b0c4d07466b2f893476e8ec3ed3",
 	"term_groups": [
 		{
 			"terms": [

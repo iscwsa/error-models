@@ -17,10 +17,11 @@ from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
 from referencing.jsonschema import DRAFT202012
 
-from tools.formula import VARIABLES, FormulaError, parse
+from tools.formula import VARIABLES, FormulaError, continuous_kind, parse
 from tools.identity import content_hash, entry_hash, entry_uuid, library_uuid, model_uuid
 
 PACKAGE_ROOT = Path(__file__).resolve().parent.parent
+TERM_GYRO = json.loads((Path(__file__).resolve().parent / "term_gyro.json").read_text(encoding="utf-8"))
 NAMESPACE_RE = re.compile(r"^[a-z][a-z0-9_]{1,31}$")
 SCHEMA_URL_RE = re.compile(
     r"^https://raw\.githubusercontent\.com/iscwsa/error-models/([^/]+)/schemas/(model|library)\.json$"
@@ -165,6 +166,13 @@ def _check_library(doc, rel, problems):
     for key, term in terms.items():
         if term["weighting_function"] not in wfs:
             problems.append(Problem("WF_MISSING", rel, f"terms/{key}: weighting function {term['weighting_function']!r} not in library"))
+            continue
+        source = wfs[term["weighting_function"]].get("source", "")
+        want = TERM_GYRO.get(source, {})
+        if (term.get("mode"), term.get("init")) != (want.get("mode"), want.get("init")):
+            problems.append(Problem(
+                "GYRO_SOURCE", rel,
+                f"terms/{key}: mode {term.get('mode')!r}, init {term.get('init')!r} disagree with its source {source!r}"))
     union = {cap for term in terms.values() for cap in term.get("requires", [])}
     if set(doc["requires"]) != union:
         problems.append(Problem("REQUIRES_MISMATCH", rel, f"requires {sorted(doc['requires'])} but terms need {sorted(union)}"))
@@ -208,6 +216,49 @@ def _check_groups(rel, model_terms, referenced, problems):
                 problems.append(Problem("GROUP_MISMATCH", rel, f"{where}: members have different propagations"))
 
 
+def _check_gyro(doc, rel, referenced, problems):
+    """The model's gyro block against the mode terms it uses: ranges, init, and the axes each continuous term needs."""
+    mode_terms = []  # (name, library term, weighting function)
+    for term in doc["terms"]:
+        tns, key = _split_name(term["term"])
+        for lib in referenced:
+            entry = lib["terms"].get(key) if lib["library_id"].split(":", 1)[0] == tns else None
+            if entry is not None and "mode" in entry:
+                mode_terms.append((term["term"], entry, lib["weighting_functions"].get(entry["weighting_function"])))
+    gyro = doc.get("gyro")
+    if gyro is None:
+        if mode_terms:
+            problems.append(Problem("GYRO_BLOCK_MISSING", rel, f"{mode_terms[0][0]!r} has a survey mode but the model has no gyro block"))
+        return
+    stationary = [("stationary", gyro["stationary"])] if "stationary" in gyro else []
+    blocks = stationary + [(f"continuous {b['axes']}", b) for b in gyro.get("continuous", [])]
+    ranges = []
+    for label, b in blocks:
+        start, end = b["start_inc"]["value"], b["end_inc"]["value"]
+        if start >= end:
+            problems.append(Problem("GYRO_RANGE", rel, f"gyro {label}: start inclination {start} is not below end {end}"))
+        else:
+            ranges.append((label, start, end))
+    for i, (la, sa, ea) in enumerate(ranges):
+        for lb, sb, eb in ranges[i + 1:]:
+            if sa < eb and sb < ea:
+                problems.append(Problem("GYRO_RANGE", rel, f"gyro {la} ({sa}-{ea}) overlaps {lb} ({sb}-{eb})"))
+    continuous = gyro.get("continuous", [])
+    if len({b["init_inc"]["value"] for b in continuous}) > 1:
+        problems.append(Problem("GYRO_INIT_MISMATCH", rel, "continuous gyro blocks have different init_inc"))
+    have = {b["axes"] for b in continuous}
+    for name, entry, wf in mode_terms:
+        if entry["mode"] != "continuous" or wf is None:
+            continue
+        try:
+            axes, _ = continuous_kind(wf["azimuth"])
+        except FormulaError as exc:
+            problems.append(Problem("FORMULA", rel, f"{name}: {exc}"))
+            continue
+        if axes not in have:
+            problems.append(Problem("GYRO_AXES_MISSING", rel, f"{name} needs a continuous {axes} block; the model has {sorted(have) or 'none'}"))
+
+
 def _check_model(doc, rel, libraries, releases, own_release, problems):
     model_id = doc["metadata"]["model_id"]
     ns, _, name = model_id.partition(":")
@@ -248,6 +299,7 @@ def _check_model(doc, rel, libraries, releases, own_release, problems):
     for term in doc["terms"]:
         model_terms.setdefault(_split_name(term["term"]), term["magnitude"])
     _check_groups(rel, model_terms, referenced, problems)
+    _check_gyro(doc, rel, referenced, problems)
 
 
 def validate_repo(root: Path, registry_check: bool = False) -> list[Problem]:

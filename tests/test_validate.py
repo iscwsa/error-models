@@ -400,3 +400,66 @@ def test_ambiguous_term(repo):
     problems = validate_repo(repo)
     assert [p.code for p in problems] == ["AMBIGUOUS_TERM"]
     assert "DREF" in problems[0].detail
+
+
+# ---- gyro checks ----
+def _gyro_repo(tmp_path, model_edit):
+    """A021Gc and the libraries it names, copied to tmp_path, with `model_edit` applied to the model."""
+    shutil.copy(ROOT / "namespaces.json", tmp_path / "namespaces.json")
+    shutil.copytree(ROOT / "library", tmp_path / "library")
+    write(tmp_path, "models/generic_iscwsa/A021Gc.json",
+          json.loads((ROOT / "models/generic_iscwsa/A021Gc.json").read_text(encoding="utf-8")))
+    edit(tmp_path, "models/generic_iscwsa/A021Gc.json", model_edit)
+    return tmp_path
+
+
+def _gyro_codes(tmp_path, model_edit):
+    root = _gyro_repo(tmp_path, model_edit)
+    return sorted({p.code for p in validate_repo(root) if p.code != "ERRATA_PROPOSED"})
+
+
+def _pv(value, unit="deg"):
+    return {"value": value, "unit": unit, "text": f"{value} {unit}"}
+
+
+def test_gyro_fixture_is_clean(tmp_path):
+    assert _gyro_codes(tmp_path, lambda d: None) == []
+
+
+def test_validator_gyro_errors(tmp_path_factory):
+    def tmp():
+        return tmp_path_factory.mktemp("gyro")
+
+    def start_10(d):
+        d["gyro"]["continuous"][0]["start_inc"] = _pv(10)
+
+    def reversed_range(d):
+        d["gyro"]["stationary"]["start_inc"] = _pv(20)
+
+    def init_20(d):
+        speed = d["gyro"]["continuous"][0]["gyro_speed"]
+        d["gyro"]["continuous"] = [
+            {"axes": "xy", "start_inc": _pv(15), "end_inc": _pv(80), "init_inc": _pv(15), "gyro_speed": speed},
+            {"axes": "z", "start_inc": _pv(80), "end_inc": _pv(150), "init_inc": _pv(20), "gyro_speed": speed},
+        ]
+
+    def no_gyro(d):
+        del d["gyro"]
+
+    def add_gz(d):
+        d["terms"].append({"term": "GZ-GD", "magnitude": 0.1})
+
+    assert _gyro_codes(tmp(), start_10) == ["GYRO_RANGE"]
+    assert _gyro_codes(tmp(), reversed_range) == ["GYRO_RANGE"]
+    assert _gyro_codes(tmp(), init_20) == ["GYRO_INIT_MISMATCH"]
+    assert _gyro_codes(tmp(), no_gyro) == ["GYRO_BLOCK_MISSING"]
+    assert _gyro_codes(tmp(), add_gz) == ["GYRO_AXES_MISSING"]
+
+
+def test_gyro_source_mismatch(tmp_path):
+    root = _gyro_repo(tmp_path, lambda d: None)
+
+    def wrong(d):
+        d["terms"]["GXY-GD"]["mode"] = "stationary"
+    edit(root, "library/iscwsa/rev5.json", wrong)
+    assert "GYRO_SOURCE" in {p.code for p in validate_repo(root)}

@@ -1,4 +1,5 @@
 # This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.
+import json
 import math
 import os
 from pathlib import Path
@@ -165,3 +166,23 @@ def test_ascii_digits_only():
         parse("\u0661")
     with pytest.raises(FormulaError):
         parse("1.\u0661")
+
+
+def test_continuous_kind():
+    from tools.formula import continuous_kind
+    rev5 = json.loads((Path(__file__).resolve().parent.parent / "library/iscwsa/rev5.json").read_text(encoding="utf-8"))
+    wfs = rev5["weighting_functions"]
+    assert continuous_kind(wfs["GXY-GD"]["azimuth"]) == ("xy", "drift")
+    assert continuous_kind(wfs["GXY-GRW"]["azimuth"]) == ("xy", "random_walk")
+    assert continuous_kind(wfs["GZ-GD"]["azimuth"]) == ("z", "drift")
+    with pytest.raises(FormulaError):
+        continuous_kind("XY_Gyro_Drift + Z_Gyro_Drift")
+    with pytest.raises(FormulaError):
+        continuous_kind("MD / GXYRunningSpeed")
+
+
+def test_gyro_variables_known():
+    from tools.formula import ACCUMULATORS
+    assert ACCUMULATORS["XYZ_Gyro_Random_Walk"] == ("xyz", "random_walk")
+    assert set(ACCUMULATORS) <= VARIABLES
+    assert {"GXYRunningSpeed", "GZRunningSpeed", "GXYZRunningSpeed", "NoiseReductionFactor", "IncCant"} <= VARIABLES

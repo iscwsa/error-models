@@ -23,11 +23,20 @@ ALIASES: dict[str, str] = {
 }
 FUNCTIONS = {"Sin", "Cos", "Tan", "Abs", "Sqrt", "Max", "Min"}
 CONSTANTS = {"Pi": math.pi, "RAD": math.pi / 180}
+# Continuous-gyro accumulators: name -> (gyro axes, kind). Each is the term's own value at the previous station
+# of its continuous run, so a formula naming one fixes the axes and the kind of the continuous mode it needs.
+ACCUMULATORS: dict[str, tuple[str, str]] = {
+    "XY_Gyro_Drift": ("xy", "drift"),
+    "XY_Gyro_Random_Walk": ("xy", "random_walk"),
+    "Z_Gyro_Drift": ("z", "drift"),
+    "Z_Gyro_Random_Walk": ("z", "random_walk"),
+    "XYZ_Gyro_Drift": ("xyz", "drift"),
+    "XYZ_Gyro_Random_Walk": ("xyz", "random_walk"),
+}
 VARIABLES: frozenset[str] = frozenset(
     "Inc Az AzT AzM MD TVD TF MDPrev IncPrev AzPrev Dip BField GField Lat EarthRate "
-    "XCLTortuosity NoiseReductionFactor GXYRunningSpeed GZRunningSpeed "
-    "XY_Gyro_Drift XY_Gyro_Random_Walk Z_Gyro_Drift".split()
-)
+    "XCLTortuosity NoiseReductionFactor GXYRunningSpeed GZRunningSpeed GXYZRunningSpeed IncCant".split()
+) | frozenset(ACCUMULATORS)
 _MIN_ARGS = {"Sin": 1, "Cos": 1, "Tan": 1, "Abs": 1, "Sqrt": 1, "Max": 2, "Min": 2}
 MAX_DEPTH = 200  # cap on nesting of parentheses, calls and unary signs
 _MAX_ARGS = {"Sin": 1, "Cos": 1, "Tan": 1, "Abs": 1, "Sqrt": 1}
@@ -401,3 +410,14 @@ def parse(text: str, allowed: frozenset[str] | None = None) -> Node:
 
 def canonical(text: str) -> str:
     return parse(text).render()
+
+
+def continuous_kind(azimuth_text: str) -> tuple[str, str]:
+    """(axes, kind) of the continuous gyro mode a term's azimuth formula needs, from its one accumulator.
+
+    Raises FormulaError unless the formula uses exactly one of the ACCUMULATORS.
+    """
+    used = sorted(parse(azimuth_text).identifiers() & ACCUMULATORS.keys())
+    if len(used) != 1:
+        raise FormulaError(f"a continuous gyro formula must use exactly one accumulator, found {used or 'none'}")
+    return ACCUMULATORS[used[0]]

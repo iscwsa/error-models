@@ -52,3 +52,14 @@ def test_no_internal_names_or_stale_wording():
         if f.resolve() != this:
             assert not label.search(f.read_text(encoding="utf-8")), f
     assert "finding under review" not in (ROOT / "tools" / "errata.json").read_text(encoding="utf-8")
+
+
+def test_grammar_lists_gyro_variables():
+    from tools.formula import ACCUMULATORS
+    text = (ROOT / "docs" / "grammar.md").read_text(encoding="utf-8")
+    section = text.split("## Variables", 1)[1].split("## Aliases", 1)[0]
+    rows = {m.group(1) for row in section.splitlines() if row.startswith("|")
+            for m in re.finditer(r"`([A-Za-z_]+)`", row.split("|")[1])}
+    for name in [*ACCUMULATORS, "GXYRunningSpeed", "GZRunningSpeed", "GXYZRunningSpeed", "NoiseReductionFactor", "IncCant"]:
+        assert name in rows, name
+    assert "init_factor" in section and "SPE 90408" in section

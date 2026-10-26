@@ -470,3 +470,24 @@ def test_unknown_label_in_gyro_block_rejected(all_sheets):
             gyro_block(sheet)
     finally:
         del sheet.tool_params[3]
+
+
+def test_gyro_mode_from_source(libraries):
+    libs, _ = libraries
+    spec = json.loads((ROOT / "tools/term_gyro.json").read_text(encoding="utf-8"))
+    assert spec["SPE 90408 Table 4"] == {"mode": "stationary", "init": True}
+    assert spec["SPE 90408 Table 7"] == {"mode": "continuous", "init": False}
+    n = 0
+    for lib in libs.values():
+        for code, term in lib["terms"].items():
+            source = lib["weighting_functions"][term["weighting_function"]]["source"]
+            want = spec.get(source, {})
+            assert term.get("mode") == want.get("mode"), (lib["library_id"], code)
+            assert term.get("init") == want.get("init"), (lib["library_id"], code)
+            n += bool(want)
+    assert n == 11
+    rev5 = libs["iscwsa:rev5"]["terms"]
+    assert all(rev5[c]["mode"] == "stationary" and rev5[c]["init"] is True
+               for c in "GXY-B1S GXY-B1R GXY-B2S GXY-B2R GXY-G1 GXY-G4 GXY-RN EXT-REF".split())
+    assert all(rev5[c]["mode"] == "continuous" and rev5[c]["init"] is False for c in "GXY-GD GXY-GRW GZ-GD".split())
+    assert "mode" not in rev5["AXYZ-SF"] and "mode" not in rev5["XYM1"]
