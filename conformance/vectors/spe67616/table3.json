@@ -1,0 +1,152 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/vectors.json",
+	"kind": "hla",
+	"source": {
+		"paper": "SPE 67616 (Williamson, 2000)",
+		"table": "Table 3"
+	},
+	"inputs": {
+		"tie_on": "zero_uncertainty",
+		"toolface": "borehole"
+	},
+	"cases": [
+		{
+			"case": 1,
+			"well": 1,
+			"md_unit": "m",
+			"legs": [
+				{
+					"model": "iscwsa:MWD_Rev0",
+					"to_md": 8000
+				}
+			],
+			"results": [
+				{
+					"md": 8000,
+					"sigma_hla": [
+						20.116,
+						84.342,
+						8.626
+					],
+					"corr_hl_ha_la": [
+						-0.016,
+						0.676,
+						-0.004
+					]
+				}
+			]
+		},
+		{
+			"case": 2,
+			"well": 1,
+			"md_unit": "m",
+			"legs": [
+				{
+					"model": "iscwsa:MWD_AX_Rev0",
+					"to_md": 8000
+				}
+			],
+			"results": [
+				{
+					"md": 8000,
+					"sigma_hla": [
+						20.116,
+						196.39,
+						8.626
+					],
+					"corr_hl_ha_la": [
+						-0.005,
+						0.676,
+						-0.005
+					]
+				}
+			]
+		},
+		{
+			"case": 3,
+			"well": 2,
+			"md_unit": "ft",
+			"legs": [
+				{
+					"model": "iscwsa:MWD_Rev0",
+					"to_md": 12500
+				}
+			],
+			"results": [
+				{
+					"md": 12500,
+					"sigma_hla": [
+						16.185,
+						29.551,
+						10.057
+					],
+					"corr_hl_ha_la": [
+						0.03,
+						-0.613,
+						0.049
+					]
+				}
+			]
+		},
+		{
+			"case": 7,
+			"well": 3,
+			"md_unit": "m",
+			"legs": [
+				{
+					"model": "iscwsa:MWD_Rev0",
+					"to_md": 1380
+				},
+				{
+					"model": "iscwsa:MWD_AX_Rev0",
+					"to_md": 3000
+				},
+				{
+					"model": "iscwsa:MWD_Rev0",
+					"to_md": 4030
+				}
+			],
+			"results": [
+				{
+					"md": 1380,
+					"sigma_hla": [
+						2.013,
+						4.703,
+						0.919
+					],
+					"corr_hl_ha_la": [
+						-0.007,
+						0.633,
+						-0.006
+					]
+				},
+				{
+					"md": 3000,
+					"sigma_hla": [
+						3.239,
+						3.646,
+						7.89
+					],
+					"corr_hl_ha_la": [
+						-0.172,
+						0.623,
+						-0.665
+					]
+				},
+				{
+					"md": 4030,
+					"sigma_hla": [
+						5.604,
+						5.892,
+						9.594
+					],
+					"corr_hl_ha_la": [
+						-0.18,
+						-0.59,
+						0.302
+					]
+				}
+			]
+		}
+	]
+}

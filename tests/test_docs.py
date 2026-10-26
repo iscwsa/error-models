@@ -63,3 +63,12 @@ def test_grammar_lists_gyro_variables():
     for name in [*ACCUMULATORS, "GXYRunningSpeed", "GZRunningSpeed", "GXYZRunningSpeed", "NoiseReductionFactor", "IncCant"]:
         assert name in rows, name
     assert "init_factor" in section and "SPE 90408" in section
+
+
+def test_conformance_doc_lists_kinds():
+    text = (ROOT / "docs" / "conformance.md").read_text(encoding="utf-8")
+    for kind in ("per_term_nev", "total_nev", "hla"):
+        assert f"`{kind}`" in text
+    assert "zero_uncertainty" in text
+    assert "known_misses" in text
+    assert "Known misses" in text
