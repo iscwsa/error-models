@@ -491,3 +491,17 @@ def test_gyro_mode_from_source(libraries):
                for c in "GXY-B1S GXY-B1R GXY-B2S GXY-B2R GXY-G1 GXY-G4 GXY-RN EXT-REF".split())
     assert all(rev5[c]["mode"] == "continuous" and rev5[c]["init"] is False for c in "GXY-GD GXY-GRW GZ-GD".split())
     assert "mode" not in rev5["AXYZ-SF"] and "mode" not in rev5["XYM1"]
+
+
+def test_extract_check_detects_drift(tmp_path):
+    """--check rebuilds every file in memory: clean on the committed tree, and a changed magnitude in a copy is named."""
+    from tools.extract_xlsx import check
+    assert check(Path(WB_DIR), ROOT) == []
+    for d in ("library", "models"):
+        shutil.copytree(ROOT / d, tmp_path / d)
+    path = tmp_path / "models" / "iscwsa" / "MWD_Rev0.json"
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    doc["terms"][0]["magnitude"] += 1
+    path.write_text(json.dumps(doc, indent="\t", ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+    assert check(Path(WB_DIR), tmp_path) == ["models/iscwsa/MWD_Rev0.json"]
+    assert main(["--workbooks", WB_DIR, "--check", "--out", str(tmp_path)]) == 1
