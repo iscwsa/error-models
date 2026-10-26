@@ -5,6 +5,14 @@
 
 ## Unreleased
 
+### Added (IPM conversion)
+
+- `tools/ipm.py`, `tools/ipm2json.py` and `tools/json2ipm.py`: Compass IPM files to and from the JSON format, for the subset in the new `docs/ipm.md`. Anything outside it stops the run with the construct named, and `ipm2json` writes nothing unless the whole file converts and validates.
+- An IPM source becomes the ISCWSA library term of the same name when its propagation, formulas and weights match; otherwise a term of a vendor library that extends the ISCWSA library.
+- 27 of the 129 models convert to IPM and back unchanged; the others need `XCLTortuosity` (89), gyro survey modes (10) or bias terms (3).
+- `schemas/model.json`: `origin` may also be a converted file (`file`, `sha256`) instead of a workbook sheet.
+- Test fixtures in `tests/fixtures/ipm/`, written from public ISCWSA models or by hand.
+
 ### Added (survey bias, assigned depth)
 
 - SPE 67616 Table 3 cases 4 to 6 in `conformance/vectors/spe67616/table3.json`: the uncertainty at the assigned depth (case `depth: assigned`) and the survey bias (result `bias_hla`, model `iscwsa:MWD_bias_Rev0`, new in the manifest). `schemas/vectors.json` gains both optional fields.

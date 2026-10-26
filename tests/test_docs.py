@@ -155,6 +155,34 @@ def test_no_internal_labels():
             assert not m, (f, m.group(0))
 
 
+def test_ipm_doc_sections():
+    text = (ROOT / "docs" / "ipm.md").read_text(encoding="utf-8")
+    assert re.findall(r"^## (.+)$", text, re.M) == [
+        "Subset", "Constants", "Units", "Vectors", "Matching ISCWSA terms", "Metadata", "JSON to IPM",
+        "Propagation in Compass", "Not converted"]
+
+
+def test_ipm_doc_no_quotes():
+    """docs/ipm.md cites the IPM guide but quotes no run of 12 or more of its words. The guide is not distributed here:
+    ISCWSA_IPM_GUIDE names a local copy of the .docx (the test skips without it)."""
+    import os
+    import zipfile
+
+    import pytest
+
+    guide = os.environ.get("ISCWSA_IPM_GUIDE")
+    if not guide:
+        pytest.skip("ISCWSA_IPM_GUIDE not set")
+    with zipfile.ZipFile(guide) as z:
+        xml = z.read("word/document.xml").decode("utf-8")
+    words = lambda s: re.findall(r"[a-z0-9]+", s.lower())
+    g = words(re.sub(r"<[^>]+>", " ", xml))
+    runs = {tuple(g[i:i + 12]) for i in range(len(g) - 11)}
+    d = words((ROOT / "docs" / "ipm.md").read_text(encoding="utf-8"))
+    quoted = [" ".join(d[i:i + 12]) for i in range(len(d) - 11) if tuple(d[i:i + 12]) in runs]
+    assert quoted == []
+
+
 def test_stale_wording_gone():
     conformance = (ROOT / "docs" / "conformance.md").read_text(encoding="utf-8")
     assert "not yet available" not in conformance and "propagation.md" in conformance
