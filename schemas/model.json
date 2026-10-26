@@ -64,6 +64,9 @@
 				"$ref": "./parameter_value.json"
 			}
 		},
+		"gyro": {
+			"$ref": "./gyro.json"
+		},
 		"terms": {
 			"type": "array",
 			"items": {

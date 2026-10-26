@@ -43,18 +43,25 @@ PARAM_NAMES = {
     "Misalignment Min Course Length": "MisalignmentMinCourseLength",
     "Misalignment Minimum Course Length": "MisalignmentMinCourseLength",
     "XCL Tortuosity": "XCLTortuosity",
-    "Start Inc": "StartInc",
-    "End Inc": "EndInc",
-    "Initialisation Inc": "InitialisationInc",
-    "Running Speed": "RunningSpeed",
-    "Min Dist Between Inits": "MinDistBetweenInits",
-    "Noise Reduction Factor": "NoiseReductionFactor",
-    "XYZ Accelerometer": "XYZAccelerometer",
-    "XY Static Gyro": "XYStaticGyro",
-    "XY Continuous Gyro": "XYContinuousGyro",
-    "Z Continuous Gyro": "ZContinuousGyro",
-    "External Ref": "ExternalRef",
 }
+# gyro survey-mode labels: a mode header opens a block; the per-mode labels that follow belong to it
+_GYRO_MODES = {
+    "XY Static Gyro": ("stationary", "xy"),
+    "XYZ Static Gyro": ("stationary", "xyz"),
+    "XY Continuous Gyro": ("continuous", "xy"),
+    "Z Continuous Gyro": ("continuous", "z"),
+    "XYZ Continuous Gyro": ("continuous", "xyz"),
+}
+_GYRO_BLOCK_FIELDS = {
+    "Start Inc": "start_inc",
+    "End Inc": "end_inc",
+    "Initialisation Inc": "init_inc",
+    "Running Speed": "gyro_speed",
+}
+_GYRO_MODEL_FIELDS = {"Min Dist Between Inits": "min_distance", "Noise Reduction Factor": "init_factor"}
+GYRO_LABELS = frozenset(
+    {*_GYRO_MODES, *_GYRO_BLOCK_FIELDS, *_GYRO_MODEL_FIELDS, "XYZ Accelerometer", "External Ref"}
+)
 _FRAMEWORKS = {"iscwsa:rot6axis": "ISCWSA RCS", **{f"iscwsa:rev{n}": f"ISCWSA Rev{n}" for n in range(6)}}
 _QUALIFIED = re.compile(r"[A-Za-z0-9_]+:[A-Za-z0-9_]+")
 
@@ -234,6 +241,67 @@ def _param_key(label: str, sheet: Sheet) -> str:
         raise ExtractError(f"sheet {sheet.name!r}: unknown tool parameter label {label!r}") from None
 
 
+def _flag(value, label: str, sheet: Sheet) -> bool:
+    flag = parse_param(value)["value"]
+    if not isinstance(flag, bool):
+        raise ExtractError(f"sheet {sheet.name!r}: {label!r} is {value!r}, not True or False")
+    return flag
+
+
+def gyro_block(sheet: Sheet) -> dict | None:
+    """The sheet's gyro survey modes as a model `gyro` object; None when it has no gyro mode or external reference.
+
+    A mode header ("XY Static Gyro: True", ...) opens a block and the Start Inc / End Inc / Initialisation Inc /
+    Running Speed labels after it belong to that block, so a sheet with two modes keeps both ranges. A header whose
+    value is False opens no block. An unknown label inside a gyro block raises ExtractError.
+    """
+    if not any(label in GYRO_LABELS for label, _ in sheet.tool_params):
+        return None
+    gyro: dict = {}
+    blocks: list[tuple[str, dict]] = []
+    current: dict | None = None
+    for label, value in sheet.tool_params:
+        if label in _GYRO_MODES:
+            kind, axes = _GYRO_MODES[label]
+            current = {"axes": axes} if _flag(value, label, sheet) else None
+            if current is not None:
+                blocks.append((kind, current))
+        elif label in _GYRO_BLOCK_FIELDS:
+            field = _GYRO_BLOCK_FIELDS[label]
+            if current is None:
+                raise ExtractError(f"sheet {sheet.name!r}: {label!r} is not inside a gyro mode block")
+            if field in current or (field == "gyro_speed" and blocks[-1][0] != "continuous"):
+                raise ExtractError(f"sheet {sheet.name!r}: {label!r} is repeated or not valid in this gyro block")
+            current[field] = parse_param(value)
+        elif label in _GYRO_MODEL_FIELDS:
+            gyro[_GYRO_MODEL_FIELDS[label]] = parse_param(value)
+        elif label == "XYZ Accelerometer":
+            gyro["accelerometer"] = "xyz" if _flag(value, label, sheet) else "xy"
+        elif label == "External Ref":
+            gyro["external_reference"] = _flag(value, label, sheet)
+        elif label in PARAM_NAMES:
+            current = None   # a model-level parameter closes the open block
+        elif current is not None:
+            raise ExtractError(f"sheet {sheet.name!r}: unknown tool parameter label {label!r} in a gyro block")
+    for kind, block in blocks:
+        required = ("start_inc", "end_inc", "init_inc") + (("gyro_speed",) if kind == "continuous" else ())
+        missing = [f for f in required if f not in block]
+        if missing:
+            raise ExtractError(f"sheet {sheet.name!r}: {kind} gyro block lacks {missing}")
+    stationary = [b for k, b in blocks if k == "stationary"]
+    if len(stationary) > 1:
+        raise ExtractError(f"sheet {sheet.name!r}: more than one stationary gyro block")
+    continuous = [b for k, b in blocks if k == "continuous"]
+    if len(continuous) > 2:
+        raise ExtractError(f"sheet {sheet.name!r}: more than two continuous gyro blocks")
+    out = {k: gyro[k] for k in ("accelerometer", "external_reference") if k in gyro}
+    if stationary:
+        out["stationary"] = stationary[0]
+    out["continuous"] = continuous
+    out.update({k: gyro[k] for k in ("min_distance", "init_factor") if k in gyro})
+    return out
+
+
 def _related(text, all_ids: set[str]) -> tuple[list[str], list[str]]:
     """Qualified repo IDs named before / after the "/" of `Replaces / Replaced By`; nothing else resolves."""
     before, _, after = str(text or "").partition("/")
@@ -278,6 +346,7 @@ def build_model(sheet: Sheet, model_id: ModelId, library: dict, all_ids: set[str
         meta["supersedes"] = supersedes
     if superseded_by:
         meta["superseded_by"] = superseded_by
+    gyro = gyro_block(sheet)
     doc = {
         "$schema": SCHEMA_BASE + "model.json",
         "metadata": meta,
@@ -290,11 +359,17 @@ def build_model(sheet: Sheet, model_id: ModelId, library: dict, all_ids: set[str
             "inc_max": parse_param(m["Inclination Range Max"]),
             "hor_ew_exclusion": parse_param(m["Hor East/West Exclusion"]),
         },
-        "parameters": {_param_key(k, sheet): parse_param(v) for k, v in sheet.tool_params.items()},
+        "parameters": {
+            _param_key(k, sheet): parse_param(v) for k, v in sheet.tool_params if k not in GYRO_LABELS
+        },
         "terms": [{"term": t.code, "magnitude": t.magnitude} for t in sorted(sheet.terms, key=lambda t: t.no)],
         "hash_function": "SHA256",
         "hash_value": "",
     }
+    if gyro is not None:   # sits after "parameters", before "terms"
+        items = list(doc.items())
+        at = next(i for i, (k, _) in enumerate(items) if k == "terms")
+        doc = dict(items[:at] + [("gyro", gyro)] + items[at:])
     return stamp(doc)
 
 

@@ -25,8 +25,8 @@ def test_read_mwd_srgm_rev5(sheet):
     assert sheet.meta["OWSG Prefix"] == "A001Mc"
     assert sheet.meta["Revision No"] == 5.1
     assert sheet.meta["Status"] == "Agreed"
-    assert sheet.tool_params["XCL Tortuosity"] == "1 deg / 100 ft"
-    assert sheet.tool_params["Misalignment Min Course Length"] == "10 m"
+    assert dict(sheet.tool_params)["XCL Tortuosity"] == "1 deg / 100 ft"
+    assert dict(sheet.tool_params)["Misalignment Min Course Length"] == "10 m"
 
 
 @needs_wb

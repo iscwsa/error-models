@@ -55,46 +55,6 @@
 		}
 	},
 	"parameters": {
-		"ExternalRef": {
-			"value": true,
-			"unit": "-",
-			"text": "True"
-		},
-		"ZContinuousGyro": {
-			"value": true,
-			"unit": "-",
-			"text": "True"
-		},
-		"StartInc": {
-			"value": 0,
-			"unit": "deg",
-			"text": "0 deg"
-		},
-		"EndInc": {
-			"value": 150,
-			"unit": "deg",
-			"text": "150 deg"
-		},
-		"InitialisationInc": {
-			"value": -1,
-			"unit": "-",
-			"text": "-1 [Initialised at Surface]"
-		},
-		"RunningSpeed": {
-			"value": 3600,
-			"unit": "m/hr",
-			"text": "3600 m/hr"
-		},
-		"MinDistBetweenInits": {
-			"value": 99999,
-			"unit": "m",
-			"text": "99999 m"
-		},
-		"NoiseReductionFactor": {
-			"value": 1,
-			"unit": "-",
-			"text": "1"
-		},
 		"MisalignmentAlt": {
 			"value": 3,
 			"unit": "-",
@@ -109,6 +69,44 @@
 			"value": 1,
 			"unit": "deg/100ft",
 			"text": "1 deg / 100 ft"
+		}
+	},
+	"gyro": {
+		"external_reference": true,
+		"continuous": [
+			{
+				"axes": "z",
+				"start_inc": {
+					"value": 0,
+					"unit": "deg",
+					"text": "0 deg"
+				},
+				"end_inc": {
+					"value": 150,
+					"unit": "deg",
+					"text": "150 deg"
+				},
+				"init_inc": {
+					"value": -1,
+					"unit": "-",
+					"text": "-1 [Initialised at Surface]"
+				},
+				"gyro_speed": {
+					"value": 3600,
+					"unit": "m/hr",
+					"text": "3600 m/hr"
+				}
+			}
+		],
+		"min_distance": {
+			"value": 99999,
+			"unit": "m",
+			"text": "99999 m"
+		},
+		"init_factor": {
+			"value": 1,
+			"unit": "-",
+			"text": "1"
 		}
 	},
 	"terms": [
@@ -166,5 +164,5 @@
 		}
 	],
 	"hash_function": "SHA256",
-	"hash_value": "cd2ddddc88e8fa10ce04e55d6cf854ecd1420cd5a57e6c2a85cc8eb4701f8764"
+	"hash_value": "6e5940d890089fa06a5dfea22f4a68089daef899b30ad8997b2d537c9ebd0132"
 }

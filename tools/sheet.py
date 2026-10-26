@@ -47,7 +47,7 @@ class Sheet:
     sha256: str
     name: str
     meta: dict[str, object]
-    tool_params: dict[str, object]
+    tool_params: list[tuple[str, object]]  # (label, value) in sheet order, repeated labels kept
     terms: list[SheetTerm]
 
 
@@ -151,7 +151,7 @@ def _parse_sheet(workbook: str, digest: str, sheet: str, rows: list[list]) -> Sh
         return r[j] if j < len(r) else None
 
     meta: dict[str, object] = {}
-    tool_params: dict[str, object] = {}
+    tool_params: list[tuple[str, object]] = []
     in_params = False
     history_key = None
     for r in rows:
@@ -169,7 +169,7 @@ def _parse_sheet(workbook: str, digest: str, sheet: str, rows: list[list]) -> Sh
             continue
         if in_params:
             if b is not None:
-                tool_params[label] = b
+                tool_params.append((label, b))
         elif label == "Revision History":
             meta[label] = [b] if b is not None else []
             history_key = label

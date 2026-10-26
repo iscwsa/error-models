@@ -1,0 +1,99 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/gyro.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "object",
+	"title": "Gyro Survey Modes",
+	"description": "The survey modes of a gyro model, each with its own inclination range, as the sheet prints them",
+	"properties": {
+		"accelerometer": {
+			"description": "Which accelerometer axes the tool has",
+			"enum": [
+				"xyz",
+				"xy"
+			]
+		},
+		"accelerometer_cant": {
+			"$ref": "./parameter_value.json"
+		},
+		"cant_switching": {
+			"type": "boolean"
+		},
+		"external_reference": {
+			"type": "boolean"
+		},
+		"stationary": {
+			"type": "object",
+			"properties": {
+				"axes": {
+					"enum": [
+						"xy",
+						"xyz"
+					]
+				},
+				"start_inc": {
+					"$ref": "./parameter_value.json"
+				},
+				"end_inc": {
+					"$ref": "./parameter_value.json"
+				},
+				"init_inc": {
+					"$ref": "./parameter_value.json"
+				}
+			},
+			"required": [
+				"axes",
+				"start_inc",
+				"end_inc",
+				"init_inc"
+			],
+			"additionalProperties": false
+		},
+		"continuous": {
+			"type": "array",
+			"maxItems": 2,
+			"items": {
+				"type": "object",
+				"properties": {
+					"axes": {
+						"enum": [
+							"xy",
+							"z",
+							"xyz"
+						]
+					},
+					"start_inc": {
+						"$ref": "./parameter_value.json"
+					},
+					"end_inc": {
+						"$ref": "./parameter_value.json"
+					},
+					"init_inc": {
+						"$ref": "./parameter_value.json"
+					},
+					"gyro_speed": {
+						"$ref": "./parameter_value.json"
+					}
+				},
+				"required": [
+					"axes",
+					"start_inc",
+					"end_inc",
+					"init_inc",
+					"gyro_speed"
+				],
+				"additionalProperties": false
+			}
+		},
+		"min_distance": {
+			"$ref": "./parameter_value.json"
+		},
+		"init_factor": {
+			"$ref": "./parameter_value.json"
+		}
+	},
+	"required": [
+		"continuous"
+	],
+	"additionalProperties": false
+}
