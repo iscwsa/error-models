@@ -75,7 +75,7 @@ All 129 models extracted from the ISCWSA spreadsheets (7 libraries), and the six
 
 - **load**: whether the engine accepts the model. A model is refused when it needs a capability the engine does not have: the refusal names the reason. The 10 gyro models load, with the survey-mode switching described in [`docs/propagation.md`](docs/propagation.md).
 - **self-check**: every term covariance is finite at every station of wells 1-3 that lies inside the model's applicability and, for a gyro model, inside its survey modes. `k excluded` is the number of stations skipped. The east-west exclusion geometry is an assumption (`docs/deviations.md`).
-- **806**: station/term checks passed against ISCWSA's Rev 5.1 diagnostics (conformance rule 3). Only the two models the diagnostics exercise have a count. The rest read "formula from source, not validated numerically".
+- **806**: station/term checks passed against ISCWSA's Rev 5.1 diagnostics (conformance rule 3). Only the two models the diagnostics exercise have a count. The rest read "—": formula from source, not validated numerically.
 - **SPE 67616**: result rows of the paper's Table 3 that the model produces, from the JSON alone. A row that uses several models counts for each.
 - **SPE 90408**: printed values of the paper's Appendix E within its own criterion, from the JSON alone, with the declared vertical reference added. A known miss is listed in the vector file.
 

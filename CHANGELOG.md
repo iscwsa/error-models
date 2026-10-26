@@ -13,7 +13,6 @@
 - SPE 67616 Table 3 (`hla`) and SPE 90408 Appendix E (`total_nev`) conformance vectors, with `known_misses` and the declared `vertical_reference`.
 - The README status table now shows the load, self-check, 806, SPE 67616 and SPE 90408 results. The 10 gyro models load.
 
-
 ### Added (SPE 90408 examples)
 
 - `iscwsa:spe90408` library: the SPE 90408 Table 1-4, 6 and 8 rows that no sheet carries.

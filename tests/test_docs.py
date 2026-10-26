@@ -112,7 +112,8 @@ def test_propagation_sections():
 
 
 def test_every_convention_has_count():
-    """Each rule labelled `Convention C<n>` has a row in deviations.md whose failing count is an integer."""
+    """Each rule labelled `Convention C<n>` has a row in deviations.md with a positive integer failing count. Each
+    `Open reading ... (C<n>)` (a rule the printed values do not decide) has a row."""
     text = _propagation()
     deviations = (ROOT / "docs" / "deviations.md").read_text(encoding="utf-8")
     rows = {}
@@ -125,9 +126,13 @@ def test_every_convention_has_count():
     assert all(words), "a rule says convention without naming its deviations.md row"
     for row_id in words:
         assert row_id in rows, row_id
-        assert re.match(r"\d+\b", rows[row_id][4]), (row_id, rows[row_id][4])
-    labelled = {w for w in words}
-    assert {"C13", "C15", "C16", "C17", "C18", "C19", "C20", "C21", "C22", "C23", "C27", "C28"} <= labelled
+        assert re.match(r"[1-9]\d*\b", rows[row_id][4]), (row_id, rows[row_id][4])
+    opened = re.findall(r"Open reading[^()*]*[(](C\d+)[)]", text)
+    for row_id in opened:
+        assert row_id in rows, row_id
+    assert {"C13", "C16", "C17", "C18", "C19", "C20", "C22", "C23", "C27", "C28"} <= set(words)
+    assert {"C15", "C21"} <= set(opened)
+    assert not {"C15", "C21"} & set(words)
 
 
 def test_deviations_rows_for_gyro():

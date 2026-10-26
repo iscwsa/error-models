@@ -9,7 +9,7 @@ vectors](conformance.md) are normative: where this page and a vector disagree, t
 Each rule names its published basis: SPE 67616, SPE 90408 (a table, figure or note), the ISCWSA sheets, or ISCWSA's Rev
 5.1 diagnostics (iscwsa.net file 806). A rule that the published text leaves open, and that the printed numbers decided,
 is labelled in bold with the row of [`deviations.md`](deviations.md) that counts the printed values failing under the
-rejected reading, for example **Convention C16**. Everything on this page is provisional, pending sub-committee review.
+rejected reading, for example **Convention C16**. A rule the printed values do not decide is labelled **Open reading** and still has a row. Everything on this page is provisional, pending sub-committee review.
 
 ## The position derivative
 
@@ -24,20 +24,19 @@ function) and a magnitude. SPE 67616 Appendix A turns these into a position erro
   carries a factor sin I.
 - For a source with magnitude σ and weight w at station k, the vector error is e_k = σ (dr_k/dp_k + dr_k+1/dp_k) · w_k:
   the interval before the station and the interval after it, each with the weight and magnitude of station k's own leg
-  (SPE 67616 Appendix A, eqs A-4 to A-6). At the station of interest there is no interval after it, so only the interval
+  (SPE 67616 Appendix A). At the station of interest there is no interval after it, so only the interval
   ending there counts.
 - The covariance is a sum of the outer products of these vectors. The next section says which ones are summed first.
-- TVD, where a term uses it (DSTG), is the minimum-curvature TVD of the stations.
 
 ## Random, systematic, well and global terms
 
 SPE 67616 Appendix A gives each error source a propagation mode.
 
-- **Within a leg.** Random (R): every station's error is independent, so the outer products are summed (A-10, A-11).
+- **Within a leg.** Random (R): every station's error is independent, so the outer products are summed.
   Systematic (S): the vector errors are summed along the leg first and the outer product is taken once, so the error is
-  fully correlated along the leg (A-12, A-13). The tie-on source e* is added to the sum (next section).
+  fully correlated along the leg. The tie-on source e* is added to the sum (next section).
 - **Across wells.** Well-by-well (W) is correlated along a well and independent between wells. Global (G) is correlated
-  along every well and between wells (A-14, A-15). For one well, S, W and G give the same result. Only well-by-well and
+  along every well and between wells. For one well, S, W and G give the same result. Only well-by-well and
   global terms couple two wells.
 - **Across legs.** A leg is a contiguous set of stations surveyed with one tool (SPE 67616, introduction). Random terms stay
   independent at every station. Systematic terms sum within a leg, and different legs are independent. Well-by-well and
@@ -60,9 +59,7 @@ The tie-on is the first station of the well, at MD 0 (the "slot").
   - **Convention C5.** For XYM3E and XYM4E the slot is not a separate source and the first interval's inclination and
     azimuth derivative is counted twice at station 1. For every other term the slot is an ordinary SPE 67616 error source:
     its error is the derivative of the first interval with respect to the slot's own attitude, carried into every later
-    station. For a systematic term the two rules agree, so 806 cannot tell them apart. They differ for a random term whose
-    inclination or azimuth weight is non-zero in a vertical top hole: the slot-as-source value at station 1 is half the
-    doubled one.
+    station. For a systematic term the two rules agree, so 806 cannot tell them apart.
   - Under SPE 67616 the XYM3E weight at the slot is undefined (`Sqrt(10 / 0)`).
 - The JSON cannot express the choice between these. An engine takes it from the vector's `inputs`.
 
@@ -97,7 +94,7 @@ column is 0 and their model is toolface-independent.
 - SPE 67616 Appendix B gives the toolface from successive surveys (eqs B-1 to B-5). The `hla` vectors say
   `toolface: borehole`.
 - Open: no published diagnostic exercises the term at an inclination where the toolface matters, so the value at the first
-  station (0 in the reference engine) has no published basis and no count.
+  station has no published basis and no count.
 
 ## Position-direct XCLA and XCLH
 
@@ -119,7 +116,7 @@ SPE 90408 Appendix E, Example Models #2 to #5 (continuous) and #1 and #6 (statio
 - **Modes and ranges.** The stationary range and each continuous range are `start_inc` to `end_inc` blocks of the `gyro`
   object. Table 11 note 1 says they are "a logical unbroken sequence with no overlap zones": the validator rejects overlap or
   reversed ranges (`GYRO_RANGE`).
-  - **Convention C15.** A station at a boundary belongs to the range that starts there (start <= Inc < end), and the highest
+  - **Open reading, not decided by the printed values (C15).** A station at a boundary belongs to the range that starts there (start <= Inc < end), and the highest
     range includes its end.
   - A station above every range is in no mode. Every gyro term is undefined there, and an engine excludes the station.
 - **Terms.** Tables 3, 4 and 5 (the stationary gyro terms and the external reference) are stationary terms held at an
@@ -151,7 +148,7 @@ SPE 90408 Appendix E, Example Models #2 to #5 (continuous) and #1 and #6 (statio
   - **Convention C19.** A random walk after a re-initialisation is a new walk, independent of the earlier one. The drift
     stays one systematic source.
   - **Convention C20.** The continuous terms are 0 at the initialisation station and accumulate from the next interval.
-  - **Convention C21.** The stations between the initialisation point and the current station keep their own, stationary
+  - **Open reading, not decided by the printed values (C21).** The stations between the initialisation point and the current station keep their own, stationary
     result. Redoing them with the initialisation (boxes 13 to 16) changes no printed value by more than 0.1, so the simpler
     reading is used.
 - **No stationary range.**
