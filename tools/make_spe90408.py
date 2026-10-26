@@ -11,13 +11,14 @@ import sys
 from pathlib import Path
 
 from tools.identity import entry_uuid, library_uuid, model_uuid, stamp
+from tools.urls import schema_base
 
 PACKAGE_ROOT = Path(__file__).resolve().parent.parent
 DATA_FILE = Path(__file__).resolve().parent / "spe90408.json"
 LIBRARY_ID = "iscwsa:spe90408"
 LIBRARY_PATH = "library/iscwsa/spe90408.json"
 REV5_PATH = "library/iscwsa/rev5.json"
-SCHEMA_BASE = "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/"
+SCHEMA_BASE = schema_base(PACKAGE_ROOT)  # the tree's release (tools/urls.py)
 PUBLICATION_DATE = "2004-09-26"  # SPE 90408, presented at the SPE Annual Technical Conference, Houston, September 2004
 MODES = {"Table 3": True, "Table 4": True, "Table 6": False, "Table 8": False}  # stationary tables hold at an initialisation
 
@@ -153,8 +154,21 @@ def build(root: Path = PACKAGE_ROOT) -> dict[str, str]:
     return out
 
 
+def check(root: Path = PACKAGE_ROOT) -> list[str]:
+    """The generated files that differ from the committed ones (missing included), byte for byte."""
+    root = Path(root)
+    return [rel for rel, text in build(root).items()
+            if not (root / rel).is_file() or (root / rel).read_bytes() != text.encode("utf-8")]
+
+
 def main(argv=None) -> int:
     args = sys.argv[1:] if argv is None else argv
+    if "--check" in args:
+        args = [a for a in args if a != "--check"]
+        differ = check(Path(args[0] if args else "."))
+        for rel in differ:
+            print(f"differs: {rel}")
+        return 1 if differ else 0
     root = Path(args[0] if args else ".")
     for rel, text in build(root).items():
         path = root / rel

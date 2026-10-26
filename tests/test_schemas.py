@@ -9,6 +9,8 @@ from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
 from referencing.jsonschema import DRAFT202012
 
+from tools.urls import schema_base
+
 ROOT = Path(__file__).resolve().parent.parent
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
 
@@ -24,7 +26,7 @@ def _registry():
 
 
 REGISTRY = _registry()
-BASE = "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/"
+BASE = schema_base(ROOT)
 
 
 def errors(name, instance):
