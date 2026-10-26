@@ -5,6 +5,15 @@
 
 ## Unreleased
 
+### Added (gyro modes, conformance)
+
+- `docs/propagation.md`: how the formulas propagate into a covariance. It covers the position derivative, the propagation modes within a leg, across legs and across wells, the tie-on, vertical stations, the toolface, position-direct XCLA/XCLH and the gyro survey modes. Each rule names its published basis.
+- `docs/deviations.md` rows C13 to C28: the gyro conventions with their failing counts, the SPE 90408 Table 10 vertical reference (25 of 492 printed values fail without it), the known miss of example model #1, the survey-leg rule and the SPE 67616 tie-on, and the provisional tolerance and term names.
+- `gyro` object in the model: stationary and continuous survey modes with their own ranges and `init_inc`, the continuous running speeds, `min_distance`, `init_factor` and the xy accelerometer cant. The 10 gyro models carry both blocks of their sheets.
+- SPE 67616 Table 3 (`hla`) and SPE 90408 Appendix E (`total_nev`) conformance vectors, with `known_misses` and the declared `vertical_reference`.
+- The README status table now shows the load, self-check, 806, SPE 67616 and SPE 90408 results. The 10 gyro models load.
+
+
 ### Added (SPE 90408 examples)
 
 - `iscwsa:spe90408` library: the SPE 90408 Table 1-4, 6 and 8 rows that no sheet carries.

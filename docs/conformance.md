@@ -81,9 +81,9 @@ capability MUST refuse the library, and every model that uses it.
 ## Vertical stations
 
 The singularity formulas published for vertical stations (`singularity_north`, `singularity_east`, `singularity_vertical`) are
-carried verbatim in the libraries. How an engine should treat a vertical station overall (the tie-on, and the derivation of
-azimuth and dip there) is provisional, pending sub-committee review. The 806 vectors include vertical stations and are the
-normative check. A reference description of the propagation will be published separately as `docs/propagation.md` (not yet
-available). Until then, [`deviations.md`](deviations.md) lists the conventions the 806 vectors need that the published text
-does not state, including two (the XCLA azimuth change after a vertical station, and the XYM3E/XYM4E first-station rule) that
-the JSON cannot yet express.
+carried verbatim in the libraries. How an engine should treat a vertical station overall (the numeric limit, the tie-on, and
+the derivation of azimuth and dip there) is described in [`propagation.md`](propagation.md), which is informative and
+provisional, pending sub-committee review. The 806 vectors include vertical stations and are the normative check.
+[`deviations.md`](deviations.md) lists the conventions the 806 vectors need that the published text does not state,
+including two (the XCLA azimuth change after a vertical station, and the XYM3E/XYM4E first-station rule) that the JSON
+cannot yet express.
