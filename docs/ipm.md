@@ -81,8 +81,10 @@ IPM formulas work in radians and feet. Each formula has two readings:
 
 - `x`/`y` rows give the term `requires: ["xcl_position_direct"]`.
 - A source with both depth and angle rows is refused (`mixed_vectors`), and so is one that mixes `x`/`y` with `i`/`a`/`l`.
-- No singularity formula is written for an `l` row. At a vertical station the azimuth weight is taken as its limit, as
-  for the library terms (`propagation.md`, "Vertical stations").
+- An `l` or `x` row is a lateral weight F, defined at a vertical station too. Its azimuth formula F / Sin(Inc) is not, so
+  the weighting function also gets the singularity formulas that say the same thing: F along the lateral direction,
+  north `-(F) * Sin(AzT)`, east `(F) * Cos(AzT)`, vertical `0` (`propagation.md`, "Vertical stations"). An `a` row gets
+  none: where its formula has no value at a vertical station, the engine takes the limit.
 
 ## Matching ISCWSA terms
 
@@ -150,6 +152,7 @@ covariances as Compass: the conversion is of definitions, not of Compass's resul
 | rows of one source with different tie-ons | `mixed_tie_on` |
 | a unit outside the Units table, or a term needing a capability other than `xcl_position_direct` (`json2ipm`) | `unit:<u>`, `requires:<cap>` |
 | a formula the grammar doesn't parse (e.g. implicit multiplication) | `syntax` |
+| a file without the layout's column titles (Name / Vector / Tie-On / Unit ...) and no row of it; titles with no rows are a tool with no error sources | `no_rows` |
 | a gyro model or survey-mode term, a Bias term, a formula variable with no IPM equivalent (`json2ipm`) | `gyro`, `bias`, `variable:<name>` |
 
 Variables, ranges and switches would need a grammar extension; this conversion has none.

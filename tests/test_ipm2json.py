@@ -64,7 +64,10 @@ def test_lateral_vertical_limit():
     the IPM row."""
     text = HEAD + "XLAT\tl\ts\td\t0.2\t-cos(inc)*cos(azt)\n"
     ipm, (model, vendor, log) = _convert(text)
-    assert vendor["weighting_functions"]["XLAT"]["azimuth"] == "-Cos(Inc) * Cos(AzT) / Sin(Inc)"
+    wf = vendor["weighting_functions"]["XLAT"]
+    assert wf["azimuth"] == "-Cos(Inc) * Cos(AzT) / Sin(Inc)"
+    assert (wf["singularity_north"], wf["singularity_east"], wf["singularity_vertical"]) == (
+        "-(-Cos(Inc) * Cos(AzT)) * Sin(AzT)", "-Cos(Inc) * Cos(AzT) * Cos(AzT)", "0")
     assert any(e["Inc"] == 0.0 for e in station_envs())
     assert weights_equal(model, [REV5, vendor], ipm)
     wrong = json.loads(json.dumps(model))
@@ -104,6 +107,16 @@ def test_untranslatable_rows(row, construct):
     with pytest.raises(IpmError) as exc:
         _convert(HEAD + "DRFR\te\tr\tm\t0.35\t1\n" + row + "\n")
     assert exc.value.construct == construct
+
+
+def test_no_rows():
+    """Column titles with no rows are a zero-error tool; a file without the layout's titles is refused."""
+    _, (model, vendor, _) = _convert(HEAD)
+    assert model["terms"] == [] and vendor is None
+    other = HEAD.replace("Name\tVector", "Name\t\tVector")      # another program's export: shifted columns
+    with pytest.raises(IpmError) as exc:
+        _convert(other + "XR\t\ti\ts\td\t0.1\t1\n")
+    assert exc.value.construct == "no_rows"
 
 
 def test_repeated_and_mixed_vectors():

@@ -105,6 +105,8 @@ def _check_row(r: IpmRow):
 
 def sources(ipm: IpmFile, subsea: bool = False) -> list[tuple[str, list[IpmRow]]]:
     """The file's error sources in file order: (name, rows), after the subset checks of docs/ipm.md."""
+    if not ipm.rows and not ipm.layout:     # a file of the layout with no rows is a zero-error tool (no sources)
+        raise IpmError("no_rows", None, "not the guide's layout (no Name / Vector / Tie-On / Unit column titles)")
     for r in ipm.rows:
         if is_variable(r):
             raise IpmError("variable", r)
@@ -138,15 +140,18 @@ def _unit(rows) -> str:
     return JSON_UNITS[first.unit]
 
 
-def source_term(rows: list[IpmRow], envs=None) -> tuple[float, str, dict[str, str]]:
-    """(magnitude, units, {depth, inclination, azimuth}) of one source. Each row takes the natural reading when it
-    equals the literal one at every station, and otherwise the literal one times its exact factor."""
+def source_term(rows: list[IpmRow], envs=None) -> tuple[float, str, dict[str, str], dict[str, str]]:
+    """(magnitude, units, {depth, inclination, azimuth}, singularity formulas) of one source. Each row takes the natural
+    reading when it equals the literal one at every station, and otherwise the literal one times its exact factor.
+    An `l` or `x` row is a lateral weight F: its azimuth formula is F / Sin(Inc), and its singularity formulas are F
+    along the lateral direction at a vertical station (north -F Sin(AzT), east F Cos(AzT), vertical 0)."""
     envs = station_envs() if envs is None else envs
     unit = _unit(rows)
     first = rows[0]
     magnitude = abs(first.value * (0.001 if first.unit == "t" else 1.0))
     denom = (magnitude or 1.0) * SI[unit]
     fields = {"depth": "0", "inclination": "0", "azimuth": "0"}
+    singular = {}
     for r in rows:
         depth = r.vector in "es"
         s = r.value * UNIT_FACTORS.get(r.unit, 1.0) * (FT if depth else 1.0) / denom
@@ -158,9 +163,12 @@ def source_term(rows: list[IpmRow], envs=None) -> tuple[float, str, dict[str, st
         else:
             node = lit if s == 1.0 else Bin("*", Num(s), lit)
         if r.vector in "lx":
+            lateral = node.render()
+            singular = {"singularity_north": canonical(f"-({lateral}) * Sin(AzT)"),
+                        "singularity_east": canonical(f"({lateral}) * Cos(AzT)"), "singularity_vertical": "0"}
             node = Bin("/", node, _SIN_INC)
         fields[FIELD[r.vector]] = canonical(node.render())
-    return magnitude, unit, fields
+    return magnitude, unit, fields, singular
 
 
 def _ipm_weights(rows, envs):
@@ -264,7 +272,7 @@ def convert(ipm: IpmFile, namespace: str, meta: dict, iscwsa_library: dict, subs
     log, terms, wfs, lib_terms = [], [], {}, {}
     for src, rows in sources(ipm, subsea):
         tie = rows[0].tie_on
-        magnitude, unit, fields = source_term(rows, envs)
+        magnitude, unit, fields, singular = source_term(rows, envs)
         code, info = _match(src, tie, magnitude, unit, fields, iscwsa_library, envs)
         if code is not None:
             terms.append({"term": code, "magnitude": info})
@@ -276,7 +284,7 @@ def convert(ipm: IpmFile, namespace: str, meta: dict, iscwsa_library: dict, subs
         same = _same_as(tie, fields, iscwsa_library)
         if same:
             log.append(f"{src}: same_as {', '.join('iscwsa:' + c for c in same)}")
-        wfs[key] = dict(fields, source=meta["source"], uuid=entry_uuid(lib_id, "weighting_function", key))
+        wfs[key] = dict(fields, **singular, source=meta["source"], uuid=entry_uuid(lib_id, "weighting_function", key))
         term = {"description": src, "type": "IPM", "units": unit, "propagation": TIE_ONS[tie],
                 "weighting_function": key, "uuid": entry_uuid(lib_id, "term", key)}
         if any(r.vector in "xy" for r in rows):

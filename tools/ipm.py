@@ -76,6 +76,10 @@ class IpmFile:
     rows: list[IpmRow] = field(default_factory=list)
     file: str = "ipm"   # the file name (read_ipm), for the model's origin
     sha256: str = ""    # of the file's bytes (read_ipm), or of the text as UTF-8 (parse_ipm)
+    layout: bool = False  # a column-title line Name / Vector / Tie-On / Unit ... (with or without '#') was seen
+
+
+_TITLE = ["name", "vector", "tie-on", "unit"]
 
 
 def is_variable(row: IpmRow) -> bool:
@@ -86,6 +90,8 @@ def is_variable(row: IpmRow) -> bool:
 def parse_ipm(text: str) -> IpmFile:
     out = IpmFile(sha256=hashlib.sha256(text.encode("utf-8")).hexdigest())
     for n, line in enumerate(text.replace("\r\n", "\n").replace("\r", "\n").split("\n"), 1):
+        if [x.strip().lower() for x in line.lstrip("#").split("\t")[:4]] == _TITLE:
+            out.layout = True
         if line.startswith("#"):
             key, _, value = line[1:].partition(":")
             out.header[key.strip()] = value.strip()
