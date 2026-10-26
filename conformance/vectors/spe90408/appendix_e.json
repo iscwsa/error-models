@@ -2,7 +2,7 @@
 	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/vectors.json",
 	"kind": "total_nev",
 	"source": {
-		"paper": "SPE 90408 (Brooks and Wilson, 2004)",
+		"paper": "SPE 90408",
 		"table": "Appendix E, Tables E1-E3"
 	},
 	"inputs": {

@@ -2,7 +2,7 @@
 	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/vectors.json",
 	"kind": "hla",
 	"source": {
-		"paper": "SPE 67616 (Williamson, 2000)",
+		"paper": "SPE 67616",
 		"table": "Table 3"
 	},
 	"inputs": {
