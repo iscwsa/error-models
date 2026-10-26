@@ -49,7 +49,11 @@ IPM formulas work in radians and feet. Each formula has two readings:
   station of the three ISCWSA Rev 5.1 diagnostic wells (`conformance/vectors/iscwsa_rev5-1/`) to a relative 1e-12. That
   holds for a dimensionally consistent row (e.g. `tmd` with no unit, `tmd*tvd` in `im`). Otherwise it keeps the literal
   reading times its exact factor, e.g. `0.3048 * (MD * 3.280839895013123 * (MD * 3.280839895013123))` for `tmd*tmd`.
-- `daz` assumes an azimuth change under 180°, as the XCL sheets do.
+- `daz` assumes an azimuth change under 180°, as the XCL sheets do. It isn't wrapped, and nothing special happens after
+  a vertical station; a reader of the IPM may do both.
+- `tfo` is the station's toolface `TF`. A reader that takes `tfo` as 0, as Compass's ISCWSA tools do, gives the same
+  weights only for formulas without it.
+- At exactly 90°, `Tan(Inc)` is a very large finite number in the grammar. An IPM reader may treat it as having no value.
 - `erot`: the guide's Earth rate is 15.041 deg/hr; `EarthRate` is SPE 90408's 7.2921159e-5 rad/s (15.0411 deg/hr). A
   converted formula with `erot` therefore differs from Compass's by 5e-6 relative.
 
@@ -66,8 +70,10 @@ IPM formulas work in radians and feet. Each formula has two readings:
 | `t` | 0.001 | `-`, with the 0.001 in the magnitude |
 
 - Any other unit is refused (`unit:<u>`).
-- The magnitude is the first row's Value, unsigned. A row with another Value, or a negative one, carries the ratio in its
-  formula.
+- The magnitude is the first non-zero Value of the source, unsigned, at 12 significant digits when that's within 1e-12
+  of it. A row with another Value carries the ratio in its formula, and a negative row carries its sign. A zero row of a
+  non-zero source adds nothing, and its field is `0`.
+- `ipm2json` writes nothing unless the converted weights equal the IPM's at every diagnostic station (`weights`).
 - A depth row's weight is in feet, so its factor includes 0.3048. The numeric check above decides how it lands.
 
 ## Vectors
@@ -100,6 +106,9 @@ Otherwise it becomes `<ns>:<NAME>` in the vendor library `<ns>:<model>_terms`, w
 holds only the unmatched sources. The log says why a same-named source did not match. When a vendor source's formulas
 equal an ISCWSA term under another name, the log says `same_as iscwsa:<CODE>`; the two are never merged.
 
+A matched term takes the library's singularity formulas, which the IPM can't state. Where those differ from the limit of
+the IPM's own formula at a vertical station, the converted model follows the library.
+
 ## Metadata
 
 `ipm2json` reads these header lines and takes the rest from flags. A flag wins over the header.
@@ -129,8 +138,10 @@ order:
   the literal inverse times its factor.
 
 Singularity formulas aren't written; IPM has no field for them. A matched ISCWSA term gets them back from the library on
-the way in, so JSON → IPM → JSON gives the same model for every model `json2ipm` accepts. Of the 129 models, 27 are
-accepted. The rest are refused because they use `XCLTortuosity` (89), gyro survey modes (10) or bias terms (3).
+the way in. So JSON → IPM → JSON gives the same terms, magnitudes and libraries for every ISCWSA model `json2ipm`
+accepts. A vendor term comes back with the same weights, but not always the same text: for example, a `deg/hr` term
+whose formulas don't use `erot` returns as `deg` with the 1/3600 in its formula. Two terms whose codes differ only in
+namespace or case would be one IPM source, so they are refused (`duplicate_name`). Of the 129 models, 27 are accepted. The rest are refused because they use `XCLTortuosity` (89), gyro survey modes (10) or bias terms (3).
 `#ChecksumValue` isn't written.
 
 ## Propagation in Compass
@@ -151,7 +162,12 @@ covariances as Compass: the conversion is of definitions, not of Compass's resul
 | two rows of one vector, or mixed depth and angle rows | `repeated_vector`, `mixed_vectors` |
 | rows of one source with different tie-ons | `mixed_tie_on` |
 | a unit outside the Units table, or a term needing a capability other than `xcl_position_direct` (`json2ipm`) | `unit:<u>`, `requires:<cap>` |
-| a formula the grammar doesn't parse (e.g. implicit multiplication) | `syntax` |
+| a formula the grammar doesn't parse (e.g. implicit multiplication), or a line after the column titles that isn't a full row (fewer than six fields, a vector or tie-on of more than one letter, an empty formula, a Value that isn't a finite number) | `syntax` |
+| a tie-on other than `r`, `s`, `w`, `g` | `tie_on:<t>` |
+| a source name with `:` (it separates the namespace) | `name` |
+| a file that isn't text, or is neither UTF-8 nor cp1252 | `binary`, `encoding` |
+| output that doesn't validate, or whose weights differ from the IPM's, or that can't be written (nothing is left behind) | `invalid`, `weights`, `write` |
+| two model terms with one IPM name (`json2ipm`) | `duplicate_name` |
 | a file without the layout's column titles (Name / Vector / Tie-On / Unit ...) and no row of it; titles with no rows are a tool with no error sources | `no_rows` |
 | a gyro model or survey-mode term, a Bias term, a formula variable with no IPM equivalent (`json2ipm`) | `gyro`, `bias`, `variable:<name>` |
 

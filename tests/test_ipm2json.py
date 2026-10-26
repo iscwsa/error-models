@@ -158,3 +158,39 @@ def test_output_validates(tmp_path):
     shutil.copytree(ROOT / "library" / "iscwsa", out / "library" / "iscwsa")
     problems = [p for p in validate_repo(out) if "example" in p.file]
     assert problems == []
+
+
+# ---------------------------------------------------------------- review findings
+def test_zero_first_value():
+    """The magnitude is the first non-zero Value; a zero row adds nothing."""
+    ipm, (model, vendor, _) = _convert(HEAD + "Q\ti\tg\td\t0\tsin(inc)\nQ\ta\tg\td\t0.1\tcos(inc)\n")
+    assert model["terms"][0]["magnitude"] == 0.1 and vendor["weighting_functions"]["Q"]["inclination"] == "0"
+    assert weights_equal(model, [REV5, vendor], ipm)
+
+
+@pytest.mark.parametrize("line", ["R\tia\ts\td\t5\tsin(inc)", "S\ti\ts\td\t5", "N\ti\ts\td\tnan\t1"])
+def test_bad_row_is_not_dropped(line):
+    with pytest.raises(IpmError) as exc:
+        _convert(HEAD + "DRFR\te\tr\tm\t0.35\t1\n" + line + "\n")
+    assert exc.value.construct == "syntax"
+
+
+def test_negative_value_and_snapping():
+    ipm, (model, vendor, _) = _convert(HEAD + "XN\te\tr\tm\t-0.35\t1\nXT\te\ts\tt\t0.56\ttmd\n")
+    assert vendor["weighting_functions"]["XN"]["depth"] == "-1"
+    assert [t["magnitude"] for t in model["terms"]] == [0.35, 0.00056]
+    assert weights_equal(model, [REV5, vendor], ipm)
+
+
+def test_colon_in_name():
+    with pytest.raises(IpmError) as exc:
+        _convert(HEAD + "A:B\ti\ts\td\t0.1\t1\n")
+    assert exc.value.construct == "name"
+
+
+def test_write_failure_leaves_nothing(tmp_path):
+    out = tmp_path / "out"
+    out.mkdir()
+    (out / "library").write_text("not a directory", encoding="utf-8")
+    assert main(_args(FIX / "example_vendor.ipm", out)) == 1
+    assert sorted(p.name for p in out.rglob("*")) == ["library"]

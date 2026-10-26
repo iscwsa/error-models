@@ -101,3 +101,25 @@ def test_namespace_change():
     assert [t["term"] for t in other["terms"]] == [t["term"].replace("example:", "other:") for t in model["terms"]]
     assert other_vendor["library_id"] == "other:X1_terms"
     assert other_vendor["weighting_functions"]["XGYRO"]["azimuth"] == vendor["weighting_functions"]["XGYRO"]["azimuth"]
+
+
+def test_x_rows_round_trip():
+    """A vendor x row comes back as the same x row (lateral, defined at a vertical station)."""
+    head = _fixture_text("example_vendor.ipm").split("Name\t", 1)[0] + "Name\tVector\tTie-On\tUnit\tValue\tFormula\n"
+    ipm = parse_ipm(head + "XC\tx\ts\td\t1\tcos(inc)\nXC\ty\ts\td\t1\tsin(inc)\n")
+    meta = dict(metadata(ipm.header, {"tool_type": "MWD", "author": "Example Ltd"}), model_id="X1")
+    model, vendor, _ = convert(ipm, "example", meta, REV5)
+    again = parse_ipm(render(model, [REV5, vendor]))
+    assert [(r.vector, r.formula) for r in again.rows] == [("y", "sin(inc)"), ("x", "cos(inc)")]
+
+
+def test_duplicate_ipm_names_refused():
+    ipm = parse_ipm(_fixture_text("example_vendor.ipm"))
+    meta = dict(metadata(ipm.header, {"tool_type": "MWD", "author": "Example Ltd"}), model_id="X1")
+    model, vendor, _ = convert(ipm, "example", meta, REV5)
+    vendor = json.loads(json.dumps(vendor))
+    vendor["terms"]["DRFR"] = dict(vendor["terms"]["XMIS"])
+    model["terms"].append({"term": "example:DRFR", "magnitude": 1.0})
+    with pytest.raises(IpmError) as exc:
+        render(model, [REV5, vendor])
+    assert exc.value.construct == "duplicate_name"

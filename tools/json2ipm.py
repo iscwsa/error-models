@@ -54,8 +54,12 @@ def render(model: dict, libraries: list[dict], envs=None) -> str:
         raise IpmError("gyro", None, f"{model['metadata']['model_id']} has gyro survey modes")
     libs = {lib["library_id"].split(":", 1)[0]: lib for lib in libraries}
     lines = _header(model) + [COLUMNS]
+    names = {}
     for t in model["terms"]:
         ns, _, key = t["term"].rpartition(":")
+        if key.lower() in names:    # IPM names have no namespace and match without regard to case
+            raise IpmError("duplicate_name", None, f"{t['term']} and {names[key.lower()]} would be one IPM source")
+        names[key.lower()] = t["term"]
         lib = libs[ns or "iscwsa"]
         term = lib["terms"][key]
         wf = lib["weighting_functions"][term["weighting_function"]]
@@ -76,7 +80,7 @@ def render(model: dict, libraries: list[dict], envs=None) -> str:
                 continue
             if xcl and field == "azimuth":          # x is lateral: azimuth * Sin(Inc)
                 node = parse(text)
-                lateral = (node.left if isinstance(node, Bin) and node.op == "/" and node.right == Call("Sin", (Var("Inc"),))
+                lateral = (node.left if isinstance(node, Bin) and node.op == "/" and node.right.render() == "Sin(Inc)"
                            else Bin("*", node, Call("Sin", (Var("Inc"),))))
                 text = lateral.render()
             try:

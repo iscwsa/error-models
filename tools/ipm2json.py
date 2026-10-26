@@ -14,13 +14,14 @@ import argparse
 import functools
 import json
 import math
+import os
 import re
 import sys
 import tempfile
 from pathlib import Path
 
 from tools.diagnostics import read_hpt
-from tools.formula import Bin, Call, Node, Num, Var, canonical, parse
+from tools.formula import Bin, Call, Neg, Node, Num, Var, canonical, parse
 from tools.identity import entry_uuid, library_uuid, model_uuid, stamp
 from tools.ipm import (FT, JSON_UNITS, SI, TIE_ONS, UNIT_FACTORS, VECTORS, IpmError, IpmFile, IpmRow, is_variable,
                        read_ipm, translate_node)
@@ -110,6 +111,8 @@ def sources(ipm: IpmFile, subsea: bool = False) -> list[tuple[str, list[IpmRow]]
     for r in ipm.rows:
         if is_variable(r):
             raise IpmError("variable", r)
+        if ":" in r.name:
+            raise IpmError("name", r, "a source name may not contain ':' (it separates the namespace)")
         _check_row(r)
     subsea_names = {r.name.lower() for r in ipm.rows if r.vector == "s"}
     groups: dict[str, list[IpmRow]] = {}
@@ -133,6 +136,13 @@ def sources(ipm: IpmFile, subsea: bool = False) -> list[tuple[str, list[IpmRow]]
     return out
 
 
+def _snap(x: float) -> float:
+    """x at 12 significant digits when that is within 1e-12 relative (3599.9999999999995 -> 3600, 0.0005600000000000001
+    -> 0.00056); unit factors such as 0.3048 are unchanged."""
+    r = float(f"{x:.12g}")
+    return r if math.isclose(r, x, rel_tol=1e-12, abs_tol=0.0) else x
+
+
 def _unit(rows) -> str:
     first = rows[0]
     if first.unit == "d" and any("erot" in r.formula.lower() for r in rows):
@@ -147,19 +157,27 @@ def source_term(rows: list[IpmRow], envs=None) -> tuple[float, str, dict[str, st
     along the lateral direction at a vertical station (north -F Sin(AzT), east F Cos(AzT), vertical 0)."""
     envs = station_envs() if envs is None else envs
     unit = _unit(rows)
-    first = rows[0]
-    magnitude = abs(first.value * (0.001 if first.unit == "t" else 1.0))
+    first = next((r for r in rows if r.value != 0.0), rows[0])   # the magnitude: the first non-zero Value
+    magnitude = _snap(abs(first.value * (0.001 if first.unit == "t" else 1.0)))
+    all_zero = magnitude == 0.0      # a zero-magnitude source keeps its formulas (its weights are 0 either way)
     denom = (magnitude or 1.0) * SI[unit]
     fields = {"depth": "0", "inclination": "0", "azimuth": "0"}
     singular = {}
     for r in rows:
+        if r.value == 0.0 and not all_zero:
+            continue                 # a zero row of a non-zero source adds nothing: its field stays 0
         depth = r.vector in "es"
-        s = r.value * UNIT_FACTORS.get(r.unit, 1.0) * (FT if depth else 1.0) / denom
+        s = _snap(r.value * UNIT_FACTORS.get(r.unit, 1.0) * (FT if depth else 1.0) / denom)
+        if all_zero:
+            s = UNIT_FACTORS.get(r.unit, 1.0) * (FT if depth else 1.0) / SI[unit]
         lit = translate_node(r.formula, "literal", row=r)
         nat = translate_node(r.formula, "natural", row=r)
         want = [s * v for v in _values(lit, envs)]
-        if _close(_values(nat, envs), want):
+        got = _values(nat, envs)
+        if _close(got, want):
             node = nat
+        elif _close([-v for v in got], want):
+            node = Neg(nat)          # a negative Value: the natural reading with its sign
         else:
             node = lit if s == 1.0 else Bin("*", Num(s), lit)
         if r.vector in "lx":
@@ -359,12 +377,38 @@ def write(model: dict, vendor: dict | None, out: Path, iscwsa_library_path: Path
         problems = [p for p in validate_repo(t) if p.file in rels]
         if problems:
             raise IpmError("invalid", None, "; ".join(f"{p.file}: {p.code}: {p.detail}" for p in problems))
-    written = []
-    for rel, doc in files.items():
-        (out / rel).parent.mkdir(parents=True, exist_ok=True)
-        (out / rel).write_text(dump(doc), encoding="utf-8", newline="\n")
-        written.append(out / rel)
-    return written
+    # all or nothing: directories first, then each file to a temporary name, then the renames; a failure puts back
+    # whatever was there
+    targets = {out / rel: dump(doc) for rel, doc in files.items()}
+    before = {p: (p.read_bytes() if p.is_file() else None) for p in targets}
+    staged, new_dirs = [], []
+    for p in targets:
+        for d in reversed(p.parents):
+            if not d.exists() and d not in new_dirs:
+                new_dirs.append(d)
+    try:
+        for d in new_dirs:
+            d.mkdir()
+        for p, text in targets.items():
+            tmp = p.with_name(p.name + ".ipm2json-tmp")
+            tmp.write_bytes(text.encode("utf-8"))
+            staged.append((tmp, p))
+        for tmp, p in staged:
+            os.replace(tmp, p)
+    except OSError as exc:
+        for p, old in before.items():
+            if old is None and p.is_file():
+                p.unlink()
+            elif old is not None:
+                p.write_bytes(old)
+        for tmp, _ in staged:
+            if tmp.exists():
+                tmp.unlink()
+        for d in reversed(new_dirs):
+            if d.is_dir() and not any(d.iterdir()):
+                d.rmdir()
+        raise IpmError("write", None, str(exc)) from None
+    return list(targets)
 
 
 def main(argv=None) -> int:
@@ -388,6 +432,8 @@ def main(argv=None) -> int:
         meta = dict(metadata(ipm.header, flags), model_id=a.model_id, status=a.status)
         library = json.loads(ISCWSA_LIBRARY.read_text(encoding="utf-8"))
         model, vendor, log = convert(ipm, a.namespace, meta, library, a.subsea)
+        if not weights_equal(model, [library] + ([vendor] if vendor else []), ipm, a.subsea):
+            raise IpmError("weights", None, "the converted weights differ from the IPM's at the diagnostic stations")
         for path in write(model, vendor, a.out):
             print(f"wrote {path}")
     except IpmError as exc:

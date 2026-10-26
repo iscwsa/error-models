@@ -97,14 +97,20 @@ def parse_ipm(text: str) -> IpmFile:
             out.header[key.strip()] = value.strip()
             continue
         f = [x.strip() for x in line.split("\t")]
-        if len(f) < 6 or not f[0] or f[0].lower() == "name" or len(f[1]) != 1 or len(f[2]) != 1:
-            continue  # not a row: the column titles, a blank or a comment line
+        if not line.strip() or f[0].lower() == "name":
+            continue  # a blank line or the column titles
+        if len(f) < 6 or not f[0] or len(f[1]) != 1 or len(f[2]) != 1 or not f[5]:
+            if out.layout:  # after the layout's titles every other line is a row: never drop one silently
+                raise IpmError("syntax", None, f"line {n}: not a Name / Vector / Tie-On / Unit / Value / Formula row")
+            continue        # before them (another program's export): no_rows if nothing else is found
         try:
             value = float(f[4])
             lo = float(f[6]) if len(f) > 6 and f[6] else None
             hi = float(f[7]) if len(f) > 7 and f[7] else None
         except ValueError:
             raise IpmError("syntax", None, f"line {n}: a number column is not a number") from None
+        if not all(math.isfinite(x) for x in (value, lo or 0.0, hi or 0.0)):
+            raise IpmError("syntax", None, f"line {n}: a number column is not finite")
         if lo == 0.0 and hi == 0.0:  # 0 / 0 is written for "no range"
             lo = hi = None
         out.rows.append(IpmRow(f[0], f[1].lower(), f[2].lower(), f[3].lower(), value, f[5], lo, hi, n))
