@@ -12,6 +12,7 @@ Two readings of an IPM formula (docs/ipm.md, "Constants"):
 """
 from __future__ import annotations
 
+import hashlib
 import math
 import re
 from dataclasses import dataclass, field
@@ -73,6 +74,8 @@ class IpmRow:
 class IpmFile:
     header: dict[str, str] = field(default_factory=dict)
     rows: list[IpmRow] = field(default_factory=list)
+    file: str = "ipm"   # the file name (read_ipm), for the model's origin
+    sha256: str = ""    # of the file's bytes (read_ipm), or of the text as UTF-8 (parse_ipm)
 
 
 def is_variable(row: IpmRow) -> bool:
@@ -81,7 +84,7 @@ def is_variable(row: IpmRow) -> bool:
 
 
 def parse_ipm(text: str) -> IpmFile:
-    out = IpmFile()
+    out = IpmFile(sha256=hashlib.sha256(text.encode("utf-8")).hexdigest())
     for n, line in enumerate(text.replace("\r\n", "\n").replace("\r", "\n").split("\n"), 1):
         if line.startswith("#"):
             key, _, value = line[1:].partition(":")
@@ -113,7 +116,9 @@ def read_ipm(path) -> IpmFile:
             text = data.decode("cp1252")
         except UnicodeDecodeError:
             raise IpmError("encoding", None, f"{path} is neither UTF-8 nor cp1252") from None
-    return parse_ipm(text)
+    out = parse_ipm(text)
+    out.file, out.sha256 = Path(path).name, hashlib.sha256(data).hexdigest()
+    return out
 
 
 # ---------------------------------------------------------------- IPM -> grammar

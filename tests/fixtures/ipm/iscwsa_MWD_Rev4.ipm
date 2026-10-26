@@ -1,0 +1,45 @@
+#Comment:Test fixture written by tools.json2ipm from iscwsa:MWD_Rev4 (a public ISCWSA model); not a vendor file
+#ShortName:ISCWSA MWD Rev4
+#Description:ISCWSA MWD (Fixed Rig) Rev4
+#RevisionNumber:4
+#RevisionComment:DECR and DBHR terms added. AMIL reduced from 300 to 220 nT. XYM1, XYM2, XYM3, XYM4 increased from 0.06 to 0.1 deg.
+#SourceReference:OWSG
+#RevisionDate:2015-03-20
+#InclinationRangeMin:0
+#InclinationRangeMax:180
+#AzimuthEWRestriction:0
+Name	Vector	Tie-On	Unit	Value	Formula
+DRFR	e	r	m	0.35	1
+DSFS	e	s	-	0.00056	tmd
+DSTG	e	g	im	2.5e-07	tmd*tvd
+ABXY-TI1S	i	s	-	0.004	-cos(inc)/gtot
+ABXY-TI1S	a	s	-	0.004	tan(dip)*cos(inc)*sin(azm)/gtot
+ABXY-TI2S	a	s	-	0.004	(tan(pi/2-inc)-tan(dip)*cos(azm))/gtot
+ABZ	i	s	-	0.004	-sin(inc)/gtot
+ABZ	a	s	-	0.004	tan(dip)*sin(inc)*sin(azm)/gtot
+ASXY-TI1S	i	s	-	0.0005	sin(inc)*cos(inc)/sqrt(2)
+ASXY-TI1S	a	s	-	0.0005	-tan(dip)*sin(inc)*cos(inc)*sin(azm)/sqrt(2)
+ASXY-TI2S	i	s	-	0.0005	sin(inc)*cos(inc)/2
+ASXY-TI2S	a	s	-	0.0005	-tan(dip)*sin(inc)*cos(inc)*sin(azm)/2
+ASXY-TI3S	a	s	-	0.0005	(tan(dip)*sin(inc)*cos(azm)-cos(inc))/2
+ASZ	i	s	-	0.0005	-sin(inc)*cos(inc)
+ASZ	a	s	-	0.0005	tan(dip)*sin(inc)*cos(inc)*sin(azm)
+MBXY-TI1S	a	s	nt	70	-cos(inc)*sin(azm)/(mtot*cos(dip))
+MBXY-TI2S	a	s	nt	70	cos(azm)/(mtot*cos(dip))
+MBZ	a	s	nt	70	-sin(inc)*sin(azm)/(mtot*cos(dip))
+MSXY-TI1S	a	s	-	0.0016	sin(inc)*sin(azm)*(tan(dip)*cos(inc)+sin(inc)*cos(azm))/sqrt(2)
+MSXY-TI2S	a	s	-	0.0016	sin(azm)*(tan(dip)*sin(inc)*cos(inc)-cos(inc)*cos(inc)*cos(azm)-cos(azm))/2
+MSXY-TI3S	a	s	-	0.0016	(cos(inc)*cos(azm)*cos(azm)-cos(inc)*sin(azm)*sin(azm)-tan(dip)*sin(inc)*cos(azm))/2
+MSZ	a	s	-	0.0016	-(sin(inc)*cos(azm)+tan(dip)*cos(inc))*sin(inc)*sin(azm)
+DECG	a	g	d	0.36	1
+DECR	a	r	d	0.1	1
+DBHG	a	g	dnt	5000	1/(mtot*cos(dip))
+DBHR	a	r	dnt	3000	1/(mtot*cos(dip))
+AMIL	a	s	nt	220	sin(inc)*sin(azm)/(mtot*cos(dip))
+SAG	i	s	d	0.2	sin(inc)
+XYM1	i	s	d	0.1	abs(sin(inc))
+XYM2	a	s	d	0.1	-1
+XYM3	i	s	d	0.1	abs(cos(inc))*cos(azt)
+XYM3	a	s	d	0.1	-(abs(cos(inc))*sin(azt))/sin(inc)
+XYM4	i	s	d	0.1	abs(cos(inc))*sin(azt)
+XYM4	a	s	d	0.1	abs(cos(inc))*cos(azt)/sin(inc)
