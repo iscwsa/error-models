@@ -1,0 +1,168 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/model.json",
+	"metadata": {
+		"model_uuid": "b8f5d39a-898e-5c6d-ac08-8ea60c734d28",
+		"model_id": "iscwsa:SPE90408_Ex1",
+		"short_name": "SPE90408_Ex1",
+		"long_name": "SPE 90408 Example Model #1: XY accelerometer, XY stationary gyro",
+		"revision": "1",
+		"revision_date": "2004-09-26",
+		"revision_comment": "Appendix D example model of the paper's generalised gyro error model",
+		"source": "SPE 90408 Appendix D, Example Model #1",
+		"tool_type": "Gyro",
+		"status": "reference",
+		"framework": "Other",
+		"author": "ISCWSA",
+		"tags": [
+			"Example"
+		],
+		"application": "Stationary gyro survey with an xy accelerometer",
+		"notes": "Published example, not a tool model. Magnitudes are SPE 90408 Table D7; the depth systematic reference of Table 10 is not included."
+	},
+	"libraries": [
+		{
+			"id": "iscwsa:rev5",
+			"uuid": "afcf8ed3-ac41-51f8-9999-8d126737f2f0",
+			"hash_value": "5dcc49c8fc45aac90dd94fda894441f042d48b0c4d07466b2f893476e8ec3ed3"
+		},
+		{
+			"id": "iscwsa:spe90408",
+			"uuid": "4512bb16-e3e4-564d-98b3-f28c7d7ce6a7",
+			"hash_value": "17399957ddb929f3c153aa0693022ac689f91b0a2075285581b35111035b6ec5"
+		}
+	],
+	"applicability": {
+		"inc_min": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		},
+		"inc_max": {
+			"value": 150,
+			"unit": "deg",
+			"text": "150 deg"
+		},
+		"hor_ew_exclusion": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		}
+	},
+	"parameters": {
+		"MisalignmentAlt": {
+			"value": 3,
+			"unit": "-",
+			"text": "3"
+		}
+	},
+	"gyro": {
+		"accelerometer": "xy",
+		"stationary": {
+			"axes": "xy",
+			"start_inc": {
+				"value": 0,
+				"unit": "deg",
+				"text": "0 deg"
+			},
+			"end_inc": {
+				"value": 150,
+				"unit": "deg",
+				"text": "150 deg"
+			},
+			"init_inc": {
+				"value": 0,
+				"unit": "deg",
+				"text": "0 deg"
+			}
+		},
+		"continuous": []
+	},
+	"terms": [
+		{
+			"term": "AXY-B",
+			"magnitude": 0.005
+		},
+		{
+			"term": "AXY-SF",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "AXY-MIS",
+			"magnitude": 0.05
+		},
+		{
+			"term": "AXY-GB",
+			"magnitude": 0.005
+		},
+		{
+			"term": "GXY-B1S",
+			"magnitude": 0.1
+		},
+		{
+			"term": "GXY-B2S",
+			"magnitude": 0.1
+		},
+		{
+			"term": "GXY-RN",
+			"magnitude": 0.1
+		},
+		{
+			"term": "GXY-G1",
+			"magnitude": 0.5
+		},
+		{
+			"term": "GXY-G2",
+			"magnitude": 0.5
+		},
+		{
+			"term": "GXY-G3",
+			"magnitude": 0.5
+		},
+		{
+			"term": "GXY-G4",
+			"magnitude": 0.5
+		},
+		{
+			"term": "GXY-SF",
+			"magnitude": 0.001
+		},
+		{
+			"term": "GXY-MIS",
+			"magnitude": 0.05
+		},
+		{
+			"term": "XYM1",
+			"magnitude": 0.1
+		},
+		{
+			"term": "XYM2",
+			"magnitude": 0.1
+		},
+		{
+			"term": "XYM3",
+			"magnitude": 0.2
+		},
+		{
+			"term": "XYM4",
+			"magnitude": 0.2
+		},
+		{
+			"term": "SAG",
+			"magnitude": 0.1
+		},
+		{
+			"term": "DRFR",
+			"magnitude": 0.5
+		},
+		{
+			"term": "DSFW",
+			"magnitude": 0.001
+		},
+		{
+			"term": "DSTG",
+			"magnitude": 5e-07
+		}
+	],
+	"hash_function": "SHA256",
+	"hash_value": "e7eb17965f90caca7071db311511c086ee971ddde7dce777c4c821087af2dda7"
+}

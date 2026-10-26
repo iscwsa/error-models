@@ -1,0 +1,555 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/library.json",
+	"library_id": "iscwsa:spe90408",
+	"uuid": "4512bb16-e3e4-564d-98b3-f28c7d7ce6a7",
+	"publisher": "ISCWSA",
+	"requires": [
+		"gyro_modes"
+	],
+	"weighting_functions": {
+		"AXYZ-XYB": {
+			"depth": "0",
+			"inclination": "Cos(Inc) / GField",
+			"azimuth": "0",
+			"source": "SPE 90408 Table 1",
+			"uuid": "6b6960f2-755e-5aaf-9c09-22660fee1ac6",
+			"hash_value": "8607e8a82a4f20223edaecefcfe9d60267aeba0e797ddba2a50009bee9f2f06a"
+		},
+		"AXY-B": {
+			"depth": "0",
+			"inclination": "1 / (GField * Cos(IncCant))",
+			"azimuth": "0",
+			"source": "SPE 90408 Table 2",
+			"uuid": "ee1dabd5-9a18-5a1f-a773-27da57aac127",
+			"hash_value": "e9eebbfefa514f9557ab8d7fc707079c5b0f401276a343ddd340e71882da97c9"
+		},
+		"AXY-SF": {
+			"depth": "0",
+			"inclination": "Tan(IncCant)",
+			"azimuth": "0",
+			"source": "SPE 90408 Table 2",
+			"uuid": "5e27fca9-1c93-58d0-b8f8-4ee285180dd8",
+			"hash_value": "fdb5ab40db22056f2052e803cd5d5a25e37a5ebfc3bbdab3720bfaa3e34519bb"
+		},
+		"AXY-MIS": {
+			"depth": "0",
+			"inclination": "1",
+			"azimuth": "0",
+			"source": "SPE 90408 Table 2",
+			"uuid": "97dc68ec-a01b-5a98-a69d-128e81d41604",
+			"hash_value": "663e7dcb97360ea3805abd383d5f99ac6b883a9c68644aeb418f87f84b34d955"
+		},
+		"AXY-GB": {
+			"depth": "0",
+			"inclination": "Tan(IncCant) / GField",
+			"azimuth": "0",
+			"source": "SPE 90408 Table 2",
+			"uuid": "487d9332-7b53-56d5-bfbd-cfcaa27dea3b",
+			"hash_value": "46e8c6771dba1163fc38c7affe5edd43c64c97c2c884bcb81162a212553aba0c"
+		},
+		"GXYZ-B1": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sin(AzT) * Cos(Inc) / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 3",
+			"uuid": "70ab2b65-74f7-59f4-a057-51e596d81594",
+			"hash_value": "4b721e3e0f7c0446d9fee9b51fd6a5038d3f897051ad81153dcdb1d0a07bf8a7"
+		},
+		"GXYZ-B2": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Cos(AzT) / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 3",
+			"uuid": "7ad07592-e47d-5eef-aa7f-f206706b2457",
+			"hash_value": "dc6b5671e7f6a65512c30104c1329358f473bca52318cb784652e424c13cce7d"
+		},
+		"GXYZ-RN": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "NoiseReductionFactor * Sqrt(1 - Sin(AzT) ^ 2 * Sin(Inc) ^ 2) / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 3",
+			"uuid": "18aacc5b-6455-507c-80c8-65786274eb68",
+			"hash_value": "f02747a7d78eeaa76c1eff092ce8a8bfe479d0632f97d4d11c5c61308ebca5f9"
+		},
+		"GXYZ-G1": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Cos(AzT) * Sin(Inc) / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 3",
+			"uuid": "d3a82c48-00ea-5c89-835a-c047c300b4ed",
+			"hash_value": "e4a18324ba302fd9edae67299962db52f32421d728ed09a2b5867e73b5569087"
+		},
+		"GXYZ-G2": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Cos(AzT) * Cos(Inc) / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 3",
+			"uuid": "ed10d7b6-ca98-5ba1-b4e3-e2da36340e39",
+			"hash_value": "20447d394e5198ad12ee6ea76a05d6c2485031af85a7f59901b14f7175e37948"
+		},
+		"GXYZ-G3": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sin(AzT) * Cos(Inc) ^ 2 / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 3",
+			"uuid": "c41815de-d648-5190-bd8a-265436c3b804",
+			"hash_value": "b871d92d62d980fd892333376569136e97490ad58a8bc842fce7471e02b46887"
+		},
+		"GXYZ-G4": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sin(AzT) * Sin(Inc) * Cos(Inc) / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 3",
+			"uuid": "ea81bd88-3cd9-5d23-9ddd-9637aa1d45a0",
+			"hash_value": "6b67892fab68d2f2fbc2a1488c51e57465dfef657656f1bac31c8a9a4e3203d2"
+		},
+		"GXYZ-ZB": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sin(AzT) * Sin(Inc) / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 3",
+			"uuid": "21b1581a-a03f-51ca-9dbb-26e0357d8069",
+			"hash_value": "17118fe98557f2edde601a38ae383f088d62628a6eb3484461dd7331a48eb91e"
+		},
+		"GXYZ-ZRN": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sin(AzT) * Sin(Inc) / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 3",
+			"uuid": "61112476-9afb-522e-bd49-2b28724a513a",
+			"hash_value": "99fe3a5410d1935d381b15db66361896be8a059e2c4140453e68303aab92479a"
+		},
+		"GXYZ-ZG1": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sin(AzT) * Sin(Inc) ^ 2 / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 3",
+			"uuid": "ee1305cc-6afb-598a-a9d2-7917e6ef81bd",
+			"hash_value": "4c1940fc8400d7a96e3bbfa125167b6a0057020e61b38724f60389b44f649bbf"
+		},
+		"GXYZ-ZG2": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sin(AzT) * Cos(Inc) * Sin(Inc) / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 3",
+			"uuid": "80794c01-9b45-52f8-a770-31953a13501a",
+			"hash_value": "a975c9b035311973f17cf1d9a6a6fe491bd7d7f2434e63302b891f5b0e3ed093"
+		},
+		"GXYZ-SF": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Tan(Lat) * Sin(AzT) * Sin(Inc) * Cos(Inc)",
+			"source": "SPE 90408 Table 3",
+			"uuid": "b9fdc0d0-b7df-58f2-8b5b-8444669f8ce5",
+			"hash_value": "d2dea07192109c38674a89a40807275395792cd407b81661bb6d6239c87c1817"
+		},
+		"GXYZ-MIS": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "1 / Cos(Lat)",
+			"source": "SPE 90408 Table 3",
+			"uuid": "64c0eadb-8108-515d-a004-4eb7ba4ba0b9",
+			"hash_value": "040e0a3241642d1ab84e0501f97627247cc992f0781ec48391d10b6025442a6c"
+		},
+		"GXY-G2": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Cos(AzT) * Cos(Inc) / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 4",
+			"uuid": "165b5079-fc94-55cd-8b47-f5f948803fdf",
+			"hash_value": "3c89d5e3d0f750d81565c7408d4ff62b6586cc8ed14a70392790e0cd93ead212"
+		},
+		"GXY-G3": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sin(AzT) / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 4",
+			"uuid": "3a394891-e6b3-5ca1-a46f-8f1e03c6a385",
+			"hash_value": "227f4218c138c32a62a755f6ca53fc4a4f569b9f95e5b16340b0c99b49d187f0"
+		},
+		"GXY-SF": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Tan(Lat) * Sin(AzT) * Tan(Inc)",
+			"source": "SPE 90408 Table 4",
+			"uuid": "bbe740d4-c316-5bf5-ac60-0506ff417186",
+			"hash_value": "ff033d56fc45d0bb7380143bb2bc7306f4c3bda786861580b2580b2630a9e18d"
+		},
+		"GXY-MIS": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "1 / (Cos(Lat) * Cos(Inc))",
+			"source": "SPE 90408 Table 4",
+			"uuid": "4b830fb6-b4d8-55db-a93f-d082718ed7b4",
+			"hash_value": "c8cb12088043464bb1f0c95996fa83bb52593d5558e126076caf9fa52a3e3670"
+		},
+		"GXYZ-GD": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "XYZ_Gyro_Drift + (MD - MDPrev) / GXYZRunningSpeed",
+			"source": "SPE 90408 Table 6",
+			"uuid": "bd0c0c5f-fb80-590c-9046-2716565d0963",
+			"hash_value": "8bc5e88b9c20bc32d90233bb0b9ea02f48dba19dac6a3ec058867aa43d7a28a5"
+		},
+		"GXYZ-GRW": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sqrt(XYZ_Gyro_Random_Walk ^ 2 + (MD - MDPrev) / GXYZRunningSpeed)",
+			"source": "SPE 90408 Table 6",
+			"uuid": "3a05be0d-cf58-5fa0-886d-4ab40f903536",
+			"hash_value": "984a897c833e133e404af7a6628330f930725e78ab8da53a1baf3574cf93f34c"
+		},
+		"GZ-GRW": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sqrt(Z_Gyro_Random_Walk ^ 2 + (MD - MDPrev) / (GZRunningSpeed * Cos((Inc + IncPrev) / 2) ^ 2))",
+			"source": "SPE 90408 Table 8",
+			"uuid": "c9f6ef27-ca10-58b3-8382-61e19f123ea0",
+			"hash_value": "5d73211b55d1f0318cace68f4f1f4f41f4e5d61f1167626ebcad22f0ceddd4ac"
+		}
+	},
+	"terms": {
+		"AXYZ-XYB": {
+			"description": "Gyro: 3-Axis - XY Accelerometer Bias",
+			"type": "Sensor",
+			"units": "m/s2",
+			"propagation": "Systematic",
+			"weighting_function": "AXYZ-XYB",
+			"requires": [
+				"gyro_modes"
+			],
+			"uuid": "7fa724b1-247d-5d7e-bda8-9eb8fb495174",
+			"hash_value": "03f5d6cf4e405eadb0b46ca888b5741a235070d8b956ab10fd496ee90380f3a1"
+		},
+		"AXY-B": {
+			"description": "Gyro: 2-Axis - Accelerometer Bias",
+			"type": "Sensor",
+			"units": "m/s2",
+			"propagation": "Systematic",
+			"weighting_function": "AXY-B",
+			"requires": [
+				"gyro_modes"
+			],
+			"uuid": "5897ec1a-196f-5550-9456-ce0ca4191ee4",
+			"hash_value": "abb62acdd70333f96c85417202f9f7724486f5883e12fd04cee7c70c61151804"
+		},
+		"AXY-SF": {
+			"description": "Gyro: 2-Axis - Accelerometer Scale Factor",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "AXY-SF",
+			"requires": [
+				"gyro_modes"
+			],
+			"uuid": "f124d798-d2cd-5233-a441-dfa0eb315d04",
+			"hash_value": "050a3567125d6b7cfa33080f0dad89590151577977d600b46c2f54a9bd2cd01a"
+		},
+		"AXY-MIS": {
+			"description": "Gyro: 2-Axis - Accelerometer Misalignment",
+			"type": "Sensor",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "AXY-MIS",
+			"requires": [
+				"gyro_modes"
+			],
+			"uuid": "1c960d56-eadd-5874-b8b8-c87969d8d29d",
+			"hash_value": "09ead045ef7fed9e0f796d8cb9ff3d66fe477d26e7546f964a2a318413ed8091"
+		},
+		"AXY-GB": {
+			"description": "Gyro: 2-Axis - Accelerometer Gravity Bias",
+			"type": "Sensor",
+			"units": "m/s2",
+			"propagation": "Systematic",
+			"weighting_function": "AXY-GB",
+			"requires": [
+				"gyro_modes"
+			],
+			"uuid": "26dc2673-652c-5dbd-8667-63174fbdcf1a",
+			"hash_value": "f391dc60cf0d814340cd7a8dfd1fe345e8deb683255484328565224b18a1ac0a"
+		},
+		"GXYZ-B1": {
+			"description": "Gyro: 3-Axis XYZ Gyro Bias 1",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXYZ-B1",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "7c76b9ce-cfbd-5842-9754-01cf0e401b94",
+			"hash_value": "7891d682d7f316cc12928947d320652bf2dea8703759a7cd5c64a6b3f9c62711"
+		},
+		"GXYZ-B2": {
+			"description": "Gyro: 3-Axis XYZ Gyro Bias 2",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXYZ-B2",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "2e98e961-4989-5c60-8b7d-34ef21e3e978",
+			"hash_value": "f4464d12ae5133af91b362afe712a6149808528d3fc43313349e5b07973d4430"
+		},
+		"GXYZ-RN": {
+			"description": "Gyro: 3-Axis XYZ Gyro Random Noise",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Random",
+			"weighting_function": "GXYZ-RN",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "c36299bd-613c-592f-8e2d-b4ec0e849d53",
+			"hash_value": "ac9bc23efb283d2ea1a602f93c438c14ccd83cf315c135aa5a1339481b299fb6"
+		},
+		"GXYZ-G1": {
+			"description": "Gyro: 3-Axis XYZ Gyro g-dep Error 1",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXYZ-G1",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "313de975-9c5d-53c0-aa65-b6de7e42b309",
+			"hash_value": "f652c1c4acf9d2ffaf6f9b0a627ed22427e6fdd4db2a83730e33299c6d11fb5f"
+		},
+		"GXYZ-G2": {
+			"description": "Gyro: 3-Axis XYZ Gyro g-dep Error 2",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXYZ-G2",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "964cbb6a-283c-5bc4-ae37-2ee0ab91534d",
+			"hash_value": "7e7c2d3a23d1019adbb6178079748cbc9709a6293c7f72b8d3643f01acca2c4d"
+		},
+		"GXYZ-G3": {
+			"description": "Gyro: 3-Axis XYZ Gyro g-dep Error 3",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXYZ-G3",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "9f160398-85c9-5449-b6a2-6b3bd3d9a57d",
+			"hash_value": "ea02b98c4c4c154ab4f483e42261cc8fb49d5c11f73cb4ce663490277262d740"
+		},
+		"GXYZ-G4": {
+			"description": "Gyro: 3-Axis XYZ Gyro g-dep Error 4",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXYZ-G4",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "e1b40768-994e-5b70-8b7b-ccfc699ff56b",
+			"hash_value": "99e960b027d954e045eae042ef4ecc1b8f5088fbba30a30205ad9ce294f049d9"
+		},
+		"GXYZ-ZB": {
+			"description": "Gyro: 3-Axis Z Gyro Bias",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXYZ-ZB",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "1d745987-5367-556d-82ff-8c351bb91eea",
+			"hash_value": "692f139f5dd3e294884db07b421f1d105df624bbc692e09ce5a088875e45a805"
+		},
+		"GXYZ-ZRN": {
+			"description": "Gyro: 3-Axis Z Gyro Random Noise",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Random",
+			"weighting_function": "GXYZ-ZRN",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "7f5350dd-e29d-5d6d-b02f-8ee774df906f",
+			"hash_value": "0c887760ada2d4cb008fa5fddea799b03a531d8b6d85be9d842528dda4963974"
+		},
+		"GXYZ-ZG1": {
+			"description": "Gyro: 3-Axis Z Gyro g-dep Error 1",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXYZ-ZG1",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "24e2b2ec-810c-5f04-986d-459bba5831ea",
+			"hash_value": "4e7700a7f957495cb0c9dd89db775e12d2cacc07d7a706ffc48101551fbf9e03"
+		},
+		"GXYZ-ZG2": {
+			"description": "Gyro: 3-Axis Z Gyro g-dep Error 2",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXYZ-ZG2",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "955b78f3-c8c9-50a7-968f-7bb9ad8e6dc0",
+			"hash_value": "abd84fb553f9b405f61f69126089d4d1a0587fb1255c24643821cc644eafcf84"
+		},
+		"GXYZ-SF": {
+			"description": "Gyro: 3-Axis XYZ Gyro Scale Factor",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "GXYZ-SF",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "943a2144-1dbf-593b-8abb-b8b80fe222a8",
+			"hash_value": "ac647d62c2f8be43dc1fe479eec594aa0f3119f4df0c90a77333bd10a8b965f4"
+		},
+		"GXYZ-MIS": {
+			"description": "Gyro: 3-Axis XYZ Gyro Misalignment",
+			"type": "Sensor",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "GXYZ-MIS",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "3cdef5a1-af96-5a57-8566-35c81e8eee60",
+			"hash_value": "72835c56d7ec9ecba9a0b82e220f91b8f5eedfd09abd9da7202e5e704aa9e082"
+		},
+		"GXY-G2": {
+			"description": "Gyro: 2-Axis XY Gyro g-dep Error 2",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXY-G2",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "07aae9de-79ff-5a9b-a79d-ff0c31b1366f",
+			"hash_value": "ec56ddbccc799b57432084450214f46a2177daed37ab0365b556d316cf59d1cc"
+		},
+		"GXY-G3": {
+			"description": "Gyro: 2-Axis XY Gyro g-dep Error 3",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXY-G3",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "c6a05988-9b25-5fb3-965d-8f784b124473",
+			"hash_value": "ea4bcd5d06b631e77bd4b9f1420a8265b6a6018495d459397c23c2ee1fe92af3"
+		},
+		"GXY-SF": {
+			"description": "Gyro: 2-Axis XY Gyro Scale Factor",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "GXY-SF",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "4ac2457d-5566-5fa4-9626-1950a1683825",
+			"hash_value": "aae070d7b50d86a426e3199f02ba86c11d8a199aa9e109d5e4c5af9343a8f0ab"
+		},
+		"GXY-MIS": {
+			"description": "Gyro: 2-Axis XY Gyro Misalignment",
+			"type": "Sensor",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "GXY-MIS",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "stationary",
+			"init": true,
+			"uuid": "8d5c4274-c1e0-5956-807f-ad9dc513d652",
+			"hash_value": "a882096bc51d7c461011a1839d5497e41064085dac74cf851fdc51458aceed41"
+		},
+		"GXYZ-GD": {
+			"description": "Gyro: 3-Axis XYZ Gyro - Continuous Survey Gyro Drift",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXYZ-GD",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "continuous",
+			"init": false,
+			"uuid": "25d76d50-b5b2-535c-a304-b1ccdcacefb5",
+			"hash_value": "bf6677dee9c037b88b739a13af3b58977585c79f025a607bc66871bc4a9546af"
+		},
+		"GXYZ-GRW": {
+			"description": "Gyro: 3-Axis XYZ Gyro - Continuous Survey Random Walk",
+			"type": "Sensor",
+			"units": "deg/sqr(hr)",
+			"propagation": "Systematic",
+			"weighting_function": "GXYZ-GRW",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "continuous",
+			"init": false,
+			"uuid": "15a7ce62-f1bc-5b5c-ab75-c93c0221ca11",
+			"hash_value": "fd794e62afaeb606a549437ba3e9e3bb8161b76b2a99913a4f77ce33cdf73051"
+		},
+		"GZ-GRW": {
+			"description": "Gyro: Z-Axis Gyro - Continuous Survey Random Walk",
+			"type": "Sensor",
+			"units": "deg/sqr(hr)",
+			"propagation": "Systematic",
+			"weighting_function": "GZ-GRW",
+			"requires": [
+				"gyro_modes"
+			],
+			"mode": "continuous",
+			"init": false,
+			"uuid": "4e036fd6-a222-5e9a-889d-23db2d8a9843",
+			"hash_value": "534091babe93b80bcaa1712bb5b529e53a9f4608f765fbe46210fc26b5a49692"
+		}
+	},
+	"hash_function": "SHA256",
+	"hash_value": "17399957ddb929f3c153aa0693022ac689f91b0a2075285581b35111035b6ec5"
+}

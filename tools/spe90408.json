@@ -1,0 +1,123 @@
+{
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully. Source data of library/iscwsa/spe90408.json and the six models in conformance/models/iscwsa/, read by tools/make_spe90408.py. 'terms' are the rows of SPE 90408 Tables 1-4, 6 and 8 that no ISCWSA sheet carries (a, the accelerometer cant of Table 2, is the grammar variable IncCant); 'groups' and 'models' are Appendix D, Tables D1-D7.",
+	"terms": {
+		"AXYZ-XYB": {"table": "Table 1", "description": "Gyro: 3-Axis - XY Accelerometer Bias", "type": "Sensor", "units": "m/s2", "propagation": "Systematic", "inclination": "Cos(Inc) / GField"},
+		"AXY-B": {"table": "Table 2", "description": "Gyro: 2-Axis - Accelerometer Bias", "type": "Sensor", "units": "m/s2", "propagation": "Systematic", "inclination": "1 / (GField * Cos(IncCant))"},
+		"AXY-SF": {"table": "Table 2", "description": "Gyro: 2-Axis - Accelerometer Scale Factor", "type": "Sensor", "units": "-", "propagation": "Systematic", "inclination": "Tan(IncCant)"},
+		"AXY-MIS": {"table": "Table 2", "description": "Gyro: 2-Axis - Accelerometer Misalignment", "type": "Sensor", "units": "deg", "propagation": "Systematic", "inclination": "1"},
+		"AXY-GB": {"table": "Table 2", "description": "Gyro: 2-Axis - Accelerometer Gravity Bias", "type": "Sensor", "units": "m/s2", "propagation": "Systematic", "inclination": "Tan(IncCant) / GField"},
+		"GXYZ-B1": {"table": "Table 3", "description": "Gyro: 3-Axis XYZ Gyro Bias 1", "type": "Sensor", "units": "deg/hr", "propagation": "Systematic", "azimuth": "Sin(AzT) * Cos(Inc) / (EarthRate * Cos(Lat))"},
+		"GXYZ-B2": {"table": "Table 3", "description": "Gyro: 3-Axis XYZ Gyro Bias 2", "type": "Sensor", "units": "deg/hr", "propagation": "Systematic", "azimuth": "Cos(AzT) / (EarthRate * Cos(Lat))"},
+		"GXYZ-RN": {"table": "Table 3", "description": "Gyro: 3-Axis XYZ Gyro Random Noise", "type": "Sensor", "units": "deg/hr", "propagation": "Random", "azimuth": "NoiseReductionFactor * Sqrt(1 - Sin(AzT) ^ 2 * Sin(Inc) ^ 2) / (EarthRate * Cos(Lat))"},
+		"GXYZ-G1": {"table": "Table 3", "description": "Gyro: 3-Axis XYZ Gyro g-dep Error 1", "type": "Sensor", "units": "deg/hr", "propagation": "Systematic", "azimuth": "Cos(AzT) * Sin(Inc) / (EarthRate * Cos(Lat))"},
+		"GXYZ-G2": {"table": "Table 3", "description": "Gyro: 3-Axis XYZ Gyro g-dep Error 2", "type": "Sensor", "units": "deg/hr", "propagation": "Systematic", "azimuth": "Cos(AzT) * Cos(Inc) / (EarthRate * Cos(Lat))"},
+		"GXYZ-G3": {"table": "Table 3", "description": "Gyro: 3-Axis XYZ Gyro g-dep Error 3", "type": "Sensor", "units": "deg/hr", "propagation": "Systematic", "azimuth": "Sin(AzT) * Cos(Inc) ^ 2 / (EarthRate * Cos(Lat))"},
+		"GXYZ-G4": {"table": "Table 3", "description": "Gyro: 3-Axis XYZ Gyro g-dep Error 4", "type": "Sensor", "units": "deg/hr", "propagation": "Systematic", "azimuth": "Sin(AzT) * Sin(Inc) * Cos(Inc) / (EarthRate * Cos(Lat))"},
+		"GXYZ-ZB": {"table": "Table 3", "description": "Gyro: 3-Axis Z Gyro Bias", "type": "Sensor", "units": "deg/hr", "propagation": "Systematic", "azimuth": "Sin(AzT) * Sin(Inc) / (EarthRate * Cos(Lat))"},
+		"GXYZ-ZRN": {"table": "Table 3", "description": "Gyro: 3-Axis Z Gyro Random Noise", "type": "Sensor", "units": "deg/hr", "propagation": "Random", "azimuth": "Sin(AzT) * Sin(Inc) / (EarthRate * Cos(Lat))"},
+		"GXYZ-ZG1": {"table": "Table 3", "description": "Gyro: 3-Axis Z Gyro g-dep Error 1", "type": "Sensor", "units": "deg/hr", "propagation": "Systematic", "azimuth": "Sin(AzT) * Sin(Inc) ^ 2 / (EarthRate * Cos(Lat))"},
+		"GXYZ-ZG2": {"table": "Table 3", "description": "Gyro: 3-Axis Z Gyro g-dep Error 2", "type": "Sensor", "units": "deg/hr", "propagation": "Systematic", "azimuth": "Sin(AzT) * Cos(Inc) * Sin(Inc) / (EarthRate * Cos(Lat))"},
+		"GXYZ-SF": {"table": "Table 3", "description": "Gyro: 3-Axis XYZ Gyro Scale Factor", "type": "Sensor", "units": "-", "propagation": "Systematic", "azimuth": "Tan(Lat) * Sin(AzT) * Sin(Inc) * Cos(Inc)"},
+		"GXYZ-MIS": {"table": "Table 3", "description": "Gyro: 3-Axis XYZ Gyro Misalignment", "type": "Sensor", "units": "deg", "propagation": "Systematic", "azimuth": "1 / Cos(Lat)"},
+		"GXY-G2": {"table": "Table 4", "description": "Gyro: 2-Axis XY Gyro g-dep Error 2", "type": "Sensor", "units": "deg/hr", "propagation": "Systematic", "azimuth": "Cos(AzT) * Cos(Inc) / (EarthRate * Cos(Lat))"},
+		"GXY-G3": {"table": "Table 4", "description": "Gyro: 2-Axis XY Gyro g-dep Error 3", "type": "Sensor", "units": "deg/hr", "propagation": "Systematic", "azimuth": "Sin(AzT) / (EarthRate * Cos(Lat))"},
+		"GXY-SF": {"table": "Table 4", "description": "Gyro: 2-Axis XY Gyro Scale Factor", "type": "Sensor", "units": "-", "propagation": "Systematic", "azimuth": "Tan(Lat) * Sin(AzT) * Tan(Inc)"},
+		"GXY-MIS": {"table": "Table 4", "description": "Gyro: 2-Axis XY Gyro Misalignment", "type": "Sensor", "units": "deg", "propagation": "Systematic", "azimuth": "1 / (Cos(Lat) * Cos(Inc))"},
+		"GXYZ-GD": {"table": "Table 6", "description": "Gyro: 3-Axis XYZ Gyro - Continuous Survey Gyro Drift", "type": "Sensor", "units": "deg/hr", "propagation": "Systematic", "azimuth": "XYZ_Gyro_Drift + (MD - MDPrev) / GXYZRunningSpeed"},
+		"GXYZ-GRW": {"table": "Table 6", "description": "Gyro: 3-Axis XYZ Gyro - Continuous Survey Random Walk", "type": "Sensor", "units": "deg/sqr(hr)", "propagation": "Systematic", "azimuth": "Sqrt(XYZ_Gyro_Random_Walk ^ 2 + (MD - MDPrev) / GXYZRunningSpeed)"},
+		"GZ-GRW": {"table": "Table 8", "description": "Gyro: Z-Axis Gyro - Continuous Survey Random Walk", "type": "Sensor", "units": "deg/sqr(hr)", "propagation": "Systematic", "azimuth": "Sqrt(Z_Gyro_Random_Walk ^ 2 + (MD - MDPrev) / (GZRunningSpeed * Cos((Inc + IncPrev) / 2) ^ 2))"}
+	},
+	"groups": {
+		"xy_accelerometer": [["AXY-B", 0.005], ["AXY-SF", 0.0005], ["AXY-MIS", 0.05], ["AXY-GB", 0.005]],
+		"xyz_accelerometer": [["AXYZ-XYB", 0.005], ["AXYZ-ZB", 0.005], ["AXYZ-SF", 0.0005], ["AXYZ-MIS", 0.05]],
+		"xy_stationary_gyro": [["GXY-B1S", 0.1], ["GXY-B2S", 0.1], ["GXY-RN", 0.1], ["GXY-G1", 0.5], ["GXY-G2", 0.5], ["GXY-G3", 0.5], ["GXY-G4", 0.5], ["GXY-SF", 0.001], ["GXY-MIS", 0.05]],
+		"xyz_stationary_gyro": [["GXYZ-B1", 0.1], ["GXYZ-B2", 0.1], ["GXYZ-RN", 0.1], ["GXYZ-G1", 0.5], ["GXYZ-G2", 0.5], ["GXYZ-G3", 0.5], ["GXYZ-G4", 0.5], ["GXYZ-ZB", 0.1], ["GXYZ-ZRN", 0.1], ["GXYZ-ZG1", 0.5], ["GXYZ-ZG2", 0.5], ["GXYZ-SF", 0.001], ["GXYZ-MIS", 0.05]],
+		"external_reference": [["EXT-REF", 5.0]],
+		"z_continuous_gyro": [["GZ-GD", 1.0], ["GZ-GRW", 1.0]],
+		"xy_continuous_gyro": [["GXY-GD", 0.5], ["GXY-GRW", 0.5]],
+		"xyz_continuous_gyro": [["GXYZ-GD", 0.5], ["GXYZ-GRW", 0.5]],
+		"misalignment": [["XYM1", 0.1], ["XYM2", 0.1], ["XYM3", 0.2], ["XYM4", 0.2], ["SAG", 0.1]],
+		"depth": [["DRFR", 0.5], ["DSFW", 0.001], ["DSTG", 5e-07]]
+	},
+	"models": [
+		{
+			"number": 1,
+			"long_name": "SPE 90408 Example Model #1: XY accelerometer, XY stationary gyro",
+			"application": "Stationary gyro survey with an xy accelerometer",
+			"groups": ["xy_accelerometer", "xy_stationary_gyro", "misalignment", "depth"],
+			"gyro": {
+				"accelerometer": "xy",
+				"stationary": {"axes": "xy", "start_inc": 0, "end_inc": 150, "init_inc": 0},
+				"continuous": []
+			}
+		},
+		{
+			"number": 2,
+			"long_name": "SPE 90408 Example Model #2: XY accelerometer, external reference, Z continuous gyro",
+			"application": "Continuous z gyro initialised from an external reference",
+			"groups": ["xy_accelerometer", "external_reference", "z_continuous_gyro", "misalignment", "depth"],
+			"gyro": {
+				"accelerometer": "xy",
+				"external_reference": true,
+				"continuous": [{"axes": "z", "start_inc": 0, "end_inc": 150, "init_inc": 0}],
+				"min_distance": 9999,
+				"init_factor": 1
+			}
+		},
+		{
+			"number": 3,
+			"long_name": "SPE 90408 Example Model #3: XYZ accelerometer, XY stationary then XY continuous gyro",
+			"application": "Stationary xy gyro to 17 deg, continuous xy gyro above",
+			"groups": ["xyz_accelerometer", "xy_stationary_gyro", "xy_continuous_gyro", "misalignment", "depth"],
+			"gyro": {
+				"accelerometer": "xyz",
+				"stationary": {"axes": "xy", "start_inc": 0, "end_inc": 17, "init_inc": 17},
+				"continuous": [{"axes": "xy", "start_inc": 17, "end_inc": 150, "init_inc": 17}],
+				"min_distance": 2500,
+				"init_factor": 0.5
+			}
+		},
+		{
+			"number": 4,
+			"long_name": "SPE 90408 Example Model #4: canted XY accelerometer, Z continuous then XY continuous gyro",
+			"application": "Continuous z gyro to 17 deg, continuous xy gyro above, xy accelerometer canted 17 deg with switching",
+			"groups": ["xy_accelerometer", "xy_stationary_gyro", "z_continuous_gyro", "xy_continuous_gyro", "misalignment", "depth"],
+			"gyro": {
+				"accelerometer": "xy",
+				"cant": 17,
+				"cant_switching": true,
+				"continuous": [
+					{"axes": "z", "start_inc": 0, "end_inc": 17, "init_inc": 3},
+					{"axes": "xy", "start_inc": 17, "end_inc": 150, "init_inc": 3}
+				],
+				"min_distance": 2500,
+				"init_factor": 1
+			}
+		},
+		{
+			"number": 5,
+			"long_name": "SPE 90408 Example Model #5: XYZ accelerometer, XYZ continuous gyro",
+			"application": "Continuous xyz gyro initialised at the surface",
+			"groups": ["xyz_accelerometer", "xyz_stationary_gyro", "xyz_continuous_gyro", "misalignment", "depth"],
+			"gyro": {
+				"accelerometer": "xyz",
+				"continuous": [{"axes": "xyz", "start_inc": 0, "end_inc": 150, "init_inc": -1}],
+				"min_distance": 9999,
+				"init_factor": 1
+			}
+		},
+		{
+			"number": 6,
+			"long_name": "SPE 90408 Example Model #6: XYZ accelerometer, XYZ stationary gyro",
+			"application": "Stationary gyro survey with an xyz accelerometer",
+			"groups": ["xyz_accelerometer", "xyz_stationary_gyro", "misalignment", "depth"],
+			"gyro": {
+				"accelerometer": "xyz",
+				"stationary": {"axes": "xyz", "start_inc": 0, "end_inc": 150, "init_inc": 0},
+				"continuous": []
+			}
+		}
+	],
+	"running_speed_m_per_hr": 2160,
+	"model_notes": "Published example, not a tool model. Magnitudes are SPE 90408 Table D7; the depth systematic reference of Table 10 is not included."
+}

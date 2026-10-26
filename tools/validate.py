@@ -316,7 +316,7 @@ def validate_repo(root: Path, registry_check: bool = False) -> list[Problem]:
             registry_check = False
 
     files = []  # (kind, rel, doc, release)
-    for kind, folder in (("library", "library"), ("model", "models")):
+    for kind, folder in (("library", "library"), ("model", "models"), ("model", "conformance/models")):
         base = root / folder
         if not base.is_dir():
             continue

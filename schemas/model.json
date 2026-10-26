@@ -96,7 +96,6 @@
 	"required": [
 		"$schema",
 		"metadata",
-		"origin",
 		"libraries",
 		"applicability",
 		"parameters",

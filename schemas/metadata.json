@@ -34,11 +34,13 @@
 			"$ref": "./tool_types.json"
 		},
 		"status": {
+			"description": "reference: a published example, not a tool model",
 			"enum": [
 				"current",
 				"candidate",
 				"superseded",
-				"withdrawn"
+				"withdrawn",
+				"reference"
 			]
 		},
 		"framework": {

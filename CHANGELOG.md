@@ -5,6 +5,11 @@
 
 ## Unreleased
 
+### Added (SPE 90408 examples)
+
+- `iscwsa:spe90408` library: the SPE 90408 Table 1-4, 6 and 8 rows that no sheet carries.
+- Six reference models `iscwsa:SPE90408_Ex1` to `Ex6` (Appendix D example models), in `conformance/models/iscwsa/`, built by `tools/make_spe90408.py`. Model `status` gains `reference`; `origin` is optional.
+
 ### Added (all sheets)
 
 - 129 models from every ISCWSA sheet (files 807, 808, 809, 1052), with 7 libraries: `iscwsa:rev0` to `rev5` and `iscwsa:rot6axis`. See the status table in the README.
