@@ -36,7 +36,7 @@ The role of the ISCWSA Error Model Maintenance Group is to define the mathematic
 
 **Layout.** `schemas/` holds the JSON Schemas (`model.json`, `library.json` and their sub-schemas), `library/<ns>/` the term libraries, and `models/<ns>/` the error models, where `<ns>` is the namespace. Qualified names are written `<ns>:<name>`, e.g. the library id `iscwsa:rev5`. The other directories:
 
-- `docs/` - the formula grammar (`grammar.md`), how the formulas propagate into a covariance (`propagation.md`), the conformance rules (`conformance.md`), where the libraries and the reference results differ from the published sources (`deviations.md`), and the IPM conversion (`ipm.md`).
+- `docs/` - the formula grammar (`grammar.md`), how the formulas propagate into a covariance (`propagation.md`), the conformance rules (`conformance.md`), where the libraries and the reference results differ from the published sources (`deviations.md`), and the IPM conversion (`ipm.md`), and how a release is made (`releasing.md`).
 - `tools/` - the reference tools: formula parser and evaluator, spreadsheet extractor, validator, diagnostics reader, hashing and identity, and the IPM converters.
 - `conformance/` - ISCWSA's published diagnostics, unchanged, as test vectors, and `manifest.json` mapping each file to the model it exercises.
 
@@ -52,7 +52,7 @@ The registry is `namespaces.json`. A namespace is added by pull request with sub
 
 Namespace UUID: `7c9fcf73-f032-422d-b9aa-a2d69fa46e1d`
 
-**Versioning.** Schemas, libraries and models share one repository version. A release is a git tag. `$schema` and `$id` URLs carry the tag (`https://raw.githubusercontent.com/iscwsa/error-models/<tag>/schemas/model.json`); before the first release they use `main`.
+**Versioning.** Schemas, libraries and models share one repository version. A release is a git tag `vMAJOR.MINOR.PATCH` (semantic versioning: MAJOR for a schema change that makes a valid file invalid, MINOR for new models, libraries, optional fields or accepted errata, PATCH for metadata or text corrections); the first is `v0.1.0`. `$schema` and `$id` URLs carry the tag (`https://raw.githubusercontent.com/iscwsa/error-models/<tag>/schemas/model.json`); between releases they use `main`. A release is cut on a PR (`python -m tools.release cut vX.Y.Z`), the merge commit is tagged, and a second PR points `main` back (`python -m tools.release reopen`): see `docs/releasing.md`.
 
 **Identifiers.** Every `uuid` is a UUIDv5 (RFC 4122) of the namespace UUID above and an input string: for a model `<ns>:<id>` (its namespace and id), for a library its `library_id`, and for a library entry `<library_id>/<weighting_function|term>/<name>`, where the middle part says whether the entry is a weighting function or a term (so one of each with the same name stay distinct).
 
@@ -62,11 +62,12 @@ Namespace UUID: `7c9fcf73-f032-422d-b9aa-a2d69fa46e1d`
 
 - `python -m tools.validate --registry .` validates every library and model (schemas, formulas, hashes, identifiers, namespaces). Proposed errata are reported as warnings; `--release` turns them into errors.
 - `python -m tools.extract_xlsx --workbooks <dir> --sheet <sheet name> --library <id>` regenerates a library and its model from the ISCWSA spreadsheets, applying `tools/errata.json`.
-- `python -m tools.extract_xlsx --workbooks <dir> --all` (or `--all-libraries`) regenerates the seven libraries and all 129 models (or only the libraries) from every sheet.
+- `python -m tools.extract_xlsx --workbooks <dir> --all` (or `--all-libraries`) regenerates the seven libraries and all 129 models (or only the libraries) from every sheet; `--check` rebuilds them in memory and lists any committed file that differs. `python -m tools.make_spe90408 --check` does the same for the SPE 90408 library and example models.
 - `tools/model_ids.csv` is the fixed (workbook, sheet) to model ID and library table, so a renamed sheet keeps its UUID. `python -m tools.inventory --workbooks <dir>` checks it against the workbooks.
 - `tools/term_groups.json` lists the term groups the extractor writes into each library.
 - `tools/term_requires.json` lists the capability (`gyro_modes`, `bias_terms` or `xcl_position_direct`) each term needs; a library's `requires` is the union over its terms.
 - `python -m tools.ipm2json --namespace <ns> --model-id <id> --tool-type <type> --author <name> [--revision-date YYYY-MM-DD ...] FILE.ipm --out <dir>` converts a Compass IPM file into a model and, for sources that aren't ISCWSA terms, a vendor library; `python -m tools.json2ipm MODEL.json > FILE.ipm` goes the other way. Both cover a subset of the IPM format: see `docs/ipm.md`.
+- `python -m tools.release cut vX.Y.Z | reopen | check [--tag vX.Y.Z]` makes and checks a release (`docs/releasing.md`).
 
 The `iscwsa:rev5` and `iscwsa:rot6axis` libraries currently carry proposed errata (corrections to the spreadsheet formula text, each with its reason in `tools/errata.json`) that await a sub-committee decision. `docs/deviations.md` lists them with the evidence, together with the evaluation conventions the diagnostics need.
 
