@@ -36,7 +36,7 @@
 			"well": 3,
 			"md": 3000,
 			"element": "NN",
-			"reason": "A station-list difference: the paper gives no station list, so the reference calculation's stations differ from the paper's."
+			"reason": "Not established; a station-list difference is likely, since the paper gives no station list."
 		}
 	],
 	"cases": [

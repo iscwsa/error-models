@@ -138,7 +138,7 @@ Published examples, not tool models (`conformance/models`, `metadata.status` ref
 
 | model_id | sheet | library | status | load | self-check | 806 | SPE 67616 | SPE 90408 |
 |---|---|---|---|---|---|---|---|---|
-| iscwsa:SPE90408_Ex1 | — | iscwsa:rev5, iscwsa:spe90408 | reference | loaded | pass (0 excluded) | — | — | 65/66 (1 known miss) |
+| iscwsa:SPE90408_Ex1 | — | iscwsa:rev5, iscwsa:spe90408 | reference | loaded | pass (125 excluded) | — | — | 65/66 (1 known miss) |
 | iscwsa:SPE90408_Ex2 | — | iscwsa:rev5, iscwsa:spe90408 | reference | loaded | pass (125 excluded) | — | — | 66/66 |
 | iscwsa:SPE90408_Ex3 | — | iscwsa:rev5, iscwsa:spe90408 | reference | loaded | pass (0 excluded) | — | — | 90/90 |
 | iscwsa:SPE90408_Ex4 | — | iscwsa:rev5, iscwsa:spe90408 | reference | loaded | pass (0 excluded) | — | — | 90/90 |

@@ -43,7 +43,8 @@
 		{
 			"number": 1,
 			"long_name": "SPE 90408 Example Model #1: XY accelerometer, XY stationary gyro",
-			"application": "Stationary gyro survey with an xy accelerometer",
+			"application": "Stationary gyro survey with an xy accelerometer; limited to 89 deg inclination (the sheets' limit): a 1 / Cos(Inc) weight is singular at 90 deg and the paper prints '-'",
+			"inc_max": 89,
 			"groups": ["xy_accelerometer", "xy_stationary_gyro", "misalignment", "depth"],
 			"gyro": {
 				"accelerometer": "xy",
@@ -54,7 +55,7 @@
 		{
 			"number": 2,
 			"long_name": "SPE 90408 Example Model #2: XY accelerometer, external reference, Z continuous gyro",
-			"application": "Continuous z gyro initialised from an external reference; applicable below 90 deg, where the z gyro's 1 / Cos(Inc) weight is singular (the paper prints '-')",
+			"application": "Continuous z gyro initialised from an external reference; limited to 89 deg inclination (the sheets' limit): a 1 / Cos(Inc) weight is singular at 90 deg and the paper prints '-'",
 			"inc_max": 89,
 			"groups": ["xy_accelerometer", "external_reference", "z_continuous_gyro", "misalignment", "depth"],
 			"gyro": {

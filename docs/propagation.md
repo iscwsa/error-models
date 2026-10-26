@@ -81,10 +81,11 @@ At a vertical station (Inc 0) the azimuth is undefined and some weights have a `
     text, with its two proposed errata (E5 and E6), is listed in `deviations.md`. Engines should use the limit.
   - A weight `1/Cos(Inc)` (the xy gyro terms GXY-B1, GXY-G4 and GXY-RN) evaluated from its JSON text at
     exactly Inc 90° gives a very large finite number (about 1e16 in floating point), not an undefined value. SPE 90408
-    prints "-" for the xy-gyro Example Models #1 and #2 at 90° and above, and the sheets give an inclination limit of 89°.
-    An engine should treat the term as undefined from 90°. No vector station is at exactly 90°.
+    prints "-" for the Example Models #1 and #2 at 90° and above, and the sheets give an inclination limit of 89°, which
+    #1 and #2 use (`inc_max`: a station above it is outside the applicability). An engine should treat the term as
+    undefined from 90°. No vector station is at exactly 90°.
   - The same applies to the z-gyro accumulator, whose weight is `1/Cos(Im)`, at an interval mean inclination of exactly
-    90°. Example Model #2 is therefore limited to 89° (`inc_max`).
+    90°. Example Model #2 is therefore limited to 89° (`inc_max`), as #1 is.
 
 ## Toolface of the Rev0-2 sensor terms
 
@@ -115,7 +116,9 @@ SPE 90408 Appendix E, Example Models #2 to #5 (continuous) and #1 and #6 (statio
 
 - **Modes and ranges.** The stationary range and each continuous range are `start_inc` to `end_inc` blocks of the `gyro`
   object. Table 11 note 1 says they are "a logical unbroken sequence with no overlap zones": the validator rejects overlap or
-  reversed ranges (`GYRO_RANGE`).
+  reversed ranges (`GYRO_RANGE`). Two continuous blocks with the same axes are rejected (`GYRO_AXES_DUPLICATE`), and so is a
+  model with a continuous block but no `min_distance` (`GYRO_MIN_DISTANCE_MISSING`). Two continuous blocks with the same axes are rejected (`GYRO_AXES_DUPLICATE`), and so is a
+  model with a continuous block but no `min_distance` (`GYRO_MIN_DISTANCE_MISSING`).
   - **Open reading, not decided by the printed values (C15).** A station at a boundary belongs to the range that starts there (start <= Inc < end), and the highest
     range includes its end.
   - A station above every range is in no mode. Every gyro term is undefined there, and an engine excludes the station.

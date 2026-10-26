@@ -246,7 +246,12 @@ def _check_gyro(doc, rel, referenced, problems):
     continuous = gyro.get("continuous", [])
     if len({b["init_inc"]["value"] for b in continuous}) > 1:
         problems.append(Problem("GYRO_INIT_MISMATCH", rel, "continuous gyro blocks have different init_inc"))
-    have = {b["axes"] for b in continuous}
+    axes_list = [b["axes"] for b in continuous]
+    if len(set(axes_list)) < len(axes_list):
+        problems.append(Problem("GYRO_AXES_DUPLICATE", rel, f"two continuous gyro blocks have the same axes: {sorted(axes_list)}"))
+    if continuous and "min_distance" not in gyro:
+        problems.append(Problem("GYRO_MIN_DISTANCE_MISSING", rel, "the gyro block has a continuous block but no min_distance"))
+    have = set(axes_list)
     for name, entry, wf in mode_terms:
         if entry["mode"] != "continuous" or wf is None:
             continue

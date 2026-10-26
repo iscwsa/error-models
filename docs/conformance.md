@@ -64,7 +64,7 @@ A `total_nev` vector may declare a `vertical_reference` input: a sigma (in m) th
 
 A `total_nev` file may list `known_misses`: printed values (model, well, MD and element) that an independent calculation does
 not reproduce, each with its reason. They are disclosed, not tolerated silently. An engine passes the file if every other
-value is within tolerance. The one listed, example model #1 on well 3 at 3000 m (NN), is a station-list difference: the paper
+value is within tolerance. The one listed, example model #1 on well 3 at 3000 m (NN), is not explained; a station-list difference is likely, since the paper
 gives no station list. If an engine reproduces a listed value, that is worth reporting, not a failure.
 
 ## Capabilities
@@ -75,7 +75,7 @@ capability MUST refuse the library, and every model that uses it.
 | Capability | Meaning |
 |------------|---------|
 | `xcl_position_direct` | The library's formulas use the previous-station variables `MDPrev`, `IncPrev` and `AzPrev`, and the XCLA and XCLH weighting functions are evaluated as position-direct (tangential) terms, as the XCL Supplement r16 describes, not through the usual weighting-function derivative matrices. |
-| `gyro_modes` | The term needs the survey-mode switching of SPE 90408 Fig. C1, as `propagation.md` describes. The terms are the 15 that appear only on the `Tool Type: Gyro` sheets. An engine without them MUST refuse a model that uses one of these terms. |
+| `gyro_modes` | The term needs the survey-mode switching of SPE 90408 Fig. C1, as `propagation.md` describes. The terms are the 15 of `iscwsa:rev5` that appear only on the `Tool Type: Gyro` sheets, and every term of `iscwsa:spe90408`. An engine without them MUST refuse a model that uses one of these terms. |
 | `bias_terms` | The term has propagation `Bias` (the SPE 67616 bias terms `DSTB` and `AMIB` in the ISCWSA MWD bias sheets). A bias term shifts the expected position; it does not add covariance. An engine that cannot apply it MUST refuse a model that uses it. |
 
 ## Vertical stations

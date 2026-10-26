@@ -449,7 +449,19 @@ def test_validator_gyro_errors(tmp_path_factory):
     def add_gz(d):
         d["terms"].append({"term": "GZ-GD", "magnitude": 0.1})
 
+    def duplicate_axes(d):
+        speed = d["gyro"]["continuous"][0]["gyro_speed"]
+        d["gyro"]["continuous"] = [
+            {"axes": "xy", "start_inc": _pv(15), "end_inc": _pv(80), "init_inc": _pv(15), "gyro_speed": speed},
+            {"axes": "xy", "start_inc": _pv(80), "end_inc": _pv(150), "init_inc": _pv(15), "gyro_speed": speed},
+        ]
+
+    def no_min_distance(d):
+        del d["gyro"]["min_distance"]
+
     assert _gyro_codes(tmp(), start_10) == ["GYRO_RANGE"]
+    assert _gyro_codes(tmp(), duplicate_axes) == ["GYRO_AXES_DUPLICATE"]
+    assert _gyro_codes(tmp(), no_min_distance) == ["GYRO_MIN_DISTANCE_MISSING"]
     assert _gyro_codes(tmp(), reversed_range) == ["GYRO_RANGE"]
     assert _gyro_codes(tmp(), init_20) == ["GYRO_INIT_MISMATCH"]
     assert _gyro_codes(tmp(), no_gyro) == ["GYRO_BLOCK_MISSING"]

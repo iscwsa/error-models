@@ -352,7 +352,8 @@ def test_no_depth_systematic_reference():
         assert depth == {"DRFR": "Random", "DSFW": "Well", "DSTG": "Global"}
 
 
-def test_only_example_2_is_limited_below_90_deg():
-    """Example #2's z continuous gyro weight is 1 / Cos(Inc): singular at 90 deg, where the paper prints '-'. Stations above
-    inc_max are outside the applicability, so #2 stops at 89 deg (as the CB_Film sheets do); the others keep 150 deg."""
-    assert {n: m["applicability"]["inc_max"]["value"] for n, m in MODELS.items()} == {1: 150, 2: 89, 3: 150, 4: 150, 5: 150, 6: 150}
+def test_examples_1_and_2_are_limited_to_89_deg():
+    """Examples #1 and #2 have a 1 / Cos(Inc) weight (the xy accelerometer and gyro rows, the z continuous gyro): singular at 90 deg,
+    where the paper prints '-'. A station above inc_max is outside the applicability, so they stop at 89 deg, the sheets' limit
+    (as the CB_Film sheets do); the others keep 150 deg."""
+    assert {n: m["applicability"]["inc_max"]["value"] for n, m in MODELS.items()} == {1: 89, 2: 89, 3: 150, 4: 150, 5: 150, 6: 150}

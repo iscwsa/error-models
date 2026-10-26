@@ -16,7 +16,7 @@
 		"tags": [
 			"Example"
 		],
-		"application": "Stationary gyro survey with an xy accelerometer",
+		"application": "Stationary gyro survey with an xy accelerometer; limited to 89 deg inclination (the sheets' limit): a 1 / Cos(Inc) weight is singular at 90 deg and the paper prints '-'",
 		"notes": "Published example, not a tool model. Magnitudes are SPE 90408 Table D7; the depth systematic reference of Table 10 is not included."
 	},
 	"libraries": [
@@ -38,9 +38,9 @@
 			"text": "0 deg"
 		},
 		"inc_max": {
-			"value": 150,
+			"value": 89,
 			"unit": "deg",
-			"text": "150 deg"
+			"text": "89 deg"
 		},
 		"hor_ew_exclusion": {
 			"value": 0,
@@ -164,5 +164,5 @@
 		}
 	],
 	"hash_function": "SHA256",
-	"hash_value": "e7eb17965f90caca7071db311511c086ee971ddde7dce777c4c821087af2dda7"
+	"hash_value": "5d65e864c400fb11899bf5a626d8c1849ca236e71fcc7b4a26deec260d5092f5"
 }
