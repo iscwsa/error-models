@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from tools.formula import canonical
-from tools.ipm import IpmError, IpmRow, parse_ipm, read_ipm, to_ipm, translate
+from tools.ipm import IpmError, IpmRow, parse_ipm, read_ipm, to_ipm, translate, variables
 
 ROOT = Path(__file__).resolve().parent.parent
 SNIPPET = (
@@ -44,6 +44,23 @@ def test_translate_constants():
     assert translate("mtf/smd", "natural") == "1 / (MD - MDPrev)"
     assert translate("din+daz") == "Inc - IncPrev + (AzT - AzPrev)"
     assert translate("dtr*pi*tho") == "RAD * Pi * 0.001"
+    assert translate("cos(azi)") == "Cos(AzT)"
+
+
+VARS = ("Name\tVector\tTie-On\tUnit\tValue\tFormula\n"
+        "k1\tn\tn\t-\t1\tsin(inc)\n"
+        "k2\tn\tn\t-\t2\tsqrt(1-(K1)^2)\n"
+        "q\tl\ts\td\t0.1\t-sin(azi)*k2\n")
+
+
+def test_variables_inlined():
+    """A use of a plain variable becomes Value * (its formula), in the reading of the row that uses it."""
+    f = parse_ipm(VARS)
+    var = variables(f.rows)
+    assert set(var) == {"k1", "k2"}
+    row = f.rows[-1]
+    assert translate(row.formula, variables=var, row=row) == "-Sin(AzT) * (2 * Sqrt(1 - Sin(Inc) ^ 2))"
+    assert translate("k1*smd", "natural", var, row) == "Sin(Inc) * (MD - MDPrev)"
 
 
 def _library_formulas():
@@ -77,15 +94,13 @@ def test_to_ipm_inverse():
     ("swon(inc - 0.5)", "function:SWON"),
     ("ln(tmd)", "function:LN"),
     ("dog", "constant:dog"),
-    ("sin(azi)", "constant:azi"),
     ("sqrt(dmd)", "constant:dmd"),
-    ("w_12*cos(azt)", "variable"),
     ("sin(inc)cos(inc)", "syntax"),
     ("2^3^2", "syntax"),
 ])
 def test_untranslatable_names_construct(formula, construct):
     with pytest.raises(IpmError) as exc:
-        translate(formula, variables={"w_12"})
+        translate(formula)
     assert exc.value.construct == construct
 
 

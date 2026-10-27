@@ -9,6 +9,10 @@ Two readings of an IPM formula (docs/ipm.md, "Constants"):
   literal   the IPM meaning exactly: lengths in feet (`tmd` = MD * 3.280839895013123), `erot` in rad/hr
   natural   lengths in metres (`tmd` = MD, `mtf` = 1) and `erot` = EarthRate * Cos(Lat) in rad/s; equal to the literal
             reading only for a dimensionally consistent row, which tools/ipm2json checks numerically
+
+A plain variable (docs/ipm.md, "Variables") is inlined: each use becomes Value * (its formula), translated in the same
+reading. A variable used before its definition (itself included), defined twice, ranged or given a unit holds a value
+from station to station or depends on where it is evaluated, and is refused.
 """
 from __future__ import annotations
 
@@ -17,6 +21,8 @@ import math
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
+
+from collections.abc import Mapping
 
 from tools.formula import Bin, Call, Const, FormulaError, Neg, Node, Num, Var, parse
 
@@ -37,7 +43,7 @@ FUNCTIONS = {"sin": "Sin", "cos": "Cos", "tan": "Tan", "abs": "Abs", "sqrt": "Sq
              "min": "Min"}
 _L = "(MD - MDPrev)"
 LITERAL: dict[str, str] = {
-    "inc": "Inc", "azt": "AzT", "azm": "AzM", "dip": "Dip", "lat": "Lat", "pi": "Pi", "dtr": "RAD", "tfo": "TF",
+    "inc": "Inc", "azt": "AzT", "azi": "AzT", "azm": "AzM", "dip": "Dip", "lat": "Lat", "pi": "Pi", "dtr": "RAD", "tfo": "TF",
     "mtot": "BField", "gtot": "GField", "din": "(Inc - IncPrev)", "daz": "(AzT - AzPrev)", "tho": "0.001",
     "mtf": repr(MTF), "smd": f"{_L} * {MTF!r}", "tmd": f"MD * {MTF!r}", "tvd": f"TVD * {MTF!r}",
     "erot": "(3600 * EarthRate * Cos(Lat))",
@@ -87,6 +93,19 @@ def is_variable(row: IpmRow) -> bool:
     return row.vector == "n" or row.tie_on == "n"
 
 
+def variables(rows) -> dict[str, list[IpmRow]]:
+    """The file's variable rows by lower-case name, each name's rows in file order (docs/ipm.md, "Variables"). A variable
+    named like an IPM constant or function raises IpmError("name")."""
+    out: dict[str, list[IpmRow]] = {}
+    for r in rows:
+        if is_variable(r):
+            name = r.name.lower()
+            if name in LITERAL or name in FUNCTIONS:
+                raise IpmError("name", r, f"a variable may not be named like the IPM {name!r}")
+            out.setdefault(name, []).append(r)
+    return out
+
+
 def parse_ipm(text: str) -> IpmFile:
     out = IpmFile(sha256=hashlib.sha256(text.encode("utf-8")).hexdigest())
     for n, line in enumerate(text.replace("\r\n", "\n").replace("\r", "\n").split("\n"), 1):
@@ -134,8 +153,9 @@ def read_ipm(path) -> IpmFile:
 
 
 # ---------------------------------------------------------------- IPM -> grammar
-def _grammar_text(formula: str, variables, row) -> str:
-    """The IPM text with IPM names replaced by placeholders (`ipm_<name>`) and functions by the grammar's names."""
+def _grammar_text(formula: str, variables: Mapping[str, list[IpmRow]], row) -> str:
+    """The IPM text with IPM names replaced by placeholders (`ipm_<name>`, `ipmvar_<variable>`) and functions by the
+    grammar's names."""
     out, pos = [], 0
     toks = []
     while pos < len(formula):
@@ -156,7 +176,7 @@ def _grammar_text(formula: str, variables, row) -> str:
                 raise IpmError(f"function:{name.upper()}", row)
             out.append(FUNCTIONS[name])
         elif name in variables:
-            raise IpmError("variable", row, name)
+            out.append(f"ipmvar_{name}")
         elif name in LITERAL:
             out.append(f"ipm_{name}")
         else:
@@ -167,23 +187,25 @@ def _grammar_text(formula: str, variables, row) -> str:
 _ONE = Num(1.0)  # the natural reading's `mtf`: simplified away where it multiplies or divides
 
 
-def _sub(table: dict[str, Node], node: Node) -> Node:
+def _sub(table: dict[str, Node], node: Node, values: dict[str, Node]) -> Node:
     if isinstance(node, Var) and node.name.startswith("ipm_"):
         return table[node.name[4:]]
+    if isinstance(node, Var) and node.name.startswith("ipmvar_"):
+        return values[node.name[7:]]
     if isinstance(node, Bin):
         if (node.op == "/" and isinstance(node.left, Var) and node.left.name[4:] in _LENGTHS
                 and isinstance(node.right, Var) and node.right.name == "ipm_mtf"):
             return parse(_LENGTHS[node.left.name[4:]])
-        a, b = _sub(table, node.left), _sub(table, node.right)
+        a, b = _sub(table, node.left, values), _sub(table, node.right, values)
         if node.op in "*/" and b is _ONE:
             return a
         if node.op == "*" and a is _ONE:
             return b
         return Bin(node.op, a, b)
     if isinstance(node, Neg):
-        return Neg(_sub(table, node.operand))
+        return Neg(_sub(table, node.operand, values))
     if isinstance(node, Call):
-        return Call(node.name, tuple(_sub(table, a) for a in node.args))
+        return Call(node.name, tuple(_sub(table, a, values) for a in node.args))
     return node
 
 
@@ -197,17 +219,50 @@ def _tables():
 _TABLES = _tables()
 
 
-def translate_node(formula: str, reading: str = "literal", variables=frozenset(), row: IpmRow | None = None) -> Node:
+def _variable_node(name: str, variables: Mapping[str, list[IpmRow]], reading: str, row: IpmRow | None) -> Node:
+    """Value * (formula) of a plain variable, translated in `reading`, for a use in `row` (docs/ipm.md, "Variables")."""
+    defs = variables[name]
+    d = defs[0]
+    if len(defs) > 1:
+        raise IpmError("variable:redefined", defs[1], name)
+    if row is not None and d.line >= row.line:
+        raise IpmError("variable:persistent", row, f"{name} is used before its definition on line {d.line}")
+    if d.start_inc is not None or d.end_inc is not None:
+        raise IpmError("range", d)
+    if d.unit not in ("-", ""):
+        raise IpmError("variable:unit", d, d.unit)
+    node = translate_node(d.formula, reading, variables, d)
+    return node if d.value == 1.0 else Bin("*", Num(d.value), node)
+
+
+def _var_names(node: Node) -> set[str]:
+    if isinstance(node, Var):
+        return {node.name}
+    if isinstance(node, Bin):
+        return _var_names(node.left) | _var_names(node.right)
+    if isinstance(node, Neg):
+        return _var_names(node.operand)
+    if isinstance(node, Call):
+        return set().union(*(_var_names(a) for a in node.args))
+    return set()
+
+
+def translate_node(formula: str, reading: str = "literal", variables: Mapping[str, list[IpmRow]] | None = None,
+                   row: IpmRow | None = None) -> Node:
+    variables = variables or {}
     text = _grammar_text(formula, variables, row)
     try:
         node = parse(text)
     except FormulaError as exc:
         raise IpmError("syntax", row, f"{formula!r}: {exc}") from None
-    return _sub(_TABLES[reading], node)
+    used = sorted(n[7:] for n in _var_names(node) if n.startswith("ipmvar_"))
+    return _sub(_TABLES[reading], node, {n: _variable_node(n, variables, reading, row) for n in used})
 
 
-def translate(formula: str, reading: str = "literal", variables=frozenset(), row: IpmRow | None = None) -> str:
-    """Canonical grammar text of an IPM formula. `variables` are the file's variable names (refused: I1)."""
+def translate(formula: str, reading: str = "literal", variables: Mapping[str, list[IpmRow]] | None = None,
+              row: IpmRow | None = None) -> str:
+    """Canonical grammar text of an IPM formula. `variables` are the file's variables (`variables()`); each use of one
+    is inlined, and a use in `row` must follow its definition."""
     return translate_node(formula, reading, variables, row).render()
 
 

@@ -98,7 +98,7 @@ def test_missing_metadata_named():
 
 @pytest.mark.parametrize("row, construct", [
     ("XSW\ti\ts\td\t0.1\tswon(inc-0.5)", "function:SWON"),
-    ("w_12\tn\tn\t-\t1\tsin(inc)", "variable"),
+    ("XD\ti\ts\td\t0.1\tsqrt(dmd)", "constant:dmd"),
     ("XR\ti\ts\td\t0.1\t1\t0\t45", "range"),
     ("XR\tq\ts\td\t0.1\t1", "vector:q"),
     ("XR\ti\ts\tdph\t0.1\t1", "unit:dph"),
@@ -106,6 +106,36 @@ def test_missing_metadata_named():
 def test_untranslatable_rows(row, construct):
     with pytest.raises(IpmError) as exc:
         _convert(HEAD + "DRFR\te\tr\tm\t0.35\t1\n" + row + "\n")
+    assert exc.value.construct == construct
+
+
+def test_variables_convert():
+    """Plain variables are inlined (docs/ipm.md, "Variables"); `azi` is AzT; an unused variable is ignored, even one
+    that accumulates; `erot` through a variable still gives deg/hr."""
+    text = HEAD + ("w_a\tn\tn\t-\t1\tsin(inc)\nw_b\tn\tn\t-\t1\tsqrt(1-(w_a)^2)\n"
+                   "acc\tn\tn\t-\t1\tacc+smd\n"
+                   "XM3\ti\ts\td\t0.1\tcos(azi)*w_b\nXM3\tl\ts\td\t0.1\t-sin(azi)*w_b\n"
+                   "r\tn\tn\t-\t1\t1/erot\nXG\ta\ts\td\t0.1\tsin(azt)*r/cos(inc)\n")
+    ipm, (model, vendor, log) = _convert(text)
+    assert [t["term"] for t in model["terms"]] == ["example:XM3", "example:XG"]
+    wf = vendor["weighting_functions"]
+    assert wf["XM3"]["inclination"] == "Cos(AzT) * Sqrt(1 - Sin(Inc) ^ 2)"
+    assert vendor["terms"]["XG"]["units"] == "deg/hr"
+    assert wf["XG"]["azimuth"] == "Sin(AzT) * (1 / (EarthRate * Cos(Lat))) / Cos(Inc)"
+    assert weights_equal(model, [REV5, vendor], ipm)
+
+
+@pytest.mark.parametrize("rows, construct", [
+    ("acc\tn\tn\t-\t1\tacc+smd\nXA\ti\ts\td\t0.1\tacc", "variable:persistent"),   # accumulates
+    ("XA\ti\ts\td\t0.1\tk\nk\tn\tn\t-\t1\tsin(inc)", "variable:persistent"),      # used before its definition
+    ("k\tn\tn\t-\t1\t0\nk\tn\tn\t-\t1\tk+1\nXA\ti\ts\td\t0.1\tk", "variable:redefined"),
+    ("k\tn\tn\t-\t1\tsin(inc)\t0\t45\nXA\ti\ts\td\t0.1\tk", "range"),
+    ("k\tn\tn\td\t1\tinc\nXA\ti\ts\td\t0.1\tk", "variable:unit"),
+    ("inc\tn\tn\t-\t1\t1", "name"),
+])
+def test_variables_refused(rows, construct):
+    with pytest.raises(IpmError) as exc:
+        _convert(HEAD + "DRFR\te\tr\tm\t0.35\t1\n" + rows + "\n")
     assert exc.value.construct == construct
 
 

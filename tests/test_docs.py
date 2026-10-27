@@ -158,7 +158,7 @@ def test_no_internal_labels():
 def test_ipm_doc_sections():
     text = (ROOT / "docs" / "ipm.md").read_text(encoding="utf-8")
     assert re.findall(r"^## (.+)$", text, re.M) == [
-        "Subset", "Constants", "Units", "Vectors", "Matching ISCWSA terms", "Metadata", "JSON to IPM",
+        "Subset", "Constants", "Variables", "Units", "Vectors", "Matching ISCWSA terms", "Metadata", "JSON to IPM",
         "Propagation in Compass", "Not converted"]
 
 

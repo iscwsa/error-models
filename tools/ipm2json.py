@@ -24,7 +24,7 @@ from tools.diagnostics import read_hpt
 from tools.formula import Bin, Call, Neg, Node, Num, Var, canonical, parse
 from tools.identity import entry_uuid, library_uuid, model_uuid, stamp
 from tools.ipm import (FT, JSON_UNITS, SI, TIE_ONS, UNIT_FACTORS, VECTORS, IpmError, IpmFile, IpmRow, is_variable,
-                       read_ipm, translate_node)
+                       read_ipm, translate_node, variables)
 
 ROOT = Path(__file__).resolve().parent.parent
 SCHEMA_URL = "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/{}.json"
@@ -108,15 +108,15 @@ def sources(ipm: IpmFile, subsea: bool = False) -> list[tuple[str, list[IpmRow]]
     """The file's error sources in file order: (name, rows), after the subset checks of docs/ipm.md."""
     if not ipm.rows and not ipm.layout:     # a file of the layout with no rows is a zero-error tool (no sources)
         raise IpmError("no_rows", None, "not the guide's layout (no Name / Vector / Tie-On / Unit column titles)")
-    for r in ipm.rows:
-        if is_variable(r):
-            raise IpmError("variable", r)
+    variables(ipm.rows)                     # refuses a variable named like an IPM constant or function
+    rows_ = [r for r in ipm.rows if not is_variable(r)]   # variables are inlined where a source uses them
+    for r in rows_:
         if ":" in r.name:
             raise IpmError("name", r, "a source name may not contain ':' (it separates the namespace)")
         _check_row(r)
-    subsea_names = {r.name.lower() for r in ipm.rows if r.vector == "s"}
+    subsea_names = {r.name.lower() for r in rows_ if r.vector == "s"}
     groups: dict[str, list[IpmRow]] = {}
-    for r in ipm.rows:
+    for r in rows_:
         if r.vector == "s" and not subsea or r.vector == "e" and subsea and r.name.lower() in subsea_names:
             continue
         groups.setdefault(r.name.lower(), []).append(r)
@@ -143,20 +143,21 @@ def _snap(x: float) -> float:
     return r if math.isclose(r, x, rel_tol=1e-12, abs_tol=0.0) else x
 
 
-def _unit(rows) -> str:
+def _unit(rows, variables=None) -> str:
     first = rows[0]
-    if first.unit == "d" and any("erot" in r.formula.lower() for r in rows):
-        return "deg/hr"
+    if first.unit == "d" and any("EarthRate" in translate_node(r.formula, "literal", variables, r).render()
+                                 for r in rows):
+        return "deg/hr"             # `erot`, directly or through a variable
     return JSON_UNITS[first.unit]
 
 
-def source_term(rows: list[IpmRow], envs=None) -> tuple[float, str, dict[str, str], dict[str, str]]:
+def source_term(rows: list[IpmRow], envs=None, variables=None) -> tuple[float, str, dict[str, str], dict[str, str]]:
     """(magnitude, units, {depth, inclination, azimuth}, singularity formulas) of one source. Each row takes the natural
     reading when it equals the literal one at every station, and otherwise the literal one times its exact factor.
     An `l` or `x` row is a lateral weight F: its azimuth formula is F / Sin(Inc), and its singularity formulas are F
     along the lateral direction at a vertical station (north -F Sin(AzT), east F Cos(AzT), vertical 0)."""
     envs = station_envs() if envs is None else envs
-    unit = _unit(rows)
+    unit = _unit(rows, variables)
     first = next((r for r in rows if r.value != 0.0), rows[0])   # the magnitude: the first non-zero Value
     magnitude = _snap(abs(first.value * (0.001 if first.unit == "t" else 1.0)))
     all_zero = magnitude == 0.0      # a zero-magnitude source keeps its formulas (its weights are 0 either way)
@@ -170,8 +171,8 @@ def source_term(rows: list[IpmRow], envs=None) -> tuple[float, str, dict[str, st
         s = _snap(r.value * UNIT_FACTORS.get(r.unit, 1.0) * (FT if depth else 1.0) / denom)
         if all_zero:
             s = UNIT_FACTORS.get(r.unit, 1.0) * (FT if depth else 1.0) / SI[unit]
-        lit = translate_node(r.formula, "literal", row=r)
-        nat = translate_node(r.formula, "natural", row=r)
+        lit = translate_node(r.formula, "literal", variables, r)
+        nat = translate_node(r.formula, "natural", variables, r)
         want = [s * v for v in _values(lit, envs)]
         got = _values(nat, envs)
         if _close(got, want):
@@ -189,11 +190,11 @@ def source_term(rows: list[IpmRow], envs=None) -> tuple[float, str, dict[str, st
     return magnitude, unit, fields, singular
 
 
-def _ipm_weights(rows, envs):
+def _ipm_weights(rows, envs, variables=None):
     """Per-station (depth m, inclination rad, lateral rad) weights of one source, read literally (the IPM meaning)."""
     d, i, lat = ([0.0] * len(envs) for _ in range(3))
     for r in rows:
-        node = translate_node(r.formula, "literal", row=r)
+        node = translate_node(r.formula, "literal", variables, r)
         f = r.value * UNIT_FACTORS.get(r.unit, 1.0)
         for k, env in enumerate(envs):
             if r.vector in "es":
@@ -288,9 +289,10 @@ def convert(ipm: IpmFile, namespace: str, meta: dict, iscwsa_library: dict, subs
     name = meta["model_id"]
     lib_id = f"{namespace}:{name}_terms"
     log, terms, wfs, lib_terms = [], [], {}, {}
+    var = variables(ipm.rows)
     for src, rows in sources(ipm, subsea):
         tie = rows[0].tie_on
-        magnitude, unit, fields, singular = source_term(rows, envs)
+        magnitude, unit, fields, singular = source_term(rows, envs, var)
         code, info = _match(src, tie, magnitude, unit, fields, iscwsa_library, envs)
         if code is not None:
             terms.append({"term": code, "magnitude": info})
@@ -338,7 +340,8 @@ def weights_equal(model: dict, libraries: list[dict], ipm: IpmFile, subsea: bool
     """The model's per-term weights equal the IPM's (read literally) at every station (docs/ipm.md, condition 4)."""
     envs = station_envs() if envs is None else envs
     libs = {lib["library_id"].split(":", 1)[0]: lib for lib in libraries}
-    ipm_w = {name.upper(): _ipm_weights(rows, envs) for name, rows in sources(ipm, subsea)}
+    var = variables(ipm.rows)
+    ipm_w = {name.upper(): _ipm_weights(rows, envs, var) for name, rows in sources(ipm, subsea)}
     if len(ipm_w) != len(model["terms"]):
         return False
     for t in model["terms"]:

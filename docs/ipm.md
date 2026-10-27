@@ -24,6 +24,7 @@ repository.
 - **One row per vector per source.** `i` and `y` count as the same vector, and so do `a`, `l` and `x`.
 - **No inclination range** (Start / End Inc).
 - **Tie-ons** `r`, `s`, `w`, `g`: the propagation (Random, Systematic, Well, Global).
+- **Plain variables** (Vector and Tie-on `n`), inlined where a source uses them (see "Variables").
 - **Functions** `SIN COS TAN ABS SQRT SQR MAX MIN` (`SQR` is the square root, as in the guide's formulas).
 - **Operators** `+ - * / ^`, and the constants below.
 
@@ -37,6 +38,7 @@ IPM formulas work in radians and feet. Each formula has two readings:
 | IPM | literal | natural |
 |-----|---------|---------|
 | `inc`, `azt`, `azm`, `dip`, `lat`, `tfo` | `Inc`, `AzT`, `AzM`, `Dip`, `Lat`, `TF` | the same |
+| `azi` | `AzT` | the same |
 | `mtot`, `gtot` | `BField`, `GField` | the same |
 | `pi`, `dtr`, `tho` | `Pi`, `RAD`, `0.001` | the same |
 | `din`, `daz` | `Inc - IncPrev`, `AzT - AzPrev` | the same |
@@ -51,11 +53,37 @@ IPM formulas work in radians and feet. Each formula has two readings:
   reading times its exact factor, e.g. `0.3048 * (MD * 3.280839895013123 * (MD * 3.280839895013123))` for `tmd*tmd`.
 - `daz` assumes an azimuth change under 180°, as the XCL sheets do. It isn't wrapped, and nothing special happens after
   a vertical station; a reader of the IPM may do both.
+- `azi` is the azimuth from the well's reporting reference. The conversion takes that reference as true north, so `azi`
+  is `AzT`. For a well reported to grid north, `azi` is `AzT` minus the grid convergence; the grammar has no
+  convergence, so such a formula is the IPM's only where the convergence is 0 or the formula doesn't change under a
+  rotation of the azimuth (an equal-magnitude XYM3 / XYM4 pair, for example).
 - `tfo` is the station's toolface `TF`. A reader that takes `tfo` as 0, as Compass's ISCWSA tools do, gives the same
   weights only for formulas without it.
 - At exactly 90°, `Tan(Inc)` is a very large finite number in the grammar. An IPM reader may treat it as having no value.
 - `erot`: the guide's Earth rate is 15.041 deg/hr; `EarthRate` is SPE 90408's 7.2921159e-5 rad/s (15.0411 deg/hr). A
   converted formula with `erot` therefore differs from Compass's by 5e-6 relative.
+
+## Variables
+
+A variable row (Vector `n`, Tie-on `n`, or Tie-on `n` alone as in some older files) defines a name that later formulas
+use. A plain variable is a shorthand: its value at a station is its Value times its formula, from that station's
+constants and the variables defined above it. `ipm2json` inlines it: each use becomes `Value * (formula)` (just the
+formula when Value is 1), translated in the reading of the row that uses it. The output has no variables, so the
+grammar is unchanged.
+
+The guide also has persistent variables, whose values carry from one station to the next: a variable that names itself
+(an accumulator such as `d = d + smd`), or one used above its own definition, so that the use sees the previous
+station's value. Those depend on the order of the stations, which a weighting function can't, so they're refused.
+
+| Variable | Error |
+|----------|-------|
+| used in a formula above its definition, or naming itself | `variable:persistent` |
+| defined twice | `variable:redefined` |
+| with an inclination range | `range` |
+| with a unit (any unit but `-`) | `variable:unit` |
+| named like an IPM constant or function | `name` |
+
+A variable no source uses is ignored, whatever it is: for example a zero-valued label or an unused accumulator.
 
 ## Units
 
@@ -154,10 +182,10 @@ covariances as Compass: the conversion is of definitions, not of Compass's resul
 
 | Construct | Error |
 |-----------|-------|
-| a variable row (Vector or Tie-on `n`), or a formula naming one | `variable` |
+| a persistent, redefined, ranged or unit-bearing variable, or one named like an IPM constant (see "Variables") | `variable:persistent`, `variable:redefined`, `range`, `variable:unit`, `name` |
 | an inclination range | `range` |
 | any other function: `SIGN`, `SWON`/`SWOF`, `EXP`, `LN`, `LG`, the inverse and hyperbolic trigonometric functions, `COT`, `FAK` | `function:<NAME>` |
-| any other constant: `dog`, `dmd`, `azi`, `long` | `constant:<name>` |
+| any other constant: `dog`, `dmd`, `long`, `aze`, `inx` | `constant:<name>` |
 | another vector: `b`, `d`, `f`, `j`, `m`, `n` | `vector:<v>` |
 | two rows of one vector, or mixed depth and angle rows | `repeated_vector`, `mixed_vectors` |
 | rows of one source with different tie-ons | `mixed_tie_on` |
@@ -171,4 +199,4 @@ covariances as Compass: the conversion is of definitions, not of Compass's resul
 | a file without the layout's column titles (Name / Vector / Tie-On / Unit ...) and no row of it; titles with no rows are a tool with no error sources | `no_rows` |
 | a gyro model or survey-mode term, a Bias term, a formula variable with no IPM equivalent (`json2ipm`) | `gyro`, `bias`, `variable:<name>` |
 
-Variables, ranges and switches would need a grammar extension; this conversion has none.
+Ranges, switches and persistent variables would need a grammar extension; this conversion has none.
