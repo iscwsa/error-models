@@ -1,0 +1,8 @@
+{
+	"SPE 90408 Table 3": {"mode": "stationary", "init": true},
+	"SPE 90408 Table 4": {"mode": "stationary", "init": true},
+	"SPE 90408 Table 5": {"mode": "stationary", "init": true},
+	"SPE 90408 Table 6": {"mode": "continuous", "init": false},
+	"SPE 90408 Table 7": {"mode": "continuous", "init": false},
+	"SPE 90408 Table 8": {"mode": "continuous", "init": false}
+}

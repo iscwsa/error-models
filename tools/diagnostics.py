@@ -1,5 +1,6 @@
 # This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.
 """Reader for ISCWSA published error-model diagnostics ("HPT ERROR MODEL" .dat files)."""
+import json
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -76,3 +77,43 @@ def read_hpt(path: Path) -> Diagnostics:
             elif station is not None and len(f) == 9 and f[1] == "nev":
                 station.terms[f[0]] = tuple(float(x) for x in f[3:9])
     return Diagnostics(well, sources, stations)
+
+
+VECTOR_KINDS = ("per_term_nev", "total_nev", "hla")
+_SLACK = 1e-9  # absorbs binary rounding at an exact tolerance boundary, e.g. 0.51 - 0.5
+
+
+@dataclass
+class VectorSet:
+    """A published vector file in the `total_nev` or `hla` form (see schemas/vectors.json)."""
+    kind: str
+    source: dict
+    inputs: dict
+    cases: list
+    known_misses: list = field(default_factory=list)
+
+
+def read_vectors(path: Path) -> VectorSet:
+    doc = json.loads(Path(path).read_text(encoding="utf-8"))
+    if doc.get("kind") not in ("total_nev", "hla"):
+        raise ValueError(f"{path}: not a total_nev or hla vector file")
+    return VectorSet(doc["kind"], doc["source"], doc["inputs"], doc["cases"], doc.get("known_misses", []))
+
+
+def tolerance(kind: str):
+    """The pass rule for a vector kind, as `ok(calc, ref)` (provisional, see docs/conformance.md).
+
+    `hla`: a sigma or bias is within max(0.5% of the reference's size, 0.002); pass `correlation=True` for a correlation,
+    which is within 0.01.
+    `total_nev`: within 2 where the reference is under 200 in size, else within 1% of it (the paper's own criterion).
+    """
+    if kind == "hla":
+        def hla(calc, ref, correlation=False):
+            limit = 0.01 if correlation else max(0.005 * abs(ref), 0.002)
+            return abs(calc - ref) <= limit + _SLACK
+        return hla
+    if kind == "total_nev":
+        def total_nev(calc, ref):
+            return abs(calc - ref) <= (2 if abs(ref) < 200 else 0.01 * abs(ref)) + _SLACK
+        return total_nev
+    raise ValueError(f"no scalar tolerance for vector kind {kind!r}")

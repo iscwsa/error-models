@@ -1,32 +1,83 @@
 [
 	{
+		"kind": "per_term_nev",
 		"model": "iscwsa:A001Mc",
 		"well": 1,
 		"file": "vectors/iscwsa_rev5-1/ErrorModelDiagnostics_Rev5-1_ISCWSA#1.dat"
 	},
 	{
+		"kind": "per_term_nev",
 		"model": "iscwsa:A001Mc",
 		"well": 2,
 		"file": "vectors/iscwsa_rev5-1/ErrorModelDiagnostics_Rev5-1_ISCWSA#2.dat"
 	},
 	{
+		"kind": "per_term_nev",
 		"model": "iscwsa:A001Mc",
 		"well": 3,
 		"file": "vectors/iscwsa_rev5-1/ErrorModelDiagnostics_Rev5-1_ISCWSA#3.dat"
 	},
 	{
+		"kind": "per_term_nev",
 		"model": "generic_iscwsa:A001Mc",
 		"well": 1,
 		"file": "vectors/iscwsa_rev5-1/ErrorModelDiagnostics_Rev5-1_ISCWSA#1.dat"
 	},
 	{
+		"kind": "per_term_nev",
 		"model": "generic_iscwsa:A001Mc",
 		"well": 2,
 		"file": "vectors/iscwsa_rev5-1/ErrorModelDiagnostics_Rev5-1_ISCWSA#2.dat"
 	},
 	{
+		"kind": "per_term_nev",
 		"model": "generic_iscwsa:A001Mc",
 		"well": 3,
 		"file": "vectors/iscwsa_rev5-1/ErrorModelDiagnostics_Rev5-1_ISCWSA#3.dat"
+	},
+	{
+		"kind": "total_nev",
+		"model": "iscwsa:SPE90408_Ex1",
+		"file": "vectors/spe90408/appendix_e.json"
+	},
+	{
+		"kind": "total_nev",
+		"model": "iscwsa:SPE90408_Ex2",
+		"file": "vectors/spe90408/appendix_e.json"
+	},
+	{
+		"kind": "total_nev",
+		"model": "iscwsa:SPE90408_Ex3",
+		"file": "vectors/spe90408/appendix_e.json"
+	},
+	{
+		"kind": "total_nev",
+		"model": "iscwsa:SPE90408_Ex4",
+		"file": "vectors/spe90408/appendix_e.json"
+	},
+	{
+		"kind": "total_nev",
+		"model": "iscwsa:SPE90408_Ex5",
+		"file": "vectors/spe90408/appendix_e.json"
+	},
+	{
+		"kind": "total_nev",
+		"model": "iscwsa:SPE90408_Ex6",
+		"file": "vectors/spe90408/appendix_e.json"
+	},
+	{
+		"kind": "hla",
+		"model": "iscwsa:MWD_Rev0",
+		"file": "vectors/spe67616/table3.json"
+	},
+	{
+		"kind": "hla",
+		"model": "iscwsa:MWD_AX_Rev0",
+		"file": "vectors/spe67616/table3.json"
+	},
+	{
+		"kind": "hla",
+		"model": "iscwsa:MWD_bias_Rev0",
+		"file": "vectors/spe67616/table3.json"
 	}
 ]

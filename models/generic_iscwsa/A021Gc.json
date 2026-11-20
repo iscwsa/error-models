@@ -35,7 +35,7 @@
 		{
 			"id": "iscwsa:rev5",
 			"uuid": "afcf8ed3-ac41-51f8-9999-8d126737f2f0",
-			"hash_value": "c251a379c03c814bb4a198c576a11a4b30debf886bf7299116a0c214ca386596"
+			"hash_value": "5dcc49c8fc45aac90dd94fda894441f042d48b0c4d07466b2f893476e8ec3ed3"
 		}
 	],
 	"applicability": {
@@ -56,51 +56,6 @@
 		}
 	},
 	"parameters": {
-		"XYZAccelerometer": {
-			"value": true,
-			"unit": "-",
-			"text": "True"
-		},
-		"XYStaticGyro": {
-			"value": true,
-			"unit": "-",
-			"text": "True"
-		},
-		"StartInc": {
-			"value": 15,
-			"unit": "deg",
-			"text": "15 deg"
-		},
-		"EndInc": {
-			"value": 150,
-			"unit": "deg",
-			"text": "150 deg"
-		},
-		"InitialisationInc": {
-			"value": 15,
-			"unit": "deg",
-			"text": "15 deg"
-		},
-		"XYContinuousGyro": {
-			"value": true,
-			"unit": "-",
-			"text": "True"
-		},
-		"RunningSpeed": {
-			"value": 2743.2,
-			"unit": "m/hr",
-			"text": "2743.2 m/hr"
-		},
-		"MinDistBetweenInits": {
-			"value": 99999,
-			"unit": "m",
-			"text": "99999 m"
-		},
-		"NoiseReductionFactor": {
-			"value": 0.4082,
-			"unit": "-",
-			"text": "0.4082"
-		},
 		"MisalignmentAlt": {
 			"value": 3,
 			"unit": "-",
@@ -115,6 +70,62 @@
 			"value": 1,
 			"unit": "deg/100ft",
 			"text": "1 deg / 100 ft"
+		}
+	},
+	"gyro": {
+		"accelerometer": "xyz",
+		"stationary": {
+			"axes": "xy",
+			"start_inc": {
+				"value": 0,
+				"unit": "deg",
+				"text": "0 deg"
+			},
+			"end_inc": {
+				"value": 15,
+				"unit": "deg",
+				"text": "15 deg"
+			},
+			"init_inc": {
+				"value": 15,
+				"unit": "deg",
+				"text": "15 deg"
+			}
+		},
+		"continuous": [
+			{
+				"axes": "xy",
+				"start_inc": {
+					"value": 15,
+					"unit": "deg",
+					"text": "15 deg"
+				},
+				"end_inc": {
+					"value": 150,
+					"unit": "deg",
+					"text": "150 deg"
+				},
+				"init_inc": {
+					"value": 15,
+					"unit": "deg",
+					"text": "15 deg"
+				},
+				"gyro_speed": {
+					"value": 2743.2,
+					"unit": "m/hr",
+					"text": "2743.2 m/hr"
+				}
+			}
+		],
+		"min_distance": {
+			"value": 99999,
+			"unit": "m",
+			"text": "99999 m"
+		},
+		"init_factor": {
+			"value": 0.4082,
+			"unit": "-",
+			"text": "0.4082"
 		}
 	},
 	"terms": [
@@ -196,5 +207,5 @@
 		}
 	],
 	"hash_function": "SHA256",
-	"hash_value": "3c00f68296991cdf7773b2565ead1ca60dd331c6dd6b77b0f6b00ee1ad45fd21"
+	"hash_value": "bebb9e0a504c00be36877a80dd14861383c2bc9fb8c4b3662817b5e0144c5293"
 }

@@ -1,0 +1,358 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/vectors.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"title": "Conformance Vectors",
+	"description": "Printed results from a published paper: total position covariance (total_nev) or the borehole-frame sigmas and correlations (hla)",
+	"type": "object",
+	"required": [
+		"$schema",
+		"kind",
+		"source",
+		"inputs",
+		"cases"
+	],
+	"properties": {
+		"$schema": {
+			"type": "string"
+		},
+		"source": {
+			"type": "object",
+			"description": "Where the values are printed. The page is given only where it is known.",
+			"required": [
+				"paper",
+				"table"
+			],
+			"properties": {
+				"paper": {
+					"type": "string"
+				},
+				"table": {
+					"type": "string"
+				},
+				"page": {
+					"type": "integer",
+					"minimum": 1
+				}
+			},
+			"additionalProperties": false
+		}
+	},
+	"oneOf": [
+		{
+			"properties": {
+				"kind": {
+					"const": "hla"
+				},
+				"inputs": {
+					"type": "object",
+					"required": [
+						"tie_on",
+						"toolface"
+					],
+					"properties": {
+						"tie_on": {
+							"description": "zero_uncertainty: the tie-on is no error source and the first interval is not doubled",
+							"enum": [
+								"zero_uncertainty"
+							]
+						},
+						"toolface": {
+							"description": "borehole: the toolface is the borehole toolface",
+							"enum": [
+								"borehole"
+							]
+						}
+					},
+					"additionalProperties": false
+				},
+				"cases": {
+					"type": "array",
+					"minItems": 1,
+					"items": {
+						"type": "object",
+						"required": [
+							"case",
+							"well",
+							"md_unit",
+							"legs",
+							"results"
+						],
+						"properties": {
+							"case": {
+								"type": "integer"
+							},
+							"well": {
+								"type": "integer",
+								"minimum": 1
+							},
+							"md_unit": {
+								"enum": [
+									"m",
+									"ft"
+								]
+							},
+							"depth": {
+								"description": "Optional. survey (the default): the uncertainty at the survey station (SPE 67616 Table 3 option 'S'); assigned: at the along-hole depth assigned to the station ('D', Eqs. A-20 to A-23)",
+								"enum": [
+									"survey",
+									"assigned"
+								]
+							},
+							"legs": {
+								"type": "array",
+								"minItems": 1,
+								"items": {
+									"type": "object",
+									"required": [
+										"model",
+										"to_md"
+									],
+									"properties": {
+										"model": {
+											"type": "string"
+										},
+										"to_md": {
+											"type": "number"
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"results": {
+								"type": "array",
+								"minItems": 1,
+								"items": {
+									"type": "object",
+									"required": [
+										"md",
+										"sigma_hla",
+										"corr_hl_ha_la"
+									],
+									"properties": {
+										"md": {
+											"type": "number"
+										},
+										"sigma_hla": {
+											"type": "array",
+											"items": {
+												"type": "number"
+											},
+											"minItems": 3,
+											"maxItems": 3
+										},
+										"corr_hl_ha_la": {
+											"type": "array",
+											"items": {
+												"type": "number",
+												"minimum": -1,
+												"maximum": 1
+											},
+											"minItems": 3,
+											"maxItems": 3
+										},
+										"bias_hla": {
+											"description": "Optional. The survey bias along the high side, lateral and along-hole axes (Table 3 'bias' option, Eqs. A-17 to A-19 and A-27), in the well's unit; checked with the sigma rule",
+											"type": "array",
+											"items": {
+												"type": "number"
+											},
+											"minItems": 3,
+											"maxItems": 3
+										}
+									},
+									"additionalProperties": false
+								}
+							}
+						},
+						"additionalProperties": false
+					}
+				}
+			},
+			"not": {
+				"required": [
+					"known_misses"
+				]
+			}
+		},
+		{
+			"properties": {
+				"kind": {
+					"const": "total_nev"
+				},
+				"inputs": {
+					"type": "object",
+					"required": [
+						"azimuth",
+						"wells"
+					],
+					"properties": {
+						"vertical_reference": {
+							"description": "Optional. A pure vertical error that has no depth / inclination / azimuth weighting function (SPE 90408 Table 10, the depth systematic reference: virtually a TVD reference error): its sigma, squared, is added to VV at every station",
+							"type": "object",
+							"required": [
+								"sigma",
+								"source",
+								"applies_to"
+							],
+							"properties": {
+								"sigma": {
+									"type": "object",
+									"required": [
+										"value",
+										"unit"
+									],
+									"properties": {
+										"value": {
+											"type": "number",
+											"exclusiveMinimum": 0
+										},
+										"unit": {
+											"const": "m"
+										}
+									},
+									"additionalProperties": false
+								},
+								"source": {
+									"type": "string"
+								},
+								"applies_to": {
+									"const": "VV"
+								}
+							},
+							"additionalProperties": false
+						},
+						"azimuth": {
+							"description": "utm_grid: azimuths are UTM grid azimuths, so the grid convergence at the well's longitude and zone applies",
+							"enum": [
+								"utm_grid"
+							]
+						},
+						"wells": {
+							"type": "object",
+							"patternProperties": {
+								"^[0-9]+$": {
+									"type": "object",
+									"required": [
+										"lon",
+										"zone"
+									],
+									"properties": {
+										"lon": {
+											"type": "number",
+											"minimum": -180,
+											"maximum": 180
+										},
+										"zone": {
+											"type": "integer",
+											"minimum": 1,
+											"maximum": 60
+										}
+									},
+									"additionalProperties": false
+								}
+							},
+							"additionalProperties": false
+						}
+					},
+					"additionalProperties": false
+				},
+				"known_misses": {
+					"description": "Printed values an independent calculation is known not to reproduce. A calculation passes the file if every other value is within tolerance.",
+					"type": "array",
+					"items": {
+						"type": "object",
+						"required": [
+							"model",
+							"well",
+							"md",
+							"element",
+							"reason"
+						],
+						"properties": {
+							"model": {
+								"type": "string"
+							},
+							"well": {
+								"type": "integer"
+							},
+							"md": {
+								"type": "number"
+							},
+							"element": {
+								"enum": [
+									"NN",
+									"NE",
+									"NV",
+									"EE",
+									"EV",
+									"VV"
+								]
+							},
+							"reason": {
+								"type": "string"
+							}
+						},
+						"additionalProperties": false
+					}
+				},
+				"cases": {
+					"type": "array",
+					"minItems": 1,
+					"items": {
+						"type": "object",
+						"required": [
+							"model",
+							"well",
+							"md_unit",
+							"results"
+						],
+						"properties": {
+							"model": {
+								"type": "string"
+							},
+							"well": {
+								"type": "integer",
+								"minimum": 1
+							},
+							"md_unit": {
+								"description": "The unit of md. The covariances are in the squares of m (ft for a well in ft), as printed.",
+								"enum": [
+									"m",
+									"ft"
+								]
+							},
+							"results": {
+								"type": "array",
+								"minItems": 1,
+								"items": {
+									"type": "object",
+									"required": [
+										"md",
+										"nev"
+									],
+									"properties": {
+										"md": {
+											"type": "number"
+										},
+										"nev": {
+											"description": "NN, NE, NV, EE, EV, VV",
+											"type": "array",
+											"items": {
+												"type": "number"
+											},
+											"minItems": 6,
+											"maxItems": 6
+										}
+									},
+									"additionalProperties": false
+								}
+							}
+						},
+						"additionalProperties": false
+					}
+				}
+			}
+		}
+	]
+}

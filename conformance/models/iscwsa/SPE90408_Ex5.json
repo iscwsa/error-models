@@ -1,0 +1,208 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/model.json",
+	"metadata": {
+		"model_uuid": "498b2299-4d18-59ec-b37c-1fd5e2fbe924",
+		"model_id": "iscwsa:SPE90408_Ex5",
+		"short_name": "SPE90408_Ex5",
+		"long_name": "SPE 90408 Example Model #5: XYZ accelerometer, XYZ continuous gyro",
+		"revision": "1",
+		"revision_date": "2004-09-26",
+		"revision_comment": "Appendix D example model of the paper's generalised gyro error model",
+		"source": "SPE 90408 Appendix D, Example Model #5",
+		"tool_type": "Gyro",
+		"status": "reference",
+		"framework": "Other",
+		"author": "ISCWSA",
+		"tags": [
+			"Example"
+		],
+		"application": "Continuous xyz gyro initialised at the surface",
+		"notes": "Published example, not a tool model. Magnitudes are SPE 90408 Table D7; the depth systematic reference of Table 10 is not included."
+	},
+	"libraries": [
+		{
+			"id": "iscwsa:rev5",
+			"uuid": "afcf8ed3-ac41-51f8-9999-8d126737f2f0",
+			"hash_value": "5dcc49c8fc45aac90dd94fda894441f042d48b0c4d07466b2f893476e8ec3ed3"
+		},
+		{
+			"id": "iscwsa:spe90408",
+			"uuid": "4512bb16-e3e4-564d-98b3-f28c7d7ce6a7",
+			"hash_value": "17399957ddb929f3c153aa0693022ac689f91b0a2075285581b35111035b6ec5"
+		}
+	],
+	"applicability": {
+		"inc_min": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		},
+		"inc_max": {
+			"value": 150,
+			"unit": "deg",
+			"text": "150 deg"
+		},
+		"hor_ew_exclusion": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		}
+	},
+	"parameters": {
+		"MisalignmentAlt": {
+			"value": 3,
+			"unit": "-",
+			"text": "3"
+		}
+	},
+	"gyro": {
+		"accelerometer": "xyz",
+		"continuous": [
+			{
+				"axes": "xyz",
+				"start_inc": {
+					"value": 0,
+					"unit": "deg",
+					"text": "0 deg"
+				},
+				"end_inc": {
+					"value": 150,
+					"unit": "deg",
+					"text": "150 deg"
+				},
+				"init_inc": {
+					"value": -1,
+					"unit": "-",
+					"text": "-1 [Initialised at Surface]"
+				},
+				"gyro_speed": {
+					"value": 2160,
+					"unit": "m/hr",
+					"text": "2160 m/hr"
+				}
+			}
+		],
+		"min_distance": {
+			"value": 9999,
+			"unit": "m",
+			"text": "9999 m"
+		},
+		"init_factor": {
+			"value": 1,
+			"unit": "-",
+			"text": "1"
+		}
+	},
+	"terms": [
+		{
+			"term": "AXYZ-XYB",
+			"magnitude": 0.005
+		},
+		{
+			"term": "AXYZ-ZB",
+			"magnitude": 0.005
+		},
+		{
+			"term": "AXYZ-SF",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "AXYZ-MIS",
+			"magnitude": 0.05
+		},
+		{
+			"term": "GXYZ-B1",
+			"magnitude": 0.1
+		},
+		{
+			"term": "GXYZ-B2",
+			"magnitude": 0.1
+		},
+		{
+			"term": "GXYZ-RN",
+			"magnitude": 0.1
+		},
+		{
+			"term": "GXYZ-G1",
+			"magnitude": 0.5
+		},
+		{
+			"term": "GXYZ-G2",
+			"magnitude": 0.5
+		},
+		{
+			"term": "GXYZ-G3",
+			"magnitude": 0.5
+		},
+		{
+			"term": "GXYZ-G4",
+			"magnitude": 0.5
+		},
+		{
+			"term": "GXYZ-ZB",
+			"magnitude": 0.1
+		},
+		{
+			"term": "GXYZ-ZRN",
+			"magnitude": 0.1
+		},
+		{
+			"term": "GXYZ-ZG1",
+			"magnitude": 0.5
+		},
+		{
+			"term": "GXYZ-ZG2",
+			"magnitude": 0.5
+		},
+		{
+			"term": "GXYZ-SF",
+			"magnitude": 0.001
+		},
+		{
+			"term": "GXYZ-MIS",
+			"magnitude": 0.05
+		},
+		{
+			"term": "GXYZ-GD",
+			"magnitude": 0.5
+		},
+		{
+			"term": "GXYZ-GRW",
+			"magnitude": 0.5
+		},
+		{
+			"term": "XYM1",
+			"magnitude": 0.1
+		},
+		{
+			"term": "XYM2",
+			"magnitude": 0.1
+		},
+		{
+			"term": "XYM3",
+			"magnitude": 0.2
+		},
+		{
+			"term": "XYM4",
+			"magnitude": 0.2
+		},
+		{
+			"term": "SAG",
+			"magnitude": 0.1
+		},
+		{
+			"term": "DRFR",
+			"magnitude": 0.5
+		},
+		{
+			"term": "DSFW",
+			"magnitude": 0.001
+		},
+		{
+			"term": "DSTG",
+			"magnitude": 5e-07
+		}
+	],
+	"hash_function": "SHA256",
+	"hash_value": "d8ce630ccfbe9df127860a934ff0080ac1686ec1ac53114cf98c2b1b7f20f1bf"
+}

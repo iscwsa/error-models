@@ -55,7 +55,7 @@ def test_errata_applied(out):
 
 
 # ---- parameters, status and framework for every sheet ----
-from tools.extract_xlsx import PARAM_NAMES, ExtractError, build_library, build_model, parse_param  # noqa: E402
+from tools.extract_xlsx import GYRO_LABELS, PARAM_NAMES, ExtractError, build_library, build_model, parse_param  # noqa: E402
 from tools.inventory import ModelId, load_model_ids  # noqa: E402
 from tools.sheet import WORKBOOKS_FILE, read_workbook  # noqa: E402
 
@@ -84,20 +84,20 @@ def all_sheets():
 
 def test_param_names_cover_all_sheets(all_sheets):
     assert len(all_sheets) == 129
-    labels = {k for _, s in all_sheets for k in s.tool_params}
-    assert labels - set(PARAM_NAMES) == set()
+    labels = {k for _, s in all_sheets for k, _ in s.tool_params}
+    assert labels - set(PARAM_NAMES) - GYRO_LABELS == set()
 
 
 def test_unknown_param_label_rejected(all_sheets):
     f, sheet = all_sheets[0]
     mid = load_model_ids()[(f, sheet.name)]
     lib = {"library_id": mid.library, "uuid": "u", "hash_value": "h"}
-    sheet.tool_params["Bogus Label"] = "1 m"
+    sheet.tool_params.append(("Bogus Label", "1 m"))
     try:
         with pytest.raises(ExtractError, match="Bogus Label"):
             build_model(sheet, mid, lib, set())
     finally:
-        del sheet.tool_params["Bogus Label"]
+        sheet.tool_params.pop()
 
 
 def _build(f, sheet, ids, lib=None):
@@ -141,15 +141,6 @@ def test_framework_follows_library(all_sheets):
         meta = _build(f, s, ids)["metadata"]
         lib = ids[(f, s.name)].library
         assert meta["framework"] == ("ISCWSA RCS" if lib == "iscwsa:rot6axis" else "ISCWSA Rev" + lib[-1])
-
-
-def test_gyro_ct_parameters(all_sheets):
-    f, s = next((f, s) for f, s in all_sheets if s.name == "GYRO-NS-CT")
-    p = _build(f, s, load_model_ids())["parameters"]
-    assert p["RunningSpeed"]["value"] == 2743.2 and p["RunningSpeed"]["unit"] == "m/hr"
-    assert p["NoiseReductionFactor"]["value"] == 0.4082
-    assert p["XYContinuousGyro"]["value"] is True
-    assert p["StartInc"] == {"value": 15, "unit": "deg", "text": "15 deg"}
 
 
 def test_supersedes_only_repo_ids(all_sheets):
@@ -391,3 +382,112 @@ def test_cli_duplicate_model_id_is_a_clean_error(tmp_path, monkeypatch, capsys):
     monkeypatch.setattr(ex, "load_model_ids", lambda path=csv_path: real(path))
     assert ex.main(["--workbooks", str(tmp_path), "--all", "--out", str(tmp_path)]) == 1
     assert "duplicate model ID" in capsys.readouterr().err
+
+
+# ---- gyro survey modes ----
+GYRO_MODELS = {f"generic_iscwsa:{n}" for n in (
+    "A019Gb", "A019Gb_Fl", "A020Gb", "A020Gb_Fl", "A021Gc", "A021Gc_Fl",
+    "A022Gb", "A022Gb_Fl", "A023Gb", "A023Gb_Fl")}
+FLAT_GYRO_KEYS = {
+    "StartInc", "EndInc", "InitialisationInc", "RunningSpeed", "MinDistBetweenInits", "NoiseReductionFactor",
+    "XYZAccelerometer", "XYStaticGyro", "XYContinuousGyro", "ZContinuousGyro", "ExternalRef",
+}
+
+
+def _gen_model(generated, qualified):
+    ns, _, name = qualified.partition(":")
+    return json.loads((generated / "models" / ns / f"{name}.json").read_text(encoding="utf-8"))
+
+
+def _vu(pv):
+    return pv["value"], pv["unit"]
+
+
+def test_repeated_labels_kept(all_sheets):
+    sheet = next(s for _, s in all_sheets if s.name == "GYRO-NS-CT")
+    assert [v for k, v in sheet.tool_params if k == "Start Inc"] == ["0 deg", "15 deg"]
+
+
+def test_gyro_ns_ct_blocks(generated):
+    g = _gen_model(generated, "generic_iscwsa:A021Gc")["gyro"]
+    st = g["stationary"]
+    assert st["axes"] == "xy"
+    assert (_vu(st["start_inc"]), _vu(st["end_inc"]), _vu(st["init_inc"])) == ((0, "deg"), (15, "deg"), (15, "deg"))
+    assert len(g["continuous"]) == 1
+    c = g["continuous"][0]
+    assert c["axes"] == "xy"
+    assert (_vu(c["start_inc"]), _vu(c["end_inc"]), _vu(c["init_inc"])) == ((15, "deg"), (150, "deg"), (15, "deg"))
+    assert _vu(c["gyro_speed"]) == (2743.2, "m/hr")
+    assert _vu(g["min_distance"]) == (99999, "m")
+    assert g["init_factor"]["value"] == 0.4082
+    assert g["accelerometer"] == "xyz"
+    assert "external_reference" not in g
+
+
+def test_cb_film_blocks(generated):
+    g = _gen_model(generated, "generic_iscwsa:A022Gb")["gyro"]
+    assert g["external_reference"] is True
+    assert "stationary" not in g
+    assert len(g["continuous"]) == 1
+    c = g["continuous"][0]
+    assert c["axes"] == "z"
+    assert (_vu(c["start_inc"]), _vu(c["end_inc"])) == ((0, "deg"), (150, "deg"))
+    assert c["init_inc"]["value"] == -1
+    assert c["init_inc"]["text"] == "-1 [Initialised at Surface]"
+    assert _vu(c["gyro_speed"]) == (3600, "m/hr")
+
+
+def test_gyro_mwd_block(generated):
+    g = _gen_model(generated, "generic_iscwsa:A019Gb")["gyro"]
+    st = g["stationary"]
+    assert st["axes"] == "xy"
+    assert (_vu(st["start_inc"]), _vu(st["end_inc"]), _vu(st["init_inc"])) == ((0, "deg"), (180, "deg"), (0, "deg"))
+    assert g["continuous"] == []
+    assert g["accelerometer"] == "xyz"
+
+
+def test_no_flat_gyro_parameters(generated):
+    for path in (generated / "models").glob("*/*.json"):
+        model = json.loads(path.read_text(encoding="utf-8"))
+        assert not FLAT_GYRO_KEYS & set(model["parameters"]), path.name
+
+
+def test_only_gyro_sheets_have_gyro(generated):
+    have = set()
+    for path in (generated / "models").glob("*/*.json"):
+        model = json.loads(path.read_text(encoding="utf-8"))
+        if "gyro" in model:
+            have.add(model["metadata"]["model_id"])
+    assert have == GYRO_MODELS
+
+
+def test_unknown_label_in_gyro_block_rejected(all_sheets):
+    from tools.extract_xlsx import gyro_block
+    sheet = next(s for _, s in all_sheets if s.name == "GYRO-NS-CT")
+    sheet.tool_params.insert(3, ("Bogus Label", "1 m"))
+    try:
+        with pytest.raises(ExtractError, match="Bogus Label"):
+            gyro_block(sheet)
+    finally:
+        del sheet.tool_params[3]
+
+
+def test_gyro_mode_from_source(libraries):
+    libs, _ = libraries
+    spec = json.loads((ROOT / "tools/term_gyro.json").read_text(encoding="utf-8"))
+    assert spec["SPE 90408 Table 4"] == {"mode": "stationary", "init": True}
+    assert spec["SPE 90408 Table 7"] == {"mode": "continuous", "init": False}
+    n = 0
+    for lib in libs.values():
+        for code, term in lib["terms"].items():
+            source = lib["weighting_functions"][term["weighting_function"]]["source"]
+            want = spec.get(source, {})
+            assert term.get("mode") == want.get("mode"), (lib["library_id"], code)
+            assert term.get("init") == want.get("init"), (lib["library_id"], code)
+            n += bool(want)
+    assert n == 11
+    rev5 = libs["iscwsa:rev5"]["terms"]
+    assert all(rev5[c]["mode"] == "stationary" and rev5[c]["init"] is True
+               for c in "GXY-B1S GXY-B1R GXY-B2S GXY-B2R GXY-G1 GXY-G4 GXY-RN EXT-REF".split())
+    assert all(rev5[c]["mode"] == "continuous" and rev5[c]["init"] is False for c in "GXY-GD GXY-GRW GZ-GD".split())
+    assert "mode" not in rev5["AXYZ-SF"] and "mode" not in rev5["XYM1"]

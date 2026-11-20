@@ -142,3 +142,52 @@ def test_term_requires_optional_string_array():
     assert errors("library.json", lib) == []
     lib["terms"]["DREF"]["requires"] = [""]
     assert errors("library.json", lib)
+
+
+def _pv(n, unit="deg"):
+    return {"value": n, "unit": unit, "text": f"{n} {unit}"}
+
+
+GYRO = {
+    "accelerometer": "xyz",
+    "external_reference": False,
+    "stationary": {"axes": "xy", "start_inc": _pv(0), "end_inc": _pv(15), "init_inc": _pv(15)},
+    "continuous": [
+        {"axes": "xy", "start_inc": _pv(15), "end_inc": _pv(150), "init_inc": _pv(15), "gyro_speed": _pv(2743.2, "m/hr")}
+    ],
+    "min_distance": _pv(99999, "m"),
+    "init_factor": {"value": 0.4082, "unit": "-", "text": "0.4082"},
+}
+
+
+def test_gyro_block_validates():
+    assert errors("gyro.json", GYRO) == []
+    assert errors("gyro.json", {"continuous": []}) == []
+
+
+def test_gyro_block_rejects_bad_input():
+    bad_axes = copy.deepcopy(GYRO)
+    bad_axes["continuous"][0]["axes"] = "x"
+    assert errors("gyro.json", bad_axes)
+    no_speed = copy.deepcopy(GYRO)
+    del no_speed["continuous"][0]["gyro_speed"]
+    assert errors("gyro.json", no_speed)
+    extra = copy.deepcopy(GYRO)
+    extra["stationary"]["gyro_speed"] = _pv(1, "m/hr")
+    assert errors("gyro.json", extra)
+
+
+def test_model_accepts_optional_gyro():
+    model = load("minimal_model.json")
+    model["gyro"] = GYRO
+    assert errors("model.json", model) == []
+    model["gyro"] = {"stationary": GYRO["stationary"]}
+    assert errors("model.json", model)
+
+
+def test_origin_required_unless_reference():
+    model = load("minimal_model.json")
+    del model["origin"]
+    assert any(e.validator == "required" for e in errors("model.json", model))
+    model["metadata"]["status"] = "reference"
+    assert errors("model.json", model) == []
