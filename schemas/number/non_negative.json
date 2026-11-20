@@ -1,8 +1,9 @@
 {
-	"$schema"     : "https://json-schema.org/draft/2020-12/schema",
-	"$id"         : "https://github.com/iscwsa/error-models/blob/main/schemas/number/non_negative.json",
-	"type"        : "number",
-	"title"       : "Non-Negative Number",
-	"description" : "Only numbers >= 0 are allowed",
-	"minimum"     : 0
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/number/non_negative.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "number",
+	"title": "Non-Negative Number",
+	"description": "Only numbers >= 0 are allowed",
+	"minimum": 0
 }

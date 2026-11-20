@@ -1,0 +1,9 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/strings/hash_value.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "string",
+	"title": "Hash Value",
+	"description": "Lowercase hexadecimal SHA-256 digest (64 characters)",
+	"pattern": "^[0-9a-f]{64}$"
+}

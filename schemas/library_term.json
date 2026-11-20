@@ -1,0 +1,61 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/library_term.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "object",
+	"title": "Library Term",
+	"description": "An error term definition (no magnitude)",
+	"properties": {
+		"description": {
+			"type": "string"
+		},
+		"type": {
+			"type": "string"
+		},
+		"units": {
+			"$ref": "./units.json"
+		},
+		"propagation": {
+			"enum": [
+				"Random",
+				"Systematic",
+				"Well",
+				"Global"
+			]
+		},
+		"weighting_function": {
+			"$ref": "./strings/non_empty.json"
+		},
+		"mode": {
+			"enum": [
+				"stationary",
+				"continuous"
+			]
+		},
+		"init": {
+			"type": "boolean"
+		},
+		"errata": {
+			"type": "array",
+			"items": {
+				"$ref": "./errata.json"
+			}
+		},
+		"uuid": {
+			"$ref": "./strings/uuid.json"
+		},
+		"hash_value": {
+			"$ref": "./strings/hash_value.json"
+		}
+	},
+	"required": [
+		"description",
+		"type",
+		"units",
+		"propagation",
+		"weighting_function",
+		"uuid",
+		"hash_value"
+	],
+	"additionalProperties": false
+}

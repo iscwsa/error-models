@@ -1,0 +1,40 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/errata.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "object",
+	"title": "Erratum",
+	"description": "A correction to text found in the source sheet",
+	"properties": {
+		"field": {
+			"$ref": "./strings/non_empty.json"
+		},
+		"sheet_text": {
+			"type": "string"
+		},
+		"corrected": {
+			"type": "string"
+		},
+		"source": {
+			"type": "string"
+		},
+		"reason": {
+			"type": "string"
+		},
+		"status": {
+			"enum": [
+				"proposed",
+				"accepted"
+			]
+		}
+	},
+	"required": [
+		"field",
+		"sheet_text",
+		"corrected",
+		"source",
+		"reason",
+		"status"
+	],
+	"additionalProperties": false
+}

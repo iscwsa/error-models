@@ -1,0 +1,19 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/units.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "string",
+	"title": "Units",
+	"description": "Units as written in the ISCWSA spreadsheets",
+	"enum": [
+		"-",
+		"m",
+		"1/m",
+		"m/s2",
+		"nT",
+		"deg",
+		"deg.nT",
+		"deg/hr",
+		"deg/sqr(hr)"
+	]
+}

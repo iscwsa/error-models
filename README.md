@@ -1,3 +1,6 @@
+> [!NOTE]
+> This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.
+
 # Error Model Sub-Committee
 
 > [!IMPORTANT]
@@ -26,14 +29,41 @@ The role of the ISCWSA Error Model Maintenance Group is to define the mathematic
 
 1) Create a JSON schema to support a common Error Model exchange format within OSDU and the industry at large.
 
-2) Migrate current Error Model definitions from Excel to schema-compliant JSON. **(\*)**
-
-**(\*)** Excludes legacy models
+2) Migrate current Error Model definitions from Excel to schema-compliant JSON. Legacy models (Rev0-4 ISCWSA MWD) are included.
 
 ---
 ### TECHNICAL DETAILS
 
-- TODO
+**Layout.** `schemas/` holds the JSON Schemas (`model.json`, `library.json` and their sub-schemas), `library/<ns>/` the term libraries, and `models/<ns>/` the error models, where `<ns>` is the namespace. Qualified names are written `<ns>:<name>`, e.g. the library id `iscwsa:rev5`. The other directories:
+
+- `docs/` - the formula grammar (`grammar.md`), the conformance rules (`conformance.md`), and where the libraries and the reference results differ from the published sources (`deviations.md`).
+- `tools/` - the reference tools: formula parser and evaluator, spreadsheet extractor, validator, diagnostics reader, hashing and identity.
+- `conformance/` - ISCWSA's published diagnostics, unchanged, as test vectors, and `manifest.json` mapping each file to the model it exercises.
+
+**Namespaces.** A namespace matches `^[a-z][a-z0-9_]{1,31}$`. Reserved namespaces:
+
+| Namespace | Contents |
+|---|---|
+| `iscwsa` | ISCWSA MWD and ISCWSA RCS models, and all ISCWSA libraries |
+| `generic_iscwsa` | Generic ISCWSA models (the OWSG Rev5.1 sets A and B donated to ISCWSA) |
+| `owsg` | Earlier OWSG releases (none yet) |
+
+The registry is `namespaces.json`. A namespace is added by pull request with sub-committee approval. The rule is enforced only by this repository's CI (`validate.py --registry`); the schemas accept any syntactically valid namespace, so third parties can use their own.
+
+Namespace UUID: `7c9fcf73-f032-422d-b9aa-a2d69fa46e1d`
+
+**Versioning.** Schemas, libraries and models share one repository version. A release is a git tag. `$schema` and `$id` URLs carry the tag (`https://raw.githubusercontent.com/iscwsa/error-models/<tag>/schemas/model.json`); before the first release they use `main`.
+
+**Identifiers.** Every `uuid` is a UUIDv5 (RFC 4122) of the namespace UUID above and an input string: for a model `<ns>:<id>` (its namespace and id), for a library its `library_id`, and for a library entry `<library_id>/<weighting_function|term>/<name>`, where the middle part says whether the entry is a weighting function or a term (so one of each with the same name stay distinct).
+
+**Hashes.** `hash_function` is `SHA256` and `hash_value` is the lowercase hex SHA-256 over the RFC 8785 canonical JSON of the document without `hash_value` and `$schema`.
+
+**Tools.** Install `tools/requirements.txt`, then from the repository root:
+
+- `python -m tools.validate --registry .` validates every library and model (schemas, formulas, hashes, identifiers, namespaces). Proposed errata are reported as warnings; `--release` turns them into errors.
+- `python -m tools.extract_xlsx --workbooks <dir> --sheet <sheet name> --library <id>` regenerates a library and its model from the ISCWSA spreadsheets, applying `tools/errata.json`.
+
+The `iscwsa:rev5` library currently carries proposed errata (corrections to the spreadsheet formula text, each with its reason in `tools/errata.json`) that await a sub-committee decision. `docs/deviations.md` lists them with the evidence, together with the evaluation conventions the diagnostics need.
 
 ---
 ### LINKS

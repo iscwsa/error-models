@@ -1,0 +1,21 @@
+{
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"iscwsa": {
+		"organisation": "ISCWSA",
+		"contact": "https://www.iscwsa.net/committees/error-model",
+		"added": "2026-10-20",
+		"description": "ISCWSA MWD and ISCWSA RCS models and all ISCWSA libraries."
+	},
+	"generic_iscwsa": {
+		"organisation": "ISCWSA",
+		"contact": "https://www.iscwsa.net/committees/error-model",
+		"added": "2026-10-20",
+		"description": "Generic ISCWSA models: the OWSG Rev5.1 sets A and B donated to ISCWSA."
+	},
+	"owsg": {
+		"organisation": "OWSG",
+		"contact": "https://www.iscwsa.net/committees/error-model",
+		"added": "2026-10-20",
+		"description": "Earlier OWSG releases (none yet)."
+	}
+}

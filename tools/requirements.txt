@@ -1,0 +1,5 @@
+# This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.
+jsonschema>=4.18
+rfc8785
+openpyxl
+pytest

@@ -1,0 +1,105 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/model.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "object",
+	"title": "Error Model",
+	"description": "An ISCWSA error model: magnitudes for terms defined in libraries",
+	"properties": {
+		"$schema": {
+			"const": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/model.json"
+		},
+		"metadata": {
+			"$ref": "./metadata.json"
+		},
+		"origin": {
+			"type": "object",
+			"properties": {
+				"workbook": {
+					"$ref": "./strings/non_empty.json"
+				},
+				"sha256": {
+					"$ref": "./strings/hash_value.json"
+				},
+				"sheet": {
+					"$ref": "./strings/non_empty.json"
+				}
+			},
+			"required": [
+				"workbook",
+				"sha256",
+				"sheet"
+			],
+			"additionalProperties": false
+		},
+		"libraries": {
+			"type": "array",
+			"items": {
+				"$ref": "./library_ref.json"
+			}
+		},
+		"applicability": {
+			"type": "object",
+			"properties": {
+				"inc_min": {
+					"$ref": "./parameter_value.json"
+				},
+				"inc_max": {
+					"$ref": "./parameter_value.json"
+				},
+				"hor_ew_exclusion": {
+					"$ref": "./parameter_value.json"
+				}
+			},
+			"required": [
+				"inc_min",
+				"inc_max",
+				"hor_ew_exclusion"
+			],
+			"additionalProperties": false
+		},
+		"parameters": {
+			"type": "object",
+			"additionalProperties": {
+				"$ref": "./parameter_value.json"
+			}
+		},
+		"terms": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"term": {
+						"$ref": "./strings/non_empty.json"
+					},
+					"magnitude": {
+						"$ref": "./number/non_negative.json"
+					}
+				},
+				"required": [
+					"term",
+					"magnitude"
+				],
+				"additionalProperties": false
+			}
+		},
+		"hash_function": {
+			"$ref": "./hash_function.json"
+		},
+		"hash_value": {
+			"$ref": "./strings/hash_value.json"
+		}
+	},
+	"required": [
+		"$schema",
+		"metadata",
+		"origin",
+		"libraries",
+		"applicability",
+		"parameters",
+		"terms",
+		"hash_function",
+		"hash_value"
+	],
+	"additionalProperties": false
+}

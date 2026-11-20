@@ -1,47 +1,109 @@
-
 {
-	"$schema"     : "https://json-schema.org/draft/2020-12/schema",
-	"$id"         : "https://github.com/iscwsa/error-models/blob/main/schemas/metadata.json",
-	"type"        : "object",
-	"title"       : "Metadata",
-	"description" : "Information about the model",
-
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/metadata.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "object",
+	"title": "Metadata",
+	"description": "Information about the model",
 	"properties": {
-
-		"schema_uuid"      : {"$ref": "./draft.json#/$defs/schema_uuid"},
-		"model_uuid"       : {"$ref": "./strings/non_empty.json"},
-		"model_id"         : {"$ref": "./strings/non_empty.json"},
-		"short_name"       : {"$ref": "./strings/non_empty.json"},
-		"long_name"        : {"$ref": "./strings/non_empty.json"},
-		"revision_number"  : {"$ref": "./number/non_negative.json"},
-		"revision_date"    : {"$ref": "./strings/date.json"},
-		"revision_comment" : {"$ref": "./strings/non_empty.json"},
-		"source"           : {"$ref": "./strings/non_empty.json"},
-		"application"      : {"$ref": "./strings/non_empty.json"},
-		"tool_type"        : {"$ref": "./tool_types.json"},
-		"author"           : {"$ref": "./strings/non_empty.json"},
-		"framework"        : {"$ref": "./frameworks.json"},
-		"tags"             : {"$ref": "./tags.json"}
-
+		"model_uuid": {
+			"$ref": "./strings/uuid.json"
+		},
+		"model_id": {
+			"$ref": "./strings/qualified_name.json"
+		},
+		"short_name": {
+			"$ref": "./strings/non_empty.json"
+		},
+		"long_name": {
+			"$ref": "./strings/non_empty.json"
+		},
+		"revision": {
+			"type": "string"
+		},
+		"revision_date": {
+			"$ref": "./strings/date.json"
+		},
+		"revision_comment": {
+			"type": "string"
+		},
+		"source": {
+			"$ref": "./strings/non_empty.json"
+		},
+		"tool_type": {
+			"$ref": "./tool_types.json"
+		},
+		"status": {
+			"enum": [
+				"current",
+				"candidate",
+				"superseded",
+				"withdrawn"
+			]
+		},
+		"framework": {
+			"$ref": "./frameworks.json"
+		},
+		"author": {
+			"$ref": "./strings/non_empty.json"
+		},
+		"tags": {
+			"$ref": "./tags.json"
+		},
+		"application": {
+			"type": "string"
+		},
+		"notes": {
+			"type": "string"
+		},
+		"range_comment": {
+			"type": "string"
+		},
+		"revision_history": {
+			"type": "array",
+			"items": {
+				"type": "string"
+			}
+		},
+		"checked": {
+			"type": "string"
+		},
+		"approved": {
+			"type": "string"
+		},
+		"supersedes": {
+			"type": "array",
+			"items": {
+				"$ref": "./strings/qualified_name.json"
+			}
+		},
+		"superseded_by": {
+			"type": "array",
+			"items": {
+				"$ref": "./strings/qualified_name.json"
+			}
+		},
+		"sheet_status": {
+			"type": "string"
+		},
+		"replaces_text": {
+			"$ref": "./strings/non_empty.json"
+		}
 	},
-
 	"required": [
-		"schema_uuid",
 		"model_uuid",
 		"model_id",
 		"short_name",
 		"long_name",
-		"revision_number",
+		"revision",
 		"revision_date",
 		"revision_comment",
 		"source",
-		"application",
 		"tool_type",
-		"author",
+		"status",
 		"framework",
+		"author",
 		"tags"
 	],
-
-	"additionalProperties" : false
-
+	"additionalProperties": false
 }

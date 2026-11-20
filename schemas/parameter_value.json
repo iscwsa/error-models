@@ -1,0 +1,25 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/parameter_value.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "object",
+	"title": "Parameter Value",
+	"description": "A numeric value with its unit and the sheet text verbatim",
+	"properties": {
+		"value": {
+			"$ref": "./number/any.json"
+		},
+		"unit": {
+			"type": "string"
+		},
+		"text": {
+			"type": "string"
+		}
+	},
+	"required": [
+		"value",
+		"unit",
+		"text"
+	],
+	"additionalProperties": false
+}
