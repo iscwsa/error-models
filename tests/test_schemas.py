@@ -191,3 +191,13 @@ def test_origin_required_unless_reference():
     assert any(e.validator == "required" for e in errors("model.json", model))
     model["metadata"]["status"] = "reference"
     assert errors("model.json", model) == []
+
+
+def test_origin_sheet_or_converted_file():
+    model = load("minimal_model.json")
+    model["origin"] = {"file": "example.ipm", "sha256": "0" * 64}
+    assert errors("model.json", model) == []
+    model["origin"]["sheet"] = "MWD"
+    assert errors("model.json", model)
+    model["origin"] = {"workbook": "w.xlsx", "sha256": "0" * 64}
+    assert errors("model.json", model)

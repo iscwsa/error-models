@@ -1,0 +1,16 @@
+#Comment:Test fixture written by hand to the guide's layout; XGYRO and XMIS are invented sources, not from any vendor file
+#ShortName:Example
+#Description:Example vendor model
+#RevisionNumber:1
+#RevisionDate:2026-10-26
+#RevisionComment:Test fixture
+#SourceReference:Invented for the tests
+#InclinationRangeMin:0
+#InclinationRangeMax:180
+#AzimuthEWRestriction:0
+Name	Vector	Tie-On	Unit	Value	Formula
+DRFR	e	r	m	0.35	1
+DSFS	e	s	-	0.00056	tmd
+XGYRO	a	s	d	0.1	sin(azt)/(erot*cos(inc))
+XMIS	i	g	d	0.05	sin(inc)
+XMIS	a	g	d	0.05	cos(inc)

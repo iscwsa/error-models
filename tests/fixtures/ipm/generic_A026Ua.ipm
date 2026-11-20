@@ -1,0 +1,18 @@
+#Comment:Test fixture written by tools.json2ipm from generic_iscwsa:A026Ua (a public ISCWSA model); not a vendor file
+#ShortName:BLIND
+#Description:OWSG BLIND
+#RevisionNumber:1
+#RevisionComment:Initial Release
+#SourceReference:OWSG - Copsegrove Developments Ltd
+#RevisionDate:2013-11-01
+#InclinationRangeMin:0
+#InclinationRangeMax:180
+#AzimuthEWRestriction:0
+Name	Vector	Tie-On	Unit	Value	Formula
+DRFR	e	r	m	0.35	1
+DSFS	e	s	-	0.00056	tmd
+DSTG	e	g	im	2.5e-07	tmd*tvd
+AZMS	a	s	d	6	1
+AZRF	a	s	d	45	1
+CNA	a	s	-	0.35	1/sin(inc)
+CNI	i	s	-	0.35	1

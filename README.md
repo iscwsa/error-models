@@ -36,8 +36,8 @@ The role of the ISCWSA Error Model Maintenance Group is to define the mathematic
 
 **Layout.** `schemas/` holds the JSON Schemas (`model.json`, `library.json` and their sub-schemas), `library/<ns>/` the term libraries, and `models/<ns>/` the error models, where `<ns>` is the namespace. Qualified names are written `<ns>:<name>`, e.g. the library id `iscwsa:rev5`. The other directories:
 
-- `docs/` - the formula grammar (`grammar.md`), how the formulas propagate into a covariance (`propagation.md`), the conformance rules (`conformance.md`), and where the libraries and the reference results differ from the published sources (`deviations.md`).
-- `tools/` - the reference tools: formula parser and evaluator, spreadsheet extractor, validator, diagnostics reader, hashing and identity.
+- `docs/` - the formula grammar (`grammar.md`), how the formulas propagate into a covariance (`propagation.md`), the conformance rules (`conformance.md`), where the libraries and the reference results differ from the published sources (`deviations.md`), and the IPM conversion (`ipm.md`).
+- `tools/` - the reference tools: formula parser and evaluator, spreadsheet extractor, validator, diagnostics reader, hashing and identity, and the IPM converters.
 - `conformance/` - ISCWSA's published diagnostics, unchanged, as test vectors, and `manifest.json` mapping each file to the model it exercises.
 
 **Namespaces.** A namespace matches `^[a-z][a-z0-9_]{1,31}$`. Reserved namespaces:
@@ -66,6 +66,7 @@ Namespace UUID: `7c9fcf73-f032-422d-b9aa-a2d69fa46e1d`
 - `tools/model_ids.csv` is the fixed (workbook, sheet) to model ID and library table, so a renamed sheet keeps its UUID. `python -m tools.inventory --workbooks <dir>` checks it against the workbooks.
 - `tools/term_groups.json` lists the term groups the extractor writes into each library.
 - `tools/term_requires.json` lists the capability (`gyro_modes`, `bias_terms` or `xcl_position_direct`) each term needs; a library's `requires` is the union over its terms.
+- `python -m tools.ipm2json --namespace <ns> --model-id <id> --tool-type <type> --author <name> [--revision-date YYYY-MM-DD ...] FILE.ipm --out <dir>` converts a Compass IPM file into a model and, for sources that aren't ISCWSA terms, a vendor library; `python -m tools.json2ipm MODEL.json > FILE.ipm` goes the other way. Both cover a subset of the IPM format: see `docs/ipm.md`.
 
 The `iscwsa:rev5` and `iscwsa:rot6axis` libraries currently carry proposed errata (corrections to the spreadsheet formula text, each with its reason in `tools/errata.json`) that await a sub-committee decision. `docs/deviations.md` lists them with the evidence, together with the evaluation conventions the diagnostics need.
 

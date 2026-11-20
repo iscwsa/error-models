@@ -13,24 +13,46 @@
 			"$ref": "./metadata.json"
 		},
 		"origin": {
-			"type": "object",
-			"properties": {
-				"workbook": {
-					"$ref": "./strings/non_empty.json"
+			"oneOf": [
+				{
+					"type": "object",
+					"properties": {
+						"workbook": {
+							"$ref": "./strings/non_empty.json"
+						},
+						"sha256": {
+							"$ref": "./strings/hash_value.json"
+						},
+						"sheet": {
+							"$ref": "./strings/non_empty.json"
+						}
+					},
+					"required": [
+						"workbook",
+						"sha256",
+						"sheet"
+					],
+					"additionalProperties": false,
+					"description": "The ISCWSA workbook and sheet the model was read from"
 				},
-				"sha256": {
-					"$ref": "./strings/hash_value.json"
-				},
-				"sheet": {
-					"$ref": "./strings/non_empty.json"
+				{
+					"type": "object",
+					"description": "The file the model was converted from (e.g. an IPM file, tools/ipm2json) and its SHA-256",
+					"properties": {
+						"file": {
+							"$ref": "./strings/non_empty.json"
+						},
+						"sha256": {
+							"$ref": "./strings/hash_value.json"
+						}
+					},
+					"required": [
+						"file",
+						"sha256"
+					],
+					"additionalProperties": false
 				}
-			},
-			"required": [
-				"workbook",
-				"sha256",
-				"sheet"
-			],
-			"additionalProperties": false
+			]
 		},
 		"libraries": {
 			"type": "array",
