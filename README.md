@@ -69,6 +69,8 @@ Namespace UUID: `7c9fcf73-f032-422d-b9aa-a2d69fa46e1d`
 - `python -m tools.ipm2json --namespace <ns> --model-id <id> --tool-type <type> --author <name> [--revision-date YYYY-MM-DD ...] FILE.ipm --out <dir>` converts a Compass IPM file into a model and, for sources that aren't ISCWSA terms, a vendor library; `python -m tools.json2ipm MODEL.json > FILE.ipm` goes the other way. Both cover a subset of the IPM format: see `docs/ipm.md`.
 - `python -m tools.release cut vX.Y.Z | reopen | check [--tag vX.Y.Z]` makes and checks a release (`docs/releasing.md`).
 
+Working rules for contributors and coding agents (tests, generated files, errata, identifiers) are in `CLAUDE.md`.
+
 The `iscwsa:rev5` and `iscwsa:rot6axis` libraries currently carry proposed errata (corrections to the spreadsheet formula text, each with its reason in `tools/errata.json`) that await a sub-committee decision. `docs/deviations.md` lists them with the evidence, together with the evaluation conventions the diagnostics need.
 
 ### MODEL STATUS
