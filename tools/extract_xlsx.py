@@ -17,12 +17,13 @@ import openpyxl
 from tools.formula import canonical
 from tools.inventory import ModelId, load_model_ids
 from tools.identity import entry_uuid, library_uuid, model_uuid, stamp
+from tools.urls import schema_base
 from tools.sheet import WORKBOOKS_FILE, Sheet, SheetTerm, WorkbookError, check_workbook, read_sheet, read_workbook
 
 PROP = {"R": "Random", "S": "Systematic", "W": "Well", "G": "Global", "B": "Bias"}
 # "B" (SPE 67616 bias terms, ISCWSA MWD bias Rev0-2 sheets) carries P flags 0,0,0 like "R"
 _FLAGS = {"R": (0, 0, 0), "S": (1, 0, 0), "W": (1, 1, 0), "G": (1, 1, 1), "B": (0, 0, 0)}
-SCHEMA_BASE = "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/"
+SCHEMA_BASE = schema_base(Path(__file__).resolve().parent.parent)  # the tree's release
 ERRATA_FILE = Path(__file__).resolve().parent / "errata.json"
 TERM_REQUIRES_FILE = Path(__file__).resolve().parent / "term_requires.json"
 TERM_GROUPS_FILE = Path(__file__).resolve().parent / "term_groups.json"
@@ -471,15 +472,43 @@ def build_all(workbooks: Path, log: list[str]) -> tuple[dict[str, dict], dict[tu
     return libraries, models
 
 
+def _dump(doc: dict) -> bytes:
+    return (json.dumps(doc, indent="\t", ensure_ascii=False) + "\n").encode("utf-8")
+
+
+def check(workbooks: Path, root: Path = Path(__file__).resolve().parent.parent) -> list[str]:
+    """Rebuild every library and model from the workbooks in memory: the paths whose committed file differs, is missing,
+    or is not generated (a file under models/ or library/ that no sheet produces, apart from the SPE 90408 library,
+    which tools/make_spe90408 writes)."""
+    root = Path(root)
+    libraries, models = build_all(Path(workbooks).expanduser(), [])
+    want = {f"library/{i.partition(':')[0]}/{i.partition(':')[2]}.json": _dump(d) for i, d in libraries.items()}
+    want.update({f"models/{ns}/{name}.json": _dump(d) for (ns, name), d in models.items()})
+    differ = [rel for rel, data in want.items() if not (root / rel).is_file() or (root / rel).read_bytes() != data]
+    have = {p.relative_to(root).as_posix() for d in ("library", "models") for p in (root / d).rglob("*.json")}
+    differ += sorted(have - set(want) - {"library/iscwsa/spe90408.json"})
+    return sorted(differ)
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="python -m tools.extract_xlsx")
     parser.add_argument("--workbooks", required=True, type=Path)
+    parser.add_argument("--check", action="store_true", help="rebuild everything in memory and list differing files")
     parser.add_argument("--all-libraries", action="store_true", help="build the seven libraries from every sheet")
     parser.add_argument("--all", action="store_true", help="build the seven libraries and every model")
     parser.add_argument("--sheet")
     parser.add_argument("--library")
     parser.add_argument("--out", type=Path, default=Path("."))
     args = parser.parse_args(argv)
+    if args.check:
+        try:
+            differ = check(args.workbooks, args.out)
+        except (ExtractError, WorkbookError, ValueError) as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 1
+        for rel in differ:
+            print(f"differs: {rel}")
+        return 1 if differ else 0
     if args.all:
         log: list[str] = []
         try:

@@ -16,3 +16,5 @@ jobs:
       - run: pip install -r tools/requirements.txt
       - run: pytest
       - run: python -m tools.validate --registry .
+      - run: python -m tools.make_spe90408 --check
+      - run: python -m tools.release check

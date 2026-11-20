@@ -3,7 +3,18 @@
 
 # Changelog
 
+Changes not yet released are under `## Unreleased`. A release turns that section into `## vX.Y.Z (date)` and adds the
+models and libraries added, changed and removed since the previous release (`docs/releasing.md`).
+
 ## Unreleased
+
+### Added (release tooling)
+
+- `tools/release.py`: `cut vX.Y.Z` points every file at the tag, copies the schemas into `tools/schemas/<tag>/` and closes the changelog section; `reopen` points the tree back at `main`; `check [--tag]` confirms the tree is at one release. A cut changes no `hash_value` and writes nothing if any check fails.
+- `tools/urls.py`: the generators write the release the tree is at, so a regenerated file matches a cut tree.
+- `--check` for `tools.extract_xlsx` and `tools.make_spe90408`: rebuild in memory and list the committed files that differ.
+- CI: `validate` also runs `make_spe90408 --check` and `release check`. A new `release` workflow runs `release check --tag` on every `v*` tag.
+- `docs/releasing.md`: versioning, the cut / tag / reopen cycle, recovery, and the questions left to the sub-committee.
 
 ### Added (IPM conversion)
 

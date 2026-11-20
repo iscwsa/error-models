@@ -23,11 +23,12 @@ from pathlib import Path
 from tools.diagnostics import read_hpt
 from tools.formula import Bin, Call, Neg, Node, Num, Var, canonical, parse
 from tools.identity import entry_uuid, library_uuid, model_uuid, stamp
+from tools.urls import schema_base
 from tools.ipm import (FT, JSON_UNITS, SI, TIE_ONS, UNIT_FACTORS, VECTORS, IpmError, IpmFile, IpmRow, is_variable,
                        read_ipm, translate_node, variables)
 
 ROOT = Path(__file__).resolve().parent.parent
-SCHEMA_URL = "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/{}.json"
+SCHEMA_URL = schema_base(ROOT) + "{}.json"  # the tree's release (tools/urls.py)
 ISCWSA_LIBRARY = ROOT / "library" / "iscwsa" / "rev5.json"
 DIAGNOSTICS = ROOT / "conformance" / "vectors" / "iscwsa_rev5-1"
 EARTH_RATE = 7.2921159e-5  # rad/s (SPE 90408); the guide's `erot` uses 15.041 deg/hr (docs/ipm.md, "Constants")

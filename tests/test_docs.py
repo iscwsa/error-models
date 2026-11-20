@@ -155,6 +155,19 @@ def test_no_internal_labels():
             assert not m, (f, m.group(0))
 
 
+def test_releasing_doc():
+    text = (ROOT / "docs" / "releasing.md").read_text(encoding="utf-8")
+    assert re.findall(r"^## (.+)$", text, re.M) == [
+        "Before a release", "Cut", "Tag", "Reopen", "If something goes wrong", "Open questions"]
+    open_q = text.split("## Open questions", 1)[1]
+    for item in ("approves", "license", "signed"):
+        assert item in open_q, item
+    assert "decides none of them" in open_q
+    from tools.release import ReleaseError
+    for code in ReleaseError.__doc__.split(":", 1)[1].replace(".", "").split(","):
+        assert f"`{code.strip()}`" in text, code
+
+
 def test_ipm_doc_sections():
     text = (ROOT / "docs" / "ipm.md").read_text(encoding="utf-8")
     assert re.findall(r"^## (.+)$", text, re.M) == [
