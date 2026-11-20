@@ -60,6 +60,8 @@ Namespace UUID: `7c9fcf73-f032-422d-b9aa-a2d69fa46e1d`
 
 **Tools.** Install `tools/requirements.txt`, then from the repository root:
 
+- `python -m tools.fetch_workbooks --out <dir>` downloads the published ISCWSA workbooks listed in `tools/workbooks.json` from iscwsa.net and checks each SHA-256 (a mismatch means ISCWSA has republished the file). Set `ISCWSA_WORKBOOKS=<dir>` and the workbook tests run instead of skipping; CI does both.
+
 - `python -m tools.validate --registry .` validates every library and model (schemas, formulas, hashes, identifiers, namespaces). Proposed errata are reported as warnings; `--release` turns them into errors.
 - `python -m tools.extract_xlsx --workbooks <dir> --sheet <sheet name> --library <id>` regenerates a library and its model from the ISCWSA spreadsheets, applying `tools/errata.json`.
 - `python -m tools.extract_xlsx --workbooks <dir> --all` (or `--all-libraries`) regenerates the seven libraries and all 129 models (or only the libraries) from every sheet; `--check` rebuilds them in memory and lists any committed file that differs. `python -m tools.make_spe90408 --check` does the same for the SPE 90408 library and example models.
