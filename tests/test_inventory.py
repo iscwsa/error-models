@@ -97,7 +97,7 @@ def test_examples(workbooks):
     assert ids[(809, "ISCWSA MWD+AX+SAG Rev3_Fl")] == ModelId("iscwsa", "MWD_AX_SAG_Rev3_Fl", "iscwsa:rev3")
     assert ids[(807, "MWD+SRGM_Fl")] == ModelId("generic_iscwsa", "A001Mc_Fl", "iscwsa:rev5")
     rcs = workbooks[1052][1][0]
-    assert ids[(1052, "Candidate_Rot_6Axis_MWD+SRGM")] == ModelId(
+    assert ids[(1052, "Rot_6Axis_MWD+SRGM")] == ModelId(
         "iscwsa", owsg_prefix(rcs), "iscwsa:rot6axis")
 
 

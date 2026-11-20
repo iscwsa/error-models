@@ -25,8 +25,8 @@
 	},
 	"origin": {
 		"workbook": "iscwsa-rot-6axis-mwd-srgm-02jun2026.xlsx",
-		"sha256": "cf512eacc9134170ba096c2a4a6366a7e69ad70cd6dd59ebe9c4341b27cfab09",
-		"sheet": "Candidate_Rot_6Axis_MWD+SRGM"
+		"sha256": "5f186bc35f90420b9c3824f6f5364b10e43ffc498ca3f441e5b01a08381f9e0c",
+		"sheet": "Rot_6Axis_MWD+SRGM"
 	},
 	"libraries": [
 		{
@@ -219,5 +219,5 @@
 		}
 	],
 	"hash_function": "SHA256",
-	"hash_value": "39629da8c23e1e2ac8aa9c69de8cb66776cedc80806e0b0e6eeb648000a22d20"
+	"hash_value": "aaee650c15142769790c54e37b91d4ddda0c015add854397f3b68ec9f9436889"
 }

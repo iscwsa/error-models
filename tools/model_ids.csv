@@ -127,4 +127,4 @@ iscwsa_file,sheet,namespace,model_id,library
 808,EMS+LRGM+SAG_Fl,generic_iscwsa,B020Mc_Fl,iscwsa:rev5
 808,FINDS,generic_iscwsa,B021Ga,iscwsa:rev5
 808,BLIND+TREND,generic_iscwsa,B022Ua,iscwsa:rev5
-1052,Candidate_Rot_6Axis_MWD+SRGM,iscwsa,D007Ma,iscwsa:rot6axis
+1052,Rot_6Axis_MWD+SRGM,iscwsa,D007Ma,iscwsa:rot6axis

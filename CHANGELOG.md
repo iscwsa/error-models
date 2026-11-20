@@ -8,6 +8,10 @@ models and libraries added, changed and removed since the previous release (`doc
 
 ## Unreleased
 
+### Changed (sources)
+
+- ISCWSA republished the Rot-6axis MWD+SRGM workbook (file 1052) on 15 June 2026 under the same file name: the sheet is renamed `Candidate_Rot_6Axis_MWD+SRGM` → `Rot_6Axis_MWD+SRGM`, and every cell (formulas and values) is unchanged. `tools/workbooks.json` pins the new SHA-256 and `tools/model_ids.csv` the new sheet name, so `iscwsa:D007Ma` keeps its ID and UUID; only its `source` block and `hash_value` change. Its status stays `candidate` until the sub-committee confirms the model is adopted.
+
 ### Added (release tooling)
 
 - `tools/release.py`: `cut vX.Y.Z` points every file at the tag, copies the schemas into `tools/schemas/<tag>/` and closes the changelog section; `reopen` points the tree back at `main`; `check [--tag]` confirms the tree is at one release. A cut changes no `hash_value` and writes nothing if any check fails.
