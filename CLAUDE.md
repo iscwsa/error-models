@@ -4,8 +4,7 @@
 
 Guidance for Claude Code (and other coding agents) working in this repository. The README's
 [Technical details](README.md#technical-details) section describes the layout, namespaces, versioning,
-identifiers, hashes and tools; this file adds the working rules. Put anything specific to your own machine in
-`CLAUDE.local.md` (git-ignored).
+identifiers, hashes and tools; this file adds the working rules.
 
 ## Set up and test
 
