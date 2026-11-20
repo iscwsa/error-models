@@ -1,0 +1,223 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/model.json",
+	"metadata": {
+		"model_uuid": "c8f6e0ee-efde-5d32-8014-291411b988a4",
+		"model_id": "generic_iscwsa:A001Mc_Fl",
+		"short_name": "MWD+SRGM_Fl",
+		"long_name": "OWSG MWD + SRGM [Floating Rig]",
+		"revision": "5.1",
+		"revision_date": "2020-10-08",
+		"revision_comment": "Rev No changed to match ISCWSA Models (Rev.5). XCLA & XCLH terms added. XYM3 replaced by XYM3E. XYM4 replaced by XYM4E. SAG replaced by SAGE. DECG replaced by DEC-U DEC-OS DEC-OH DEC-OI. DBHG replaced by DBH-U DBH-OS DBH-OH DBH-OI. Updated Short Name, Long Name, Application.",
+		"source": "OWSG - SPE 67616 and 63275",
+		"tool_type": "Magnetic",
+		"status": "current",
+		"framework": "ISCWSA Rev5",
+		"author": "ISCWSA",
+		"tags": [],
+		"application": "MWD using 1-Year Standard Resolution Geomagnetic Mode (e.g. BGGM up to 2018, MVSD) with no additional corrections on a Floating Rig",
+		"sheet_status": "Agreed",
+		"checked": "Steve Grindrod 21-Oct-2020",
+		"notes": "Based on ISCWSA MWD Rev 3 (Tool Face Independent - Sliding)",
+		"revision_history": [
+			"Rev 0.1 05-Jun-2013 Draft Release for Comment.",
+			"Rev 1.0 01-Nov-2013 Initial Release.",
+			"Rev 2.0 18-May-2015 DECR and DBHR terms added. AMIL reduced from 300 to 220 nT."
+		],
+		"replaces_text": "OWSG_A001Mb_MWD_Fl OWSG_E013Ma_MWD+XCL_Fl / ",
+		"range_comment": "None"
+	},
+	"origin": {
+		"workbook": "toolgroup-owsg-a-rev-5-1-08-oct-2020-produced-23-sep-2022.xlsx",
+		"sha256": "63006b322ae2d8e5cefd3962339f4d4bdcc65656e842578af1efd4008b777280",
+		"sheet": "MWD+SRGM_Fl"
+	},
+	"libraries": [
+		{
+			"id": "iscwsa:rev5",
+			"uuid": "afcf8ed3-ac41-51f8-9999-8d126737f2f0",
+			"hash_value": "c251a379c03c814bb4a198c576a11a4b30debf886bf7299116a0c214ca386596"
+		}
+	],
+	"applicability": {
+		"inc_min": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		},
+		"inc_max": {
+			"value": 180,
+			"unit": "deg",
+			"text": "180 deg"
+		},
+		"hor_ew_exclusion": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		}
+	},
+	"parameters": {
+		"MisalignmentAlt": {
+			"value": 3,
+			"unit": "-",
+			"text": "3"
+		},
+		"MisalignmentMinCourseLength": {
+			"value": 10,
+			"unit": "m",
+			"text": "10 m"
+		},
+		"XCLTortuosity": {
+			"value": 1,
+			"unit": "deg/100ft",
+			"text": "1 deg / 100 ft"
+		}
+	},
+	"terms": [
+		{
+			"term": "DRFR",
+			"magnitude": 2.2
+		},
+		{
+			"term": "DRFS",
+			"magnitude": 1
+		},
+		{
+			"term": "DSFS",
+			"magnitude": 0.00056
+		},
+		{
+			"term": "DSTG",
+			"magnitude": 2.5e-07
+		},
+		{
+			"term": "ABXY-TI1S",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ABXY-TI2S",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ABZ",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ASXY-TI1S",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASXY-TI2S",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASXY-TI3S",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASZ",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "MBXY-TI1S",
+			"magnitude": 70
+		},
+		{
+			"term": "MBXY-TI2S",
+			"magnitude": 70
+		},
+		{
+			"term": "MBZ",
+			"magnitude": 70
+		},
+		{
+			"term": "MSXY-TI1S",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "MSXY-TI2S",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "MSXY-TI3S",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "MSZ",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "DEC-U",
+			"magnitude": 0.16
+		},
+		{
+			"term": "DEC-OS",
+			"magnitude": 0.24
+		},
+		{
+			"term": "DEC-OH",
+			"magnitude": 0.21
+		},
+		{
+			"term": "DEC-OI",
+			"magnitude": 0.05
+		},
+		{
+			"term": "DECR",
+			"magnitude": 0.1
+		},
+		{
+			"term": "DBH-U",
+			"magnitude": 2350
+		},
+		{
+			"term": "DBH-OS",
+			"magnitude": 3359
+		},
+		{
+			"term": "DBH-OH",
+			"magnitude": 2840
+		},
+		{
+			"term": "DBH-OI",
+			"magnitude": 356
+		},
+		{
+			"term": "DBHR",
+			"magnitude": 3000
+		},
+		{
+			"term": "AMIL",
+			"magnitude": 220
+		},
+		{
+			"term": "SAGE",
+			"magnitude": 0.2
+		},
+		{
+			"term": "XYM1",
+			"magnitude": 0.1
+		},
+		{
+			"term": "XYM2",
+			"magnitude": 0.1
+		},
+		{
+			"term": "XYM3E",
+			"magnitude": 0.3
+		},
+		{
+			"term": "XYM4E",
+			"magnitude": 0.3
+		},
+		{
+			"term": "XCLA",
+			"magnitude": 0.167
+		},
+		{
+			"term": "XCLH",
+			"magnitude": 0.167
+		}
+	],
+	"hash_function": "SHA256",
+	"hash_value": "73c5cb6cc830923b90153cf20f790e32eddd3657fb9a34df352ad31cd637bf7f"
+}

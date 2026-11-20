@@ -13,5 +13,20 @@
 		"model": "iscwsa:A001Mc",
 		"well": 3,
 		"file": "vectors/iscwsa_rev5-1/ErrorModelDiagnostics_Rev5-1_ISCWSA#3.dat"
+	},
+	{
+		"model": "generic_iscwsa:A001Mc",
+		"well": 1,
+		"file": "vectors/iscwsa_rev5-1/ErrorModelDiagnostics_Rev5-1_ISCWSA#1.dat"
+	},
+	{
+		"model": "generic_iscwsa:A001Mc",
+		"well": 2,
+		"file": "vectors/iscwsa_rev5-1/ErrorModelDiagnostics_Rev5-1_ISCWSA#2.dat"
+	},
+	{
+		"model": "generic_iscwsa:A001Mc",
+		"well": 3,
+		"file": "vectors/iscwsa_rev5-1/ErrorModelDiagnostics_Rev5-1_ISCWSA#3.dat"
 	}
 ]

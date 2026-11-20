@@ -1,0 +1,200 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/model.json",
+	"metadata": {
+		"model_uuid": "84028617-7ef2-532c-9f19-a35f1a409760",
+		"model_id": "generic_iscwsa:A021Gc",
+		"short_name": "GYRO-NS-CT",
+		"long_name": "OWSG XYZ Accel with XY Static and Continuous Gyro",
+		"revision": "5",
+		"revision_date": "2020-10-08",
+		"revision_comment": "Rev No changed to match ISCWSA Models (Rev.5). XCLA & XCLH terms added. XYM3 replaced by XYM3E. XYM4 replaced by XYM4E. VSAG replaced by SAGE. ",
+		"source": "OWSG - Gyrodata/SDI",
+		"tool_type": "Gyro",
+		"status": "current",
+		"framework": "ISCWSA Rev5",
+		"author": "ISCWSA",
+		"tags": [],
+		"application": "Generic Hybrid Static Gyrocompass and Continuous Survey",
+		"sheet_status": "Agreed",
+		"checked": "Steve Grindrod 21-Oct-2020",
+		"notes": "Based on ISCWSA Gyro#3",
+		"revision_history": [
+			"Rev 0.1 05-Jun-2013 Draft Release for Comment.",
+			"Rev 1.0 01-Nov-2013 Initial Release.",
+			"Rev 1.1 10-Apr-2014 Corrected GXY-B1 and B2 terms."
+		],
+		"replaces_text": "OWSG_A021Gb_GYRO-NS-CT / ",
+		"range_comment": "None"
+	},
+	"origin": {
+		"workbook": "toolgroup-owsg-a-rev-5-1-08-oct-2020-produced-23-sep-2022.xlsx",
+		"sha256": "63006b322ae2d8e5cefd3962339f4d4bdcc65656e842578af1efd4008b777280",
+		"sheet": "GYRO-NS-CT"
+	},
+	"libraries": [
+		{
+			"id": "iscwsa:rev5",
+			"uuid": "afcf8ed3-ac41-51f8-9999-8d126737f2f0",
+			"hash_value": "c251a379c03c814bb4a198c576a11a4b30debf886bf7299116a0c214ca386596"
+		}
+	],
+	"applicability": {
+		"inc_min": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		},
+		"inc_max": {
+			"value": 150,
+			"unit": "deg",
+			"text": "150 deg"
+		},
+		"hor_ew_exclusion": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		}
+	},
+	"parameters": {
+		"XYZAccelerometer": {
+			"value": true,
+			"unit": "-",
+			"text": "True"
+		},
+		"XYStaticGyro": {
+			"value": true,
+			"unit": "-",
+			"text": "True"
+		},
+		"StartInc": {
+			"value": 15,
+			"unit": "deg",
+			"text": "15 deg"
+		},
+		"EndInc": {
+			"value": 150,
+			"unit": "deg",
+			"text": "150 deg"
+		},
+		"InitialisationInc": {
+			"value": 15,
+			"unit": "deg",
+			"text": "15 deg"
+		},
+		"XYContinuousGyro": {
+			"value": true,
+			"unit": "-",
+			"text": "True"
+		},
+		"RunningSpeed": {
+			"value": 2743.2,
+			"unit": "m/hr",
+			"text": "2743.2 m/hr"
+		},
+		"MinDistBetweenInits": {
+			"value": 99999,
+			"unit": "m",
+			"text": "99999 m"
+		},
+		"NoiseReductionFactor": {
+			"value": 0.4082,
+			"unit": "-",
+			"text": "0.4082"
+		},
+		"MisalignmentAlt": {
+			"value": 3,
+			"unit": "-",
+			"text": "3"
+		},
+		"MisalignmentMinCourseLength": {
+			"value": 10,
+			"unit": "m",
+			"text": "10 m"
+		},
+		"XCLTortuosity": {
+			"value": 1,
+			"unit": "deg/100ft",
+			"text": "1 deg / 100 ft"
+		}
+	},
+	"terms": [
+		{
+			"term": "DRFR",
+			"magnitude": 0.35
+		},
+		{
+			"term": "DSFS",
+			"magnitude": 0.00056
+		},
+		{
+			"term": "DSTG",
+			"magnitude": 2.5e-07
+		},
+		{
+			"term": "XYM1",
+			"magnitude": 0.1
+		},
+		{
+			"term": "XYM2",
+			"magnitude": 0.1
+		},
+		{
+			"term": "XYM3E",
+			"magnitude": 0.3
+		},
+		{
+			"term": "XYM4E",
+			"magnitude": 0.3
+		},
+		{
+			"term": "XCLA",
+			"magnitude": 0.167
+		},
+		{
+			"term": "XCLH",
+			"magnitude": 0.167
+		},
+		{
+			"term": "AXYZ-MIS",
+			"magnitude": 0.0095
+		},
+		{
+			"term": "AXYZ-SF",
+			"magnitude": 0.000111
+		},
+		{
+			"term": "AXYZ-ZB",
+			"magnitude": 0.0017
+		},
+		{
+			"term": "GXY-B1S",
+			"magnitude": 0.15
+		},
+		{
+			"term": "GXY-B2S",
+			"magnitude": 0.15
+		},
+		{
+			"term": "GXY-G4",
+			"magnitude": 0.6
+		},
+		{
+			"term": "GXY-RN",
+			"magnitude": 0.4
+		},
+		{
+			"term": "GXY-GD",
+			"magnitude": 0.5
+		},
+		{
+			"term": "GXY-GRW",
+			"magnitude": 0.25
+		},
+		{
+			"term": "SAGE",
+			"magnitude": 0.08
+		}
+	],
+	"hash_function": "SHA256",
+	"hash_value": "3c00f68296991cdf7773b2565ead1ca60dd331c6dd6b77b0f6b00ee1ad45fd21"
+}

@@ -1,0 +1,739 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/library.json",
+	"library_id": "iscwsa:rev2",
+	"uuid": "157f1818-a2ad-5a82-bc2c-46160349a82a",
+	"publisher": "ISCWSA",
+	"requires": [
+		"bias_terms"
+	],
+	"weighting_functions": {
+		"DREF": {
+			"depth": "1",
+			"inclination": "0",
+			"azimuth": "0",
+			"source": "SPE 67616",
+			"uuid": "8ac62219-6eee-5ddc-bee4-2fc3036c5441",
+			"hash_value": "a4f4a6c6cdc7c21410747a711c15cc17cc22032e7ee5361e0b704efe76d315c2"
+		},
+		"DSF": {
+			"depth": "MD",
+			"inclination": "0",
+			"azimuth": "0",
+			"source": "SPE 67616",
+			"uuid": "9ce5af66-ca42-56e9-9922-9bb3a68796e5",
+			"hash_value": "7b1d02fe5f651a267126048111691ad418450f610c19d0552fb1a35adbf2a3cb"
+		},
+		"DST": {
+			"depth": "MD * TVD",
+			"inclination": "0",
+			"azimuth": "0",
+			"source": "SPE 67616",
+			"uuid": "a5222148-06e0-558a-99ec-19a465ef86aa",
+			"hash_value": "8fe169ff379df096ebd2f14555c306cead1937639b7c4c2895911a17d66c2731"
+		},
+		"ABX": {
+			"depth": "0",
+			"inclination": "-Cos(Inc) * Sin(TF) / GField",
+			"azimuth": "((Cos(Inc) * Sin(AzM) * Sin(TF) - Cos(AzM) * Cos(TF)) * Tan(Dip) + Cos(TF) / Tan(Inc)) / GField",
+			"singularity_north": "-Sin(Az + TF) / GField",
+			"singularity_east": "Cos(Az + TF) / GField",
+			"singularity_vertical": "0",
+			"comment": "Singularity when vertical",
+			"source": "SPE 67616 Table 1 and Table A-1",
+			"uuid": "8fb445aa-3161-5ea5-83fc-b475a6a07d55",
+			"hash_value": "5aad51450271e4f58f22e3bdf561c66b38d88f9ba50bb0b62566cea9fc239e9f"
+		},
+		"ABY": {
+			"depth": "0",
+			"inclination": "-Cos(Inc) * Cos(TF) / GField",
+			"azimuth": "((Cos(Inc) * Sin(AzM) * Cos(TF) + Cos(AzM) * Sin(TF)) * Tan(Dip) - Sin(TF) / Tan(Inc)) / GField",
+			"singularity_north": "-Cos(Az + TF) / GField",
+			"singularity_east": "-Sin(Az + TF) / GField",
+			"singularity_vertical": "0",
+			"comment": "Singularity when vertical",
+			"source": "SPE 67616 Table 1 and Table A-1",
+			"uuid": "c856d749-55d1-58f7-bc9e-bb3d0c86cd59",
+			"hash_value": "c686752794b2b9919e4525cc3e249208ca14154c450fe7ef02e2079316f8470c"
+		},
+		"ABZ": {
+			"depth": "0",
+			"inclination": "-Sin(Inc) / GField",
+			"azimuth": "Tan(Dip) * Sin(Inc) * Sin(AzM) / GField",
+			"source": "SPE 67616 Table 1",
+			"uuid": "37e3949d-5bf1-5533-b3a4-d559c25ccf99",
+			"hash_value": "46c7e8e533b01bdfd1a031739ebfddb30863e1079c4cbd698af2b13d9fa3a66b"
+		},
+		"ASX": {
+			"depth": "0",
+			"inclination": "Sin(Inc) * Cos(Inc) * Sin(TF) * Sin(TF)",
+			"azimuth": "-Sin(TF) * (Tan(Dip) * Sin(Inc) * (Cos(Inc) * Sin(AzM) * Sin(TF) - Cos(AzM) * Cos(TF)) + Cos(Inc) * Cos(TF))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "008aa22c-d069-5684-9196-c452df17254d",
+			"hash_value": "727d30f8970d81eb79f0f24e575267e2cbcf5de45a69ab1ed20cf8342ffcbf32"
+		},
+		"ASY": {
+			"depth": "0",
+			"inclination": "Sin(Inc) * Cos(Inc) * Cos(TF) * Cos(TF)",
+			"azimuth": "-Cos(TF) * (Tan(Dip) * Sin(Inc) * (Cos(Inc) * Sin(AzM) * Cos(TF) + Cos(AzM) * Sin(TF)) - Cos(Inc) * Sin(TF))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "b429fe0a-03b8-59ae-a83e-70a40f86d1ef",
+			"hash_value": "0e342e967463f1d35662f6eb832b2626f39d9023e792e87f04202d86cdf0fd9b"
+		},
+		"ASZ": {
+			"depth": "0",
+			"inclination": "-Sin(Inc) * Cos(Inc)",
+			"azimuth": "Tan(Dip) * Sin(Inc) * Cos(Inc) * Sin(AzM)",
+			"source": "SPE 67616 Table 1",
+			"uuid": "c2e44497-c211-5dfe-989b-85e328cac896",
+			"hash_value": "acb2a0dd41a4559d24d7b3f080db6fe4f81ab5c6e9af7fc0ffc7e458af542aed"
+		},
+		"MBX": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "(Cos(AzM) * Cos(TF) - Cos(Inc) * Sin(AzM) * Sin(TF)) / (BField * Cos(Dip))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "d9e70f1f-3d3a-5192-8d04-233820721c33",
+			"hash_value": "7bade0b6dfd6a270e3f3c8757a7dbb1f474c85b93a397b1ce1073ce00c62db3a"
+		},
+		"MBY": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "-(Cos(AzM) * Sin(TF) + Cos(Inc) * Sin(AzM) * Cos(TF)) / (BField * Cos(Dip))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "c2fa0e5d-9f98-5017-84a6-0df0c8a27cc4",
+			"hash_value": "d9edb2fa18e0577533b3c01d98be30221c58b5c7d7b507c5cec04ded9487b5b0"
+		},
+		"MBZ": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "-Sin(Inc) * Sin(AzM) / (BField * Cos(Dip))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "bc741b33-8068-5080-a799-4ba91a827764",
+			"hash_value": "1599fc79b07bea122f9d94675dd55a7fef83b3df3f8247868f67f040cffda229"
+		},
+		"MSX": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "(Cos(Inc) * Cos(AzM) * Sin(TF) - Tan(Dip) * Sin(Inc) * Sin(TF) + Sin(AzM) * Cos(TF)) * (Cos(AzM) * Cos(TF) - Cos(Inc) * Sin(AzM) * Sin(TF))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "204e7b8f-ceb1-54f7-9810-fdd6cc9ed3fd",
+			"hash_value": "471a2d6536066bb61dcc2458f6c0f6af9451b56d7f2a228ef5a125b9b22e4ef7"
+		},
+		"MSY": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "-(Cos(Inc) * Cos(AzM) * Cos(TF) - Tan(Dip) * Sin(Inc) * Cos(TF) - Sin(AzM) * Sin(TF)) * (Cos(AzM) * Sin(TF) + Cos(Inc) * Sin(AzM) * Cos(TF))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "7805b01f-2723-560c-9d44-c14b8fd4871a",
+			"hash_value": "1115f03f881813f6e8a4d93a8c9cc566b19fd32a72eb1729dd0bbe3041aedee9"
+		},
+		"MSZ": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "-(Sin(Inc) * Cos(AzM) + Tan(Dip) * Cos(Inc)) * Sin(Inc) * Sin(AzM)",
+			"source": "SPE 67616 Table 1",
+			"uuid": "236f4b4f-74c6-5402-a08b-e4f5ce389f84",
+			"hash_value": "c825c6b425b6e46f0503c9adfaf2b51deb7e9a3c69377fb1eacb2d8c10c17349"
+		},
+		"AZ": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "1",
+			"source": "SPE 67616",
+			"uuid": "efa80840-39ca-5359-8d43-6344842002db",
+			"hash_value": "18ebb100aab7ba1594b7fee1c60dbd86b113186b256daa25d80a93665b615cd1"
+		},
+		"DBH": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "1 / (BField * Cos(Dip))",
+			"source": "SPE 67616",
+			"uuid": "35d82535-42d4-554b-b90e-06a8ae4f19e8",
+			"hash_value": "6b9ed5b5f482ef1bc1a9e23779c54cbecd806a5d0c17560375deb746eb84110d"
+		},
+		"AMID": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sin(Inc) * Sin(AzM)",
+			"source": "SPE 67616",
+			"uuid": "0acfdb59-3aa4-588c-aa98-23de5b8f2748",
+			"hash_value": "78dd9b7840a8b5d926186af42d4674443a0aae78534712d1da71ee4579a9398e"
+		},
+		"SAG": {
+			"depth": "0",
+			"inclination": "Sin(Inc)",
+			"azimuth": "0",
+			"source": "SPE 67616",
+			"uuid": "45c4d98f-2981-56c8-b139-33375908c3d8",
+			"hash_value": "5b6207badce0ec3938c2dbca92f3c209bcd09666fdb5deaf3096832aa12c2081"
+		},
+		"XYM1": {
+			"depth": "0",
+			"inclination": "Abs(Sin(Inc))",
+			"azimuth": "0",
+			"source": "SPE 90408 Table 9 - Alt. 3",
+			"uuid": "57548b6a-75d5-5035-98d9-9795da34b6be",
+			"hash_value": "bf551a6205f46e1e8357df52128b6aec1891323f054c2d5d2e27fd5b41b672ea"
+		},
+		"XYM2": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "-1",
+			"source": "SPE 90408 Table 9 - Alt. 3",
+			"uuid": "06d08f6e-37b7-59be-9029-2b56aa040a54",
+			"hash_value": "25e5c4b217480e444f62020e1a3ce724023f8b4eeaae31974b24ee237394fdce"
+		},
+		"XYM3": {
+			"depth": "0",
+			"inclination": "Abs(Cos(Inc)) * Cos(AzT)",
+			"azimuth": "-(Abs(Cos(Inc)) * Sin(AzT)) / Sin(Inc)",
+			"singularity_north": "1",
+			"singularity_east": "0",
+			"singularity_vertical": "0",
+			"comment": "Singularity when vertical",
+			"source": "SPE 90408 Table 9 - Alt. 3",
+			"uuid": "286e64b5-c65d-595e-9d87-567f5a1e8969",
+			"hash_value": "0e423cdf52ee045a8770658e9c596865496b59ae2895e32518fbce786aa15408"
+		},
+		"XYM4": {
+			"depth": "0",
+			"inclination": "Abs(Cos(Inc)) * Sin(AzT)",
+			"azimuth": "Abs(Cos(Inc)) * Cos(AzT) / Sin(Inc)",
+			"singularity_north": "0",
+			"singularity_east": "1",
+			"singularity_vertical": "0",
+			"comment": "Singularity when vertical",
+			"source": "SPE 90408 Table 9 - Alt. 3",
+			"uuid": "8b00f4ec-cd9b-5c33-bdbf-660cdc78b660",
+			"hash_value": "911e1eb5d344e7f8407d08cbea09e08b59a71634d5f68c56e367d94999dee6b9"
+		},
+		"ABIX": {
+			"depth": "0",
+			"inclination": "-Cos(Inc) * Sin(TF) / GField",
+			"azimuth": "(Cos(Inc) * Cos(Inc) * Sin(AzM) * Sin(TF) * (Tan(Dip) * Cos(Inc) + Sin(Inc) * Cos(AzM)) - Cos(TF) * (Tan(Dip) * Cos(AzM) - Tan(90 * RAD - Inc))) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)) / GField",
+			"singularity_north": "-Sin(Az + TF) / GField",
+			"singularity_east": "Cos(Az + TF) / GField",
+			"singularity_vertical": "0",
+			"comment": "Singularity when vertical",
+			"source": "SPE 67616 Table 1 and Table A-1",
+			"uuid": "ba22d30a-62e1-5cf1-beb4-1bec0faadaaa",
+			"hash_value": "5604a4228d72ccfb7d5242c69d5371575529a661a70f643a3037756106218bb3"
+		},
+		"ABIY": {
+			"depth": "0",
+			"inclination": "-Cos(Inc) * Cos(TF) / GField",
+			"azimuth": "(Cos(Inc) * Cos(Inc) * Sin(AzM) * Cos(TF) * (Tan(Dip) * Cos(Inc) + Sin(Inc) * Cos(AzM)) + Sin(TF) * (Tan(Dip) * Cos(AzM) - 1 / Tan(Inc))) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)) / GField",
+			"singularity_north": "-Cos(Az + TF) / GField",
+			"singularity_east": "-Sin(Az + TF) / GField",
+			"singularity_vertical": "0",
+			"comment": "Singularity when vertical",
+			"source": "SPE 67616 Table 1 and Table A-1",
+			"uuid": "259e1baf-5a64-5f56-be9d-19d47a0f1153",
+			"hash_value": "00333bc397d41c20f864cd0f6f4cd44195f57d600191059d50eee2cdb67d811b"
+		},
+		"ABIZ": {
+			"depth": "0",
+			"inclination": "-Sin(Inc) / GField",
+			"azimuth": "Sin(Inc) * Cos(Inc) * Sin(AzM) * (Tan(Dip) * Cos(Inc) + Sin(Inc) * Cos(AzM)) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)) / GField",
+			"source": "SPE 67616 Table 1",
+			"uuid": "176677d8-2d84-5ceb-b545-e8f8dcaa04cc",
+			"hash_value": "8ec8419732c490a1331bef0f2ecef5148a932d02189357aecbf5670689e89d5c"
+		},
+		"ASIX": {
+			"depth": "0",
+			"inclination": "Sin(Inc) * Cos(Inc) * Sin(TF) * Sin(TF)",
+			"azimuth": "-Sin(TF) * (Sin(Inc) * Cos(Inc) * Cos(Inc) * Sin(AzM) * Sin(TF) * (Tan(Dip) * Cos(Inc) + Sin(Inc) * Cos(AzM)) - Cos(TF) * (Tan(Dip) * Sin(Inc) * Cos(AzM) - Cos(Inc))) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "141aaa39-11fe-59c1-9254-c85436b421ba",
+			"hash_value": "52c673ede75763463ffe8bc3b814095f4910d22f5360eb9c195b51acc3d1ab1d"
+		},
+		"ASIY": {
+			"depth": "0",
+			"inclination": "Sin(Inc) * Cos(Inc) * Cos(TF) * Cos(TF)",
+			"azimuth": "-Cos(TF) * (Sin(Inc) * Cos(Inc) * Cos(Inc) * Sin(AzM) * Cos(TF) * (Tan(Dip) * Cos(Inc) + Sin(Inc) * Cos(AzM)) + Sin(TF) * (Tan(Dip) * Sin(Inc) * Cos(AzM) - Cos(Inc))) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "d5738edf-5e7f-5f95-bed5-e70e664e9644",
+			"hash_value": "231c964413fb818ffc2f32aa879d0922e85bca890c63af3bea6e010178f5f8cc"
+		},
+		"ASIZ": {
+			"depth": "0",
+			"inclination": "-Sin(Inc) * Cos(Inc)",
+			"azimuth": "Sin(Inc) * Cos(Inc) * Cos(Inc) * Sin(AzM) * (Tan(Dip) * Cos(Inc) + Sin(Inc) * Cos(AzM)) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "ab10367a-9b96-5e94-baf3-6c01377c5cf8",
+			"hash_value": "6f9bdc6507e7c2cba15520b92f50dd0853671790c9d0a7f4f4045b5e324bf897"
+		},
+		"MBIX": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "-(Cos(Inc) * Sin(AzM) * Sin(TF) - Cos(AzM) * Cos(TF)) / BField / Cos(Dip) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "98e9f54a-dca2-5812-a7db-7c487542a0ed",
+			"hash_value": "bfbb88f5ff51ac09fdd2b5473f07e1132f56477f41fee02a3ecc17e71d0a48f4"
+		},
+		"MBIY": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "-(Cos(Inc) * Sin(AzM) * Cos(TF) + Cos(AzM) * Sin(TF)) / BField / Cos(Dip) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "6a94fc4d-9ba0-561e-b678-3b521f36872c",
+			"hash_value": "8b4e0983d928c2a403fc210d680e785922b670d31a70c567d170ff34ee76e83b"
+		},
+		"MSIX": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "-(Cos(Inc) * Cos(AzM) * Sin(TF) - Tan(Dip) * Sin(Inc) * Sin(TF) + Sin(AzM) * Cos(TF)) * (Cos(Inc) * Sin(AzM) * Sin(TF) - Cos(AzM) * Cos(TF)) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "432377a1-1ad4-577d-9b47-7d0a7af80855",
+			"hash_value": "4114c0790093aef01569a76c3eef9f368d64a7884cd8b403f2b90633459ad42f"
+		},
+		"MSIY": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "-(Cos(Inc) * Cos(AzM) * Cos(TF) - Tan(Dip) * Sin(Inc) * Cos(TF) - Sin(AzM) * Sin(TF)) * (Cos(Inc) * Sin(AzM) * Cos(TF) + Cos(AzM) * Sin(TF)) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "2cd69021-98e6-575c-9202-ab91351812fa",
+			"hash_value": "ebdc63c6f627a4a89458850d806fd3661e915a93f2b058addff26337620d608f"
+		},
+		"MDI": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "-Sin(Inc) * Sin(AzM) * (Cos(Inc) - Tan(Dip) * Sin(Inc) * Cos(AzM)) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "f3f02927-34fe-5de4-9f51-d9e27fc47f96",
+			"hash_value": "bd9151ceb0f3d82f544ac461d118eeeaa159ffc83b66bce6f609e1871772487a"
+		},
+		"MFI": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "-Sin(Inc) * Sin(AzM) * (Tan(Dip) * Cos(Inc) + Sin(Inc) * Cos(AzM)) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)) / BField",
+			"source": "SPE 67616 Table 1",
+			"uuid": "42d44ed5-43e8-51c4-8388-1b404ab6f995",
+			"hash_value": "d6e726e25eb92ef034006ec85ed5798222b13abe87dc5f14dd6d7c0d909ab6f6"
+		}
+	},
+	"terms": {
+		"DRFR": {
+			"description": "Depth: Depth Reference - Random",
+			"type": "Depth",
+			"units": "m",
+			"propagation": "Random",
+			"weighting_function": "DREF",
+			"uuid": "4acb876f-b18c-5738-88ab-90559c4b64d9",
+			"hash_value": "1b3a83eb16846ce94e09a64c98109795fe0e6ab149db33f5d4ac8a1844dd336d"
+		},
+		"DSFS": {
+			"description": "Depth: Depth Scale Factor - Systematic",
+			"type": "Depth",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "DSF",
+			"uuid": "ea01cc20-1a85-52a7-b5f0-79a4b963f533",
+			"hash_value": "b336b48c18b94269f639c47887dd094327af50516b87d1a88fe0b93480ffed7b"
+		},
+		"DSTB": {
+			"description": "Depth: Depth Stretch - Bias",
+			"type": "Depth",
+			"units": "1/m",
+			"propagation": "Bias",
+			"weighting_function": "DST",
+			"uuid": "843118d4-a599-531d-ad09-a8c3315211d6",
+			"requires": [
+				"bias_terms"
+			],
+			"hash_value": "c003f2c15f0c76fdb1a036bdb0ff7ccb82c75e8d1e5fccc19fd1298133d0939e"
+		},
+		"ABX": {
+			"description": "MWD: X-Accelerometer Bias",
+			"type": "Sensor",
+			"units": "m/s2",
+			"propagation": "Systematic",
+			"weighting_function": "ABX",
+			"uuid": "95e0b9a2-c4c1-5217-82b4-8fc7d404a60c",
+			"hash_value": "fd44def9fcb1c6a2a0f3b7b61b5cbcc447913ae77d36ee6192668b57c14b7cea"
+		},
+		"ABY": {
+			"description": "MWD: Y-Accelerometer Bias",
+			"type": "Sensor",
+			"units": "m/s2",
+			"propagation": "Systematic",
+			"weighting_function": "ABY",
+			"uuid": "36442ff6-ec8b-545c-9ebd-cdc164478b06",
+			"hash_value": "bcc532fe46bf798b09e5956e38469cd0e916a6fdce5cb0f33f350a0fb7cbc300"
+		},
+		"ABZ": {
+			"description": "MWD: Z-Accelerometer Bias",
+			"type": "Sensor",
+			"units": "m/s2",
+			"propagation": "Systematic",
+			"weighting_function": "ABZ",
+			"uuid": "9b2115b7-fb62-527c-a139-bca09375d0f5",
+			"hash_value": "8326b5526bb97c84f8c9f1c49a43fd0dca0b9ea6177d8a047f8a165cc01adad6"
+		},
+		"ASX": {
+			"description": "MWD: X-Accelerometer Scale Factor",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "ASX",
+			"uuid": "d6f7c761-6227-546c-b20e-c4c9314cdc6c",
+			"hash_value": "d8da1c2e50d4d79d3dfacd3bb4c62a4512f78195bbb5f668d1a911b863a48b53"
+		},
+		"ASY": {
+			"description": "MWD: Y-Accelerometer Scale Factor",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "ASY",
+			"uuid": "19a5b386-8c28-51c6-8287-5f04cd25e004",
+			"hash_value": "911467985782e11b267857476cc253a7da79fb2bde3b1ae4f77fd21db84be34e"
+		},
+		"ASZ": {
+			"description": "MWD: Z-Accelerometer Scale Factor",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "ASZ",
+			"uuid": "1a897c89-5738-5fe2-a156-5b36bd543f51",
+			"hash_value": "4e97bef5a3da8679ca6f313c9c951465718947d9faa4cc23f8aabab1b05e1efd"
+		},
+		"MBX": {
+			"description": "MWD: X-Magnetometer Bias",
+			"type": "Sensor",
+			"units": "nT",
+			"propagation": "Systematic",
+			"weighting_function": "MBX",
+			"uuid": "adfeb8ef-191d-5773-9eff-207ba6cdfbf7",
+			"hash_value": "12dfe642ea182d2ed78ff01a71b62661b8f9627d9fd977d4f3068afa8683f284"
+		},
+		"MBY": {
+			"description": "MWD: Y-Magnetometer Bias",
+			"type": "Sensor",
+			"units": "nT",
+			"propagation": "Systematic",
+			"weighting_function": "MBY",
+			"uuid": "e8ef6346-1ede-53ef-a3d4-63596618626f",
+			"hash_value": "2d2b274d7ae004d29eb471b59ea75f1076d392e7d1e2e7ba5d5fa86f4fc00736"
+		},
+		"MBZ": {
+			"description": "MWD: Z-Magnetometer Bias",
+			"type": "Sensor",
+			"units": "nT",
+			"propagation": "Systematic",
+			"weighting_function": "MBZ",
+			"uuid": "2c233a59-91e8-5f60-ac8c-4163cb9bd45e",
+			"hash_value": "44c7519e9263530bed1b8acee374f86219941791eadebb5f69c168032fd0bb2e"
+		},
+		"MSX": {
+			"description": "MWD: X-Magnetometer Scale Factor",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "MSX",
+			"uuid": "6b2338fe-e3a1-5905-b608-ac9598d98cd8",
+			"hash_value": "945cef2719e086f8caa6776f299081cd8107771b877dae13540c3ee80ad82f78"
+		},
+		"MSY": {
+			"description": "MWD: Y-Magnetometer Scale Factor",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "MSY",
+			"uuid": "ea8174f8-5ccb-5ee8-87d1-4673a8f98c1d",
+			"hash_value": "57bf1189b2dc2138926cf4e80134ee47969e40e2ab255f193f12aa06c4cfb5b6"
+		},
+		"MSZ": {
+			"description": "MWD: Z-Magnetometer Scale Factor",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "MSZ",
+			"uuid": "97ec8701-f992-5df6-94d0-868be8188404",
+			"hash_value": "b1d0fe1efcf3cbaef5372da81202fe4034d8c21bcad2381573ecd8cf7b92fd6e"
+		},
+		"DECG": {
+			"description": "MWD: Declination - Global",
+			"type": "AziRef",
+			"units": "deg",
+			"propagation": "Global",
+			"weighting_function": "AZ",
+			"uuid": "51dba736-6204-5b24-aba8-e6e70e4ff091",
+			"hash_value": "4cbbb4646985ae9250ca1ccea4fcba95e1990f08a405ea8f725edac15afabb7b"
+		},
+		"DBHG": {
+			"description": "MWD: BH-Dependent Declination - Global",
+			"type": "AziRef",
+			"units": "deg.nT",
+			"propagation": "Global",
+			"weighting_function": "DBH",
+			"uuid": "9f9acb0f-db44-54ea-9c93-4ea8d1101d7f",
+			"hash_value": "b8d1be8bcfe767bb52f9d474440298349d660e52ccdf916bad0089a17741c132"
+		},
+		"AMIB": {
+			"description": "MWD: Axial Interference - SinI.SinA Bias",
+			"type": "Mgntcs",
+			"units": "deg",
+			"propagation": "Bias",
+			"weighting_function": "AMID",
+			"uuid": "3ae47be3-4ceb-5c88-929e-7260049ac183",
+			"requires": [
+				"bias_terms"
+			],
+			"hash_value": "a51782c59dea975f59d7d7798bb264495abd9001746aa1a9aac037cd9b009cb4"
+		},
+		"AMIC": {
+			"description": "MWD: Axial Interference - Constant",
+			"type": "Mgntcs",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "AZ",
+			"uuid": "7007762d-d695-5da8-ab3a-af0b991193c5",
+			"hash_value": "e1a542a62ceaa170be273d4d34eece94d70bdf5f7cce0cce6929c4bf035bcb44"
+		},
+		"AMID": {
+			"description": "MWD: Axial Interference - SinI.SinA",
+			"type": "Mgntcs",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "AMID",
+			"uuid": "d03cde7c-3218-5f8a-8e9f-0e39bb0fcefb",
+			"hash_value": "7aa91a7a9604fcdd743e4527938b5ce62df2cc56c54e65a11eea17a932f6f6c0"
+		},
+		"SAG": {
+			"description": "MWD: Sag",
+			"type": "Align",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "SAG",
+			"uuid": "2819d6b7-a42b-5263-8b66-ce348a39af71",
+			"hash_value": "34cc7b1c76acc4d1b2cc2aee13a652e08bd5a52920a999407554a74ba2650e2e"
+		},
+		"XYM1": {
+			"description": "Misalignment: XY Misalignment 1",
+			"type": "Align",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "XYM1",
+			"uuid": "11ec90d3-a4b8-5dbb-a584-64ab207a7870",
+			"hash_value": "35e381830412337e5803c4f17a9f166b64b186333b2353962393e7e1031c0d42"
+		},
+		"XYM2": {
+			"description": "Misalignment: XY Misalignment 2",
+			"type": "Align",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "XYM2",
+			"uuid": "5d3c4b1e-e4b4-54b2-b927-f1d10094eb78",
+			"hash_value": "89e04dfe2765ac561aaaabca40ec4a5627011497a8798eb19da2186835483f4e"
+		},
+		"XYM3": {
+			"description": "Misalignment: XY Misalignment 3",
+			"type": "Align",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "XYM3",
+			"uuid": "4122aba1-71b3-5542-aa24-cc4658b6d9d8",
+			"hash_value": "df78c6a6130e754e5120fca30df1bdcf68aaeaeddaab6ba90c3ff8e810a835c8"
+		},
+		"XYM4": {
+			"description": "Misalignment: XY Misalignment 4",
+			"type": "Align",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "XYM4",
+			"uuid": "81cee585-3292-5c18-9843-1d0582e989cc",
+			"hash_value": "857b74e2f2ff50c9b8e903206bee47407532c403e31899521e7a71c384fa1141"
+		},
+		"DSTG": {
+			"description": "Depth: Depth Stretch - Global",
+			"type": "Depth",
+			"units": "1/m",
+			"propagation": "Global",
+			"weighting_function": "DST",
+			"uuid": "b0d82d20-119c-57c7-b1e3-c1f80720c466",
+			"hash_value": "0e317c1950be046dcefd6a213ad82f52cb04d00a99d5d57c54468f0138b81725"
+		},
+		"ABIX": {
+			"description": "MWD: X-Acceleromter Bias with Z-Axis Corr.",
+			"type": "Sensor",
+			"units": "m/s2",
+			"propagation": "Systematic",
+			"weighting_function": "ABIX",
+			"uuid": "fb12a60b-3443-5ab7-b443-e69e24370280",
+			"hash_value": "6b2f9fe428997e205814f209bf853dff73ce0d016dc014ddf67ed696b33fe7ca"
+		},
+		"ABIY": {
+			"description": "MWD: Y-Acceleromter Bias with Z-Axis Corr.",
+			"type": "Sensor",
+			"units": "m/s2",
+			"propagation": "Systematic",
+			"weighting_function": "ABIY",
+			"uuid": "58bcded8-3b9b-5248-9726-f4f3e9875dc0",
+			"hash_value": "4c558c7b1197341b98fb6216a9a202cec4ece4ffa592868c65ab97e9351a31cf"
+		},
+		"ABIZ": {
+			"description": "MWD: Z-Acceleromter Bias with Z-Axis Corr.",
+			"type": "Sensor",
+			"units": "m/s2",
+			"propagation": "Systematic",
+			"weighting_function": "ABIZ",
+			"uuid": "22c50908-ab30-50d3-8a70-b22c1b70d039",
+			"hash_value": "63fca8b9314dea72874fe656e0680f9e923751bc21313e79b934e43d420d4d6e"
+		},
+		"ASIX": {
+			"description": "MWD: X-Acceleromter Scale Factor with Z-Axis Corr.",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "ASIX",
+			"uuid": "3d46cb36-8f83-5363-8d1f-38817eb8df21",
+			"hash_value": "4718c3188c136cfd3d8949b6bcc6a08b80b639a029a3b6bff4ab7635075842c5"
+		},
+		"ASIY": {
+			"description": "MWD: Y-Acceleromter Scale Factor with Z-Axis Corr.",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "ASIY",
+			"uuid": "9d715058-c4fd-593c-907e-c0a1016afd7f",
+			"hash_value": "6a8f6e7cf94ac5bcd5f08d67f8d2a01af142e3f332960be8eb6fbdb9c103ad32"
+		},
+		"ASIZ": {
+			"description": "MWD: Z-Acceleromter Scale Factor with Z-Axis Corr.",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "ASIZ",
+			"uuid": "9758c662-da5d-5759-be7f-8f9f754e4ca7",
+			"hash_value": "9faa1379e951a9a32f6410fe50b320c8b1be8b3dabd159c012ed75362877d273"
+		},
+		"MBIX": {
+			"description": "MWD: X-Magnetometer Bias with Z-Axis Corr.",
+			"type": "Sensor",
+			"units": "nT",
+			"propagation": "Systematic",
+			"weighting_function": "MBIX",
+			"uuid": "37c13062-99d9-5fc4-b129-25d4662a0ace",
+			"hash_value": "45dddf9a64fdd4cea7525f711dea71be1ce450989931f997733f1a03281e7edf"
+		},
+		"MBIY": {
+			"description": "MWD: Y-Magnetometer Bias with Z-Axis Corr.",
+			"type": "Sensor",
+			"units": "nT",
+			"propagation": "Systematic",
+			"weighting_function": "MBIY",
+			"uuid": "56d04ec1-3e96-57da-81b6-a484c141f7ce",
+			"hash_value": "0dca4156a3e60b239ecc7dc6cec135a7b338364317170ff9263df17fa9afb9ac"
+		},
+		"MSIX": {
+			"description": "MWD: X-Magnetometer Scale Factor with Z-Axis Corr.",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "MSIX",
+			"uuid": "45ad6adf-2cf4-5d38-bfb3-fefe1d0ea31a",
+			"hash_value": "62b8c8f36c1319184077cf8c43e27f9e3037da7f13f2d9032b181001ce778e63"
+		},
+		"MSIY": {
+			"description": "MWD: Y-Magnetometer Scale Factor with Z-Axis Corr.",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "MSIY",
+			"uuid": "c6f2c3f0-130e-570e-b278-dbf64b529ae5",
+			"hash_value": "bf65c855cf3116e97a35bdbca069db317a8ac6a278816f159aadc2c4fb15846f"
+		},
+		"MDIG": {
+			"description": "MWD: Magnetic Dip with Z-Axis Corr - Global",
+			"type": "Mgntcs",
+			"units": "deg",
+			"propagation": "Global",
+			"weighting_function": "MDI",
+			"uuid": "dc118c69-f1d1-5b84-84c3-fe62a0c49f5b",
+			"hash_value": "cbfc6d8372b2c4d4114666e11def3aac563c60b256c26068eb7043c245c9ec82"
+		},
+		"MFIG": {
+			"description": "MWD: Total Magnetic Field with Z-Axis Corr - Global",
+			"type": "Mgntcs",
+			"units": "nT",
+			"propagation": "Global",
+			"weighting_function": "MFI",
+			"uuid": "6f1af344-48b2-5823-9a58-77aec8b94178",
+			"hash_value": "a003b303a20c4ebddbb89822a72498dde1e8f59e9839ba9a03f357066b2e050e"
+		}
+	},
+	"hash_function": "SHA256",
+	"hash_value": "f9a2e22079ddf44c4da9929643c8788a98df53757597768d10657c6d4c09357f",
+	"term_groups": [
+		{
+			"terms": [
+				"ABX",
+				"ABY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ABIX",
+				"ABIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASX",
+				"ASY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASIX",
+				"ASIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBX",
+				"MBY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBIX",
+				"MBIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSX",
+				"MSY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSIX",
+				"MSIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM1",
+				"XYM2"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM3",
+				"XYM4"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		}
+	]
+}

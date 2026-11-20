@@ -1,0 +1,96 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/model.json",
+	"metadata": {
+		"model_uuid": "0c364388-edd9-5cb8-9562-b37a3623cc84",
+		"model_id": "generic_iscwsa:B022Ua",
+		"short_name": "BLIND+TREND",
+		"long_name": "OWSG BLIND+TREND",
+		"revision": "1",
+		"revision_date": "2013-11-01",
+		"revision_comment": "Initial Release",
+		"source": "OWSG - Copsegrove Developments Ltd",
+		"tool_type": "Utility",
+		"status": "current",
+		"framework": "ISCWSA Rev5",
+		"author": "ISCWSA",
+		"tags": [],
+		"application": "Where no survey information was recorded but where some other information exists such as the BHA records or Bit-run summaries or some other relevant formation or drilling knowledge exists concerning the expected trends of the wellpath. May only be assigned for specific cases with a Dispensation.",
+		"sheet_status": "Agreed",
+		"checked": "Steve Grindrod 21-Oct-2020",
+		"notes": "Based on the BLIND model but contains less severe behavior because of the additional information available and incorporates a 3-degree per hundred dogleg capability.",
+		"revision_history": [
+			"Rev 0.1 05-Jun-2013 Draft Release for Comment.",
+			"Rev 1.0 01-Nov-2013 Initial Release."
+		],
+		"replaces_text": "None / ",
+		"range_comment": "None"
+	},
+	"origin": {
+		"workbook": "toolgroup-owsg-b-rev-5-1-08-oct-2020-produced-23-sep-2022.xlsx",
+		"sha256": "74c6bf47469b26af7ffe798aa01a36912dcc193f21a3d2ec4de36da2430ddd59",
+		"sheet": "BLIND+TREND"
+	},
+	"libraries": [
+		{
+			"id": "iscwsa:rev5",
+			"uuid": "afcf8ed3-ac41-51f8-9999-8d126737f2f0",
+			"hash_value": "c251a379c03c814bb4a198c576a11a4b30debf886bf7299116a0c214ca386596"
+		}
+	],
+	"applicability": {
+		"inc_min": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		},
+		"inc_max": {
+			"value": 180,
+			"unit": "deg",
+			"text": "180 deg"
+		},
+		"hor_ew_exclusion": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		}
+	},
+	"parameters": {
+		"MisalignmentAlt": {
+			"value": 3,
+			"unit": "-",
+			"text": "3"
+		}
+	},
+	"terms": [
+		{
+			"term": "DRFR",
+			"magnitude": 0.35
+		},
+		{
+			"term": "DSFS",
+			"magnitude": 0.00056
+		},
+		{
+			"term": "DSTG",
+			"magnitude": 2.5e-07
+		},
+		{
+			"term": "AZMS",
+			"magnitude": 6
+		},
+		{
+			"term": "AZRF",
+			"magnitude": 45
+		},
+		{
+			"term": "CNA",
+			"magnitude": 0.053
+		},
+		{
+			"term": "CNI",
+			"magnitude": 0.053
+		}
+	],
+	"hash_function": "SHA256",
+	"hash_value": "4f506532719a7650c38b0d2e6f89b561276cb427bc344e5acb15bc52755ce097"
+}

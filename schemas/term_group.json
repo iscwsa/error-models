@@ -1,0 +1,28 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/term_group.json",
+	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
+	"type": "object",
+	"title": "Term Group",
+	"description": "Paired terms: all members or none, with equal magnitude and the same propagation.",
+	"properties": {
+		"terms": {
+			"type": "array",
+			"minItems": 2,
+			"uniqueItems": true,
+			"items": {
+				"type": "string",
+				"pattern": "^(?:[a-z][a-z0-9_]{1,31}:)?[A-Za-z0-9][A-Za-z0-9_.-]*$"
+			},
+			"description": "Local (XYM3E) or qualified (iscwsa:XYM3E) term names"
+		},
+		"source": {
+			"$ref": "./strings/non_empty.json"
+		}
+	},
+	"required": [
+		"terms",
+		"source"
+	],
+	"additionalProperties": false
+}

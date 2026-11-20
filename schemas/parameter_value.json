@@ -4,10 +4,17 @@
 	"$comment": "This file was written by Claude Code (AI) on behalf of Kyle R. (@0xBEEFCAFE). Please review carefully.",
 	"type": "object",
 	"title": "Parameter Value",
-	"description": "A numeric value with its unit and the sheet text verbatim",
+	"description": "A numeric or boolean value with its unit and the sheet text verbatim",
 	"properties": {
 		"value": {
-			"$ref": "./number/any.json"
+			"anyOf": [
+				{
+					"$ref": "./number/any.json"
+				},
+				{
+					"type": "boolean"
+				}
+			]
 		},
 		"unit": {
 			"type": "string"

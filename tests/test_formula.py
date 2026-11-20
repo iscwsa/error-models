@@ -131,3 +131,37 @@ def test_every_sheet_formula_parses():
     for f in sorted(formulas):
         parse(f, allowed=VARIABLES)
     print(len(formulas), "distinct formulas")
+
+
+def test_non_finite_literal_rejected():
+    with pytest.raises(FormulaError) as ei:
+        parse("1e999")
+    assert ei.value.position == 0
+    with pytest.raises(FormulaError):
+        parse("2 + 1e999")
+
+
+def test_deep_nesting_is_formula_error():
+    with pytest.raises(FormulaError) as ei:
+        parse("(" * 2000 + "1" + ")" * 2000)
+    assert ei.value.position == 200  # the 201st opening parenthesis
+
+
+def test_deep_nesting_unary_and_calls():
+    with pytest.raises(FormulaError):
+        parse("-(" * 2000 + "1" + ")" * 2000)
+    with pytest.raises(FormulaError):
+        parse("-" * 2000 + "1")
+    with pytest.raises(FormulaError):
+        parse("Sin(" * 2000 + "1" + ")" * 2000)
+
+
+def test_nesting_at_cap_parses():
+    assert parse("(" * 200 + "1" + ")" * 200).evaluate({}) == 1.0
+
+
+def test_ascii_digits_only():
+    with pytest.raises(FormulaError):
+        parse("\u0661")
+    with pytest.raises(FormulaError):
+        parse("1.\u0661")

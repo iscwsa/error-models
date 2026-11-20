@@ -165,8 +165,47 @@ def _check_library(doc, rel, problems):
     for key, term in terms.items():
         if term["weighting_function"] not in wfs:
             problems.append(Problem("WF_MISSING", rel, f"terms/{key}: weighting function {term['weighting_function']!r} not in library"))
+    union = {cap for term in terms.values() for cap in term.get("requires", [])}
+    if set(doc["requires"]) != union:
+        problems.append(Problem("REQUIRES_MISMATCH", rel, f"requires {sorted(doc['requires'])} but terms need {sorted(union)}"))
+    for n, group in enumerate(doc.get("term_groups", [])):
+        for member in group["terms"]:
+            if _member_key(member, lib_id) not in terms:
+                problems.append(Problem("GROUP_UNKNOWN_TERM", rel, f"term_groups[{n}]: {member!r} is not a term of this library"))
     if doc["hash_value"] != content_hash(doc):
         problems.append(Problem("HASH", rel, "hash_value does not match content"))
+
+
+def _split_name(name: str, default_ns: str = "iscwsa") -> tuple[str, str]:
+    ns, _, key = name.rpartition(":")
+    return (ns or default_ns, key)
+
+
+def _member_key(member: str, lib_id: str):
+    """Key of a group member inside its own library, or None if it names another namespace."""
+    ns, key = _split_name(member, lib_id.split(":", 1)[0])
+    return key if ns == lib_id.split(":", 1)[0] else None
+
+
+def _check_groups(rel, model_terms, referenced, problems):
+    """model_terms: {(namespace, key): magnitude}."""
+    for lib in referenced:
+        lib_ns = lib["library_id"].split(":", 1)[0]
+        for n, group in enumerate(lib.get("term_groups", [])):
+            keys = [_member_key(m, lib["library_id"]) for m in group["terms"]]
+            members = [k for k in keys if k is not None and k in lib["terms"]]
+            used = [k for k in members if (lib_ns, k) in model_terms]
+            where = f"{lib['library_id']} term_groups[{n}]"
+            if not used:
+                continue
+            if len(used) < len(members):
+                missing = sorted(set(members) - set(used))
+                problems.append(Problem("INCOMPLETE_GROUP", rel, f"{where}: uses {sorted(used)} but not {missing}"))
+                continue
+            if len({model_terms[(lib_ns, k)] for k in used}) > 1:
+                problems.append(Problem("GROUP_MISMATCH", rel, f"{where}: members have different magnitudes"))
+            elif len({lib["terms"][k]["propagation"] for k in used}) > 1:
+                problems.append(Problem("GROUP_MISMATCH", rel, f"{where}: members have different propagations"))
 
 
 def _check_model(doc, rel, libraries, releases, own_release, problems):
@@ -196,13 +235,19 @@ def _check_model(doc, rel, libraries, releases, own_release, problems):
         if tname in seen:
             problems.append(Problem("DUPLICATE_TERM", rel, f"term {tname!r} listed more than once"))
         seen.add(tname)
-        tns, _, key = tname.rpartition(":")
-        tns = tns or "iscwsa"
-        found = any(
-            lib["library_id"].split(":", 1)[0] == tns and key in lib["terms"] for lib in referenced
-        )
+        tns, key = _split_name(tname)
+        defining = [
+            lib["library_id"] for lib in referenced if lib["library_id"].split(":", 1)[0] == tns and key in lib["terms"]
+        ]
+        found = bool(defining)
+        if len(defining) > 1:
+            problems.append(Problem("AMBIGUOUS_TERM", rel, f"term {tname!r} is defined by more than one library: {defining}"))
         if not found and all_found:  # a missing library would cascade into every term
             problems.append(Problem("TERM_MISSING", rel, f"term {tname!r} not found in the referenced libraries"))
+    model_terms = {}
+    for term in doc["terms"]:
+        model_terms.setdefault(_split_name(term["term"]), term["magnitude"])
+    _check_groups(rel, model_terms, referenced, problems)
 
 
 def validate_repo(root: Path, registry_check: bool = False) -> list[Problem]:

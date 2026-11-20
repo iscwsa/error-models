@@ -1,0 +1,506 @@
+{
+	"iscwsa:rev0": [
+		{
+			"terms": [
+				"ABX",
+				"ABY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ABIX",
+				"ABIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASX",
+				"ASY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASIX",
+				"ASIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBX",
+				"MBY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBIX",
+				"MBIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSX",
+				"MSY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSIX",
+				"MSIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MX",
+				"MY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		}
+	],
+	"iscwsa:rev1": [
+		{
+			"terms": [
+				"ABX",
+				"ABY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ABIX",
+				"ABIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASX",
+				"ASY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASIX",
+				"ASIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBX",
+				"MBY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBIX",
+				"MBIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSX",
+				"MSY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSIX",
+				"MSIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM1",
+				"XYM2"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM3",
+				"XYM4"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		}
+	],
+	"iscwsa:rev2": [
+		{
+			"terms": [
+				"ABX",
+				"ABY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ABIX",
+				"ABIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASX",
+				"ASY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASIX",
+				"ASIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBX",
+				"MBY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBIX",
+				"MBIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSX",
+				"MSY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSIX",
+				"MSIY"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM1",
+				"XYM2"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM3",
+				"XYM4"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		}
+	],
+	"iscwsa:rev3": [
+		{
+			"terms": [
+				"ABXY-TI1S",
+				"ABXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ABIXY-TI1S",
+				"ABIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASXY-TI1S",
+				"ASXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASIXY-TI1S",
+				"ASIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBXY-TI1S",
+				"MBXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBIXY-TI1S",
+				"MBIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSXY-TI1S",
+				"MSXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSIXY-TI1S",
+				"MSIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM1",
+				"XYM2"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM3",
+				"XYM4"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		}
+	],
+	"iscwsa:rev4": [
+		{
+			"terms": [
+				"ABXY-TI1S",
+				"ABXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ABIXY-TI1S",
+				"ABIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASXY-TI1S",
+				"ASXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASIXY-TI1S",
+				"ASIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBXY-TI1S",
+				"MBXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBIXY-TI1S",
+				"MBIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSXY-TI1S",
+				"MSXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSIXY-TI1S",
+				"MSIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM1",
+				"XYM2"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM3",
+				"XYM4"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		}
+	],
+	"iscwsa:rev5": [
+		{
+			"terms": [
+				"ABXY-TI1S",
+				"ABXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ABIXY-TI1S",
+				"ABIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASXY-TI1S",
+				"ASXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASIXY-TI1S",
+				"ASIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBXY-TI1S",
+				"MBXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBIXY-TI1S",
+				"MBIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSXY-TI1S",
+				"MSXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSIXY-TI1S",
+				"MSIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"GXY-B1R",
+				"GXY-B2R"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"GXY-B1S",
+				"GXY-B2S"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"CNA",
+				"CNI"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM1",
+				"XYM2"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM3",
+				"XYM4"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM3E",
+				"XYM4E"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XCLA",
+				"XCLH"
+			],
+			"source": "§5.2.1; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		}
+	],
+	"iscwsa:rot6axis": [
+		{
+			"terms": [
+				"XYM1",
+				"XYM2"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM3E",
+				"XYM4E"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XCLA",
+				"XCLH"
+			],
+			"source": "§5.2.1; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ROT-AN1",
+				"ROT-AN2"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ROT-CA1",
+				"ROT-CA2"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ROT-DSC1",
+				"ROT-DSC2"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		}
+	]
+}

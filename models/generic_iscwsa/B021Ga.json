@@ -1,0 +1,80 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/model.json",
+	"metadata": {
+		"model_uuid": "119df8a3-7434-5d98-b710-a8072b982284",
+		"model_id": "generic_iscwsa:B021Ga",
+		"short_name": "FINDS",
+		"long_name": "OWSG BHI Ferranti FINDS",
+		"revision": "1",
+		"revision_date": "2013-11-01",
+		"revision_comment": "Initial Release",
+		"source": "OWSG - Copsegrove Developments Ltd",
+		"tool_type": "Gyro",
+		"status": "current",
+		"framework": "ISCWSA Rev5",
+		"author": "ISCWSA",
+		"tags": [],
+		"application": "Ferranti FINDS Inertial Surveys",
+		"sheet_status": "Agreed",
+		"checked": "Steve Grindrod 21-Oct-2020",
+		"notes": "Gives 1/1000 MD Lateral Radial and Vertical uncertainty",
+		"revision_history": [
+			"Rev 0.1 05-Jun-2013 Draft Release for Comment.",
+			"Rev 1.0 01-Nov-2013 Initial Release."
+		],
+		"replaces_text": "None / ",
+		"range_comment": "None"
+	},
+	"origin": {
+		"workbook": "toolgroup-owsg-b-rev-5-1-08-oct-2020-produced-23-sep-2022.xlsx",
+		"sha256": "74c6bf47469b26af7ffe798aa01a36912dcc193f21a3d2ec4de36da2430ddd59",
+		"sheet": "FINDS"
+	},
+	"libraries": [
+		{
+			"id": "iscwsa:rev5",
+			"uuid": "afcf8ed3-ac41-51f8-9999-8d126737f2f0",
+			"hash_value": "c251a379c03c814bb4a198c576a11a4b30debf886bf7299116a0c214ca386596"
+		}
+	],
+	"applicability": {
+		"inc_min": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		},
+		"inc_max": {
+			"value": 180,
+			"unit": "deg",
+			"text": "180 deg"
+		},
+		"hor_ew_exclusion": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		}
+	},
+	"parameters": {
+		"MisalignmentAlt": {
+			"value": 3,
+			"unit": "-",
+			"text": "3"
+		}
+	},
+	"terms": [
+		{
+			"term": "DSFS",
+			"magnitude": 0.001
+		},
+		{
+			"term": "CNA",
+			"magnitude": 0.001
+		},
+		{
+			"term": "CNI",
+			"magnitude": 0.001
+		}
+	],
+	"hash_function": "SHA256",
+	"hash_value": "68cafc0c770516c061a46961fb81a34669cca77f1a202096ef476c07ef15f82b"
+}

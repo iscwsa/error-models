@@ -1,0 +1,181 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/model.json",
+	"metadata": {
+		"model_uuid": "1ea1eba8-f5df-535e-816b-8e6bdaf37bea",
+		"model_id": "iscwsa:MWD_AX_Rev4",
+		"short_name": "ISCWSA MWD+AX Rev4",
+		"long_name": "ISCWSA MWD + Axial Corr. (Fixed Rig) Rev4",
+		"revision": "4",
+		"revision_date": "2015-03-20",
+		"revision_comment": "DECR, DBHR, MDIR and MFIR terms added. XYM1, XYM2, XYM3, XYM4 increased from 0.06 to 0.1 deg.",
+		"source": "OWSG",
+		"tool_type": "MWD",
+		"status": "superseded",
+		"framework": "ISCWSA Rev4",
+		"author": "ISCWSA",
+		"tags": [],
+		"application": "None",
+		"sheet_status": "Obsolete",
+		"notes": "Same as OWSG MWD+AX Rev.2",
+		"revision_history": [
+			"Rev 0 01-Dec-2000 Initial Release.",
+			"Rev 1 19-Jan-2007 Updated Misalignment terms from SPE 9048, MX and MY replaced by XYM1, XYM2, XYM3, XYM4.",
+			"Rev 2 23-Feb-2007 Corrected Depth Term values. DSFS increased from 0.00024 to 0.00056. DSTG increased from 0.000,00022 to 0.000,00025.",
+			"Rev 3 08-Oct-2009 Toolface Independent Model."
+		],
+		"replaces_text": "ISCWSA MWD+AX Rev 3 / ISCWSA MWD+AX Rev 5",
+		"range_comment": "Azimuth correction does not work close to horizontal magnetic East or West."
+	},
+	"origin": {
+		"workbook": "iscwsa-mwd-error-models-rev5-23-sep-2022.xlsx",
+		"sha256": "e4e3aa04e095dd0b72d5180f10846cfe9ec22db71ebbab7c2056992b188f9f13",
+		"sheet": "ISCWSA MWD+AX Rev4"
+	},
+	"libraries": [
+		{
+			"id": "iscwsa:rev4",
+			"uuid": "6cc8aef6-c574-5f35-a1ba-339cf89715d0",
+			"hash_value": "93908ff561609a0e2ead40dc8e6aef6a7f67d2585b91ab4b5f9809e70f133626"
+		}
+	],
+	"applicability": {
+		"inc_min": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		},
+		"inc_max": {
+			"value": 180,
+			"unit": "deg",
+			"text": "180 deg"
+		},
+		"hor_ew_exclusion": {
+			"value": 15,
+			"unit": "deg",
+			"text": "15 deg"
+		}
+	},
+	"parameters": {
+		"MisalignmentAlt": {
+			"value": 3,
+			"unit": "-",
+			"text": "3"
+		}
+	},
+	"terms": [
+		{
+			"term": "DRFR",
+			"magnitude": 0.35
+		},
+		{
+			"term": "DSFS",
+			"magnitude": 0.00056
+		},
+		{
+			"term": "DSTG",
+			"magnitude": 2.5e-07
+		},
+		{
+			"term": "ABIXY-TI1S",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ABIXY-TI2S",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ABIZ",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ASIXY-TI1S",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASIXY-TI2S",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASIXY-TI3S",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASIZ",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "MBIXY-TI1S",
+			"magnitude": 70
+		},
+		{
+			"term": "MBIXY-TI2S",
+			"magnitude": 70
+		},
+		{
+			"term": "MSIXY-TI1S",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "MSIXY-TI2S",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "MSIXY-TI3S",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "DECG",
+			"magnitude": 0.36
+		},
+		{
+			"term": "DECR",
+			"magnitude": 0.1
+		},
+		{
+			"term": "DBHG",
+			"magnitude": 5000
+		},
+		{
+			"term": "DBHR",
+			"magnitude": 3000
+		},
+		{
+			"term": "MDIG",
+			"magnitude": 0.2
+		},
+		{
+			"term": "MDIR",
+			"magnitude": 0.08
+		},
+		{
+			"term": "MFIG",
+			"magnitude": 130
+		},
+		{
+			"term": "MFIR",
+			"magnitude": 60
+		},
+		{
+			"term": "SAG",
+			"magnitude": 0.2
+		},
+		{
+			"term": "XYM1",
+			"magnitude": 0.1
+		},
+		{
+			"term": "XYM2",
+			"magnitude": 0.1
+		},
+		{
+			"term": "XYM3",
+			"magnitude": 0.1
+		},
+		{
+			"term": "XYM4",
+			"magnitude": 0.1
+		}
+	],
+	"hash_function": "SHA256",
+	"hash_value": "8d20f8a05cbbd0aefbad9c48c7520fededecce3ec2fcee2998cc8c2ab07a5990"
+}

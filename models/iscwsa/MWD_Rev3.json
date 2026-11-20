@@ -1,0 +1,172 @@
+{
+	"$schema": "https://raw.githubusercontent.com/iscwsa/error-models/main/schemas/model.json",
+	"metadata": {
+		"model_uuid": "6c6dcae5-36e3-58d3-b8f2-4af0f50a4ae0",
+		"model_id": "iscwsa:MWD_Rev3",
+		"short_name": "ISCWSA MWD Rev3",
+		"long_name": "ISCWSA MWD (Fixed Rig) Rev3",
+		"revision": "3",
+		"revision_date": "2009-10-08",
+		"revision_comment": "Toolface Independent Model.",
+		"source": "SPE 63275",
+		"tool_type": "MWD",
+		"status": "superseded",
+		"framework": "ISCWSA Rev3",
+		"author": "ISCWSA",
+		"tags": [],
+		"application": "None",
+		"sheet_status": "Obsolete",
+		"notes": "None",
+		"revision_history": [
+			"Rev 0 01-Dec-2000 Initial Release.",
+			"Rev 1 19-Jan-2007 Updated Misalignment terms from SPE 9048, MX and MY replaced by XYM1, XYM2, XYM3, XYM4.",
+			"Rev 2 23-Feb-2007 Corrected Depth Term values. DSFS increased from 0.00024 to 0.00056. DSTG increased from 0.000,00022 to 0.000,00025."
+		],
+		"replaces_text": "ISCWSA MWD Rev 2 / ISCWSA MWD Rev 4",
+		"range_comment": "None"
+	},
+	"origin": {
+		"workbook": "iscwsa-mwd-error-models-rev5-23-sep-2022.xlsx",
+		"sha256": "e4e3aa04e095dd0b72d5180f10846cfe9ec22db71ebbab7c2056992b188f9f13",
+		"sheet": "ISCWSA MWD Rev3"
+	},
+	"libraries": [
+		{
+			"id": "iscwsa:rev3",
+			"uuid": "9b9a003a-1303-50c2-b4d9-2abb2620e675",
+			"hash_value": "499e2aa1c2fa766075f3305dcb6a9c5c35c5de4fbee5eff6c50335b85896d432"
+		}
+	],
+	"applicability": {
+		"inc_min": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		},
+		"inc_max": {
+			"value": 180,
+			"unit": "deg",
+			"text": "180 deg"
+		},
+		"hor_ew_exclusion": {
+			"value": 0,
+			"unit": "deg",
+			"text": "0 deg"
+		}
+	},
+	"parameters": {
+		"MisalignmentAlt": {
+			"value": 3,
+			"unit": "-",
+			"text": "3"
+		}
+	},
+	"terms": [
+		{
+			"term": "DRFR",
+			"magnitude": 0.35
+		},
+		{
+			"term": "DSFS",
+			"magnitude": 0.00056
+		},
+		{
+			"term": "DSTG",
+			"magnitude": 2.5e-07
+		},
+		{
+			"term": "ABXY-TI1S",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ABXY-TI2S",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ABZ",
+			"magnitude": 0.004
+		},
+		{
+			"term": "ASXY-TI1S",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASXY-TI2S",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASXY-TI3S",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "ASZ",
+			"magnitude": 0.0005
+		},
+		{
+			"term": "MBXY-TI1S",
+			"magnitude": 70
+		},
+		{
+			"term": "MBXY-TI2S",
+			"magnitude": 70
+		},
+		{
+			"term": "MBZ",
+			"magnitude": 70
+		},
+		{
+			"term": "MSXY-TI1S",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "MSXY-TI2S",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "MSXY-TI3S",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "MSZ",
+			"magnitude": 0.0016
+		},
+		{
+			"term": "DECG",
+			"magnitude": 0.36
+		},
+		{
+			"term": "DBHG",
+			"magnitude": 5000
+		},
+		{
+			"term": "AMIC",
+			"magnitude": 0.25
+		},
+		{
+			"term": "AMID",
+			"magnitude": 0.6
+		},
+		{
+			"term": "SAG",
+			"magnitude": 0.2
+		},
+		{
+			"term": "XYM1",
+			"magnitude": 0.06
+		},
+		{
+			"term": "XYM2",
+			"magnitude": 0.06
+		},
+		{
+			"term": "XYM3",
+			"magnitude": 0.06
+		},
+		{
+			"term": "XYM4",
+			"magnitude": 0.06
+		}
+	],
+	"hash_function": "SHA256",
+	"hash_value": "947faee62a00f82fc30b3390484ef3f6878f46b986af927a589fc51b73e1e147"
+}

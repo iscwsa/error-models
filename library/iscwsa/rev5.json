@@ -4,6 +4,7 @@
 	"uuid": "afcf8ed3-ac41-51f8-9999-8d126737f2f0",
 	"publisher": "ISCWSA",
 	"requires": [
+		"gyro_modes",
 		"xcl_position_direct"
 	],
 	"weighting_functions": {
@@ -270,7 +271,7 @@
 					"sheet_text": "XCLTortuosity * RAD * (MD - MDPrev)",
 					"corrected": "XCLTortuosity * (MD - MDPrev)",
 					"source": "Internal consistency with the sheet's own XCLA/XCLH azimuth/inclination formulas (iscwsa.net file 809, ISCWSA MWD+SRGM Rev5)",
-					"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0 (finding under review); engines should not rely on it.",
+					"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0; engines should not rely on it.",
 					"status": "proposed"
 				},
 				{
@@ -278,11 +279,11 @@
 					"sheet_text": "XCLTortuosity * RAD * (MD - MDPrev)",
 					"corrected": "XCLTortuosity * (MD - MDPrev)",
 					"source": "Internal consistency with the sheet's own XCLA/XCLH azimuth/inclination formulas (iscwsa.net file 809, ISCWSA MWD+SRGM Rev5)",
-					"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0 (finding under review); engines should not rely on it.",
+					"reason": "The singularity text multiplies XCLTortuosity by RAD (deg→rad) while the main formula uses it as rad/m; one unit for the variable. The corrected singularity text still differs from the limit of the XCLA azimuth formula at azimuths other than 0; engines should not rely on it.",
 					"status": "proposed"
 				}
 			],
-			"hash_value": "42db9d33acaf044c7fe59e9d849cf2e49e38b8205aad0fe251288495cffd00c2"
+			"hash_value": "2eb4a21010e7ff5e4ffea22b083029cabf1ee00dcd095026db1c065bafcbe216"
 		},
 		"XCLH": {
 			"depth": "0",
@@ -292,6 +293,278 @@
 			"source": "SPE 187249 Jerry Codling",
 			"uuid": "643f8e8f-1b67-5bc9-b906-192322b127fe",
 			"hash_value": "39ac25100b8710b94a4720962b45271f95fe5687a9773a3a11a1170e5d68ca94"
+		},
+		"ABIXY-TI1": {
+			"depth": "0",
+			"inclination": "-Cos(Inc) / GField",
+			"azimuth": "Cos(Inc) * Cos(Inc) * Sin(AzM) * (Tan(Dip) * Cos(Inc) + Sin(Inc) * Cos(AzM)) / (GField * (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)))",
+			"source": "SPE 63275 + Andy Brooks",
+			"uuid": "acf71e82-b454-5fdf-a0d8-36beeb916104",
+			"hash_value": "f762488f5ae3d71e0069c33af012e67fb6d050dd6492d67d77276782a2a20340"
+		},
+		"ABIXY-TI2": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "-(Tan(Dip) * Cos(AzM) - Tan(90 * RAD - Inc)) / (GField * (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)))",
+			"singularity_north": "-Sin(Az) / GField",
+			"singularity_east": "Cos(Az) / GField",
+			"singularity_vertical": "0",
+			"comment": "Singularity when vertical",
+			"source": "SPE 63275 + Andy Brooks",
+			"uuid": "4fb0d601-d523-5868-820f-e2704fc0ae8e",
+			"hash_value": "a0c5e1ca2362fdb3fea4ecd97e46670cc72d4d69ea86bea717b22942a776dbe1"
+		},
+		"ABIZ": {
+			"depth": "0",
+			"inclination": "-Sin(Inc) / GField",
+			"azimuth": "Sin(Inc) * Cos(Inc) * Sin(AzM) * (Tan(Dip) * Cos(Inc) + Sin(Inc) * Cos(AzM)) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)) / GField",
+			"source": "SPE 67616 Table 1",
+			"uuid": "e13e8c1e-4000-57a7-9ebf-5010e0774c16",
+			"hash_value": "09343f3b90e45d6cb45aefb936527e58041e758f3b4f906a5c796754aeeda3cb"
+		},
+		"ASIXY-TI1": {
+			"depth": "0",
+			"inclination": "Sin(Inc) * Cos(Inc) / Sqrt(2)",
+			"azimuth": "-(Sin(Inc) * Cos(Inc) * Cos(Inc) * Sin(AzM) * (Tan(Dip) * Cos(Inc) + Sin(Inc) * Cos(AzM))) / (Sqrt(2) * (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)))",
+			"source": "SPE 63275 + Andy Brooks",
+			"uuid": "92a791b1-d697-51b4-9693-8aaad1f66d47",
+			"hash_value": "051c31935903bcfe66efd73b47e9d18b140947a4548223fb7b4c8ccf19fce871"
+		},
+		"ASIXY-TI2": {
+			"depth": "0",
+			"inclination": "Sin(Inc) * Cos(Inc) / 2",
+			"azimuth": "-(Sin(Inc) * Cos(Inc) * Cos(Inc) * Sin(AzM) * (Tan(Dip) * Cos(Inc) + Sin(Inc) * Cos(AzM))) / (2 * (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)))",
+			"source": "SPE 63275 + Andy Brooks",
+			"uuid": "38e74420-7408-5870-9774-fc700bace509",
+			"hash_value": "7d64b90b84396f2bf8de1bd5969ea93a3c23fec028322d9b67f8013d86e3933d"
+		},
+		"ASIXY-TI3": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "(Tan(Dip) * Sin(Inc) * Cos(AzM) - Cos(Inc)) / (2 * (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)))",
+			"source": "SPE 63275 + Andy Brooks",
+			"uuid": "c3f822ee-77d9-5c29-afc1-6506618efde7",
+			"hash_value": "4315a46e89a8ff1f357881815766242aa133fb4ef2848e2bfd6e09e2ec571b96"
+		},
+		"ASIZ": {
+			"depth": "0",
+			"inclination": "-Sin(Inc) * Cos(Inc)",
+			"azimuth": "Sin(Inc) * Cos(Inc) * Cos(Inc) * Sin(AzM) * (Tan(Dip) * Cos(Inc) + Sin(Inc) * Cos(AzM)) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "b0f5fd27-b15d-5f69-aea0-58082dc758bd",
+			"hash_value": "1948f97fd724409fd77ff7f59dcc61e9bc0356d108d9244c82f2bf14df185887"
+		},
+		"MBIXY-TI1": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "-Cos(Inc) * Sin(AzM) / (BField * Cos(Dip) * (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)))",
+			"source": "SPE 63275 + Andy Brooks",
+			"uuid": "7a1a5dc9-1d84-520c-b9ee-5c0f32b9b5a5",
+			"hash_value": "9d4e93e2530838fad626fe209085163f2b17df3f3148a1f24549455f883ece8f"
+		},
+		"MBIXY-TI2": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Cos(AzM) / (BField * Cos(Dip) * (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)))",
+			"source": "SPE 63275 + Andy Brooks",
+			"uuid": "18c5c2bc-b821-532a-9d97-1899ed9fecbe",
+			"hash_value": "0d65e80bdb186d6a87ee3d7bc829431eefc2fb1cfda65d0a121632e16e57430d"
+		},
+		"MSIXY-TI1": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sin(Inc) * Sin(AzM) * (Tan(Dip) * Cos(Inc) + Sin(Inc) * Cos(AzM)) / (Sqrt(2) * (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)))",
+			"source": "SPE 63275 + Andy Brooks",
+			"uuid": "dee056aa-15c6-58cf-a2e6-32d846fcc3bf",
+			"hash_value": "b6c269b2283e972bb2601840c30dce7f140ba3696d4e27849ee98e24d40dd2ba"
+		},
+		"MSIXY-TI2": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sin(AzM) * (Tan(Dip) * Sin(Inc) * Cos(Inc) - Cos(Inc) * Cos(Inc) * Cos(AzM) - Cos(AzM)) / (2 * (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)))",
+			"source": "SPE 63275 + Andy Brooks",
+			"uuid": "3ffd7316-a2b2-5f8e-8759-364c07c9c57e",
+			"hash_value": "169aa623ec3d1e77072bf6df946289f9f957ea13d3b848496b7921d415968a24"
+		},
+		"MSIXY-TI3": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "(Cos(Inc) * Cos(AzM) * Cos(AzM) - Cos(Inc) * Sin(AzM) * Sin(AzM) - Tan(Dip) * Sin(Inc) * Cos(AzM)) / (2 * (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)))",
+			"source": "SPE 63275 + Andy Brooks",
+			"uuid": "bb08cff8-e20f-5988-97f0-b3b9bfa2e546",
+			"hash_value": "b2f92edcf792a766a024b806a3deb05d1535d45a1f1e13250bbeda05abb1db5f"
+		},
+		"MDI": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "-Sin(Inc) * Sin(AzM) * (Cos(Inc) - Tan(Dip) * Sin(Inc) * Cos(AzM)) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM))",
+			"source": "SPE 67616 Table 1",
+			"uuid": "c53a2282-cd9d-543b-ad0b-1e199e29519f",
+			"hash_value": "8761a248369894bc9f1dfafd9349ec4d2625c5bac37a5e80a4fade2d32f57e56"
+		},
+		"MFI": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "-Sin(Inc) * Sin(AzM) * (Tan(Dip) * Cos(Inc) + Sin(Inc) * Cos(AzM)) / (1 - Sin(Inc) * Sin(Inc) * Sin(AzM) * Sin(AzM)) / BField",
+			"source": "SPE 67616 Table 1",
+			"uuid": "8ea7bc1e-24a4-5f67-8eb8-d1c8dd122eea",
+			"hash_value": "4f1dbe52021c05c8c90a5b29ad84e6659e163d29efb359ee6d1b0c7b8821019e"
+		},
+		"AMID": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sin(Inc) * Sin(AzM)",
+			"source": "SPE 67616",
+			"uuid": "6b9bfd93-baef-51b5-9d2d-4922227ba3bc",
+			"hash_value": "be1a34495de0e4750454c2d937a30026ae62f8ade63534dee995b3544b577a99"
+		},
+		"SAG": {
+			"depth": "0",
+			"inclination": "Sin(Inc)",
+			"azimuth": "0",
+			"source": "SPE 67616",
+			"uuid": "6081db85-c6fb-5e2f-9ee3-3c5aaed6739a",
+			"hash_value": "913a66694612cf9529b687ed3c97f4af3a9d4fd0a976fa603296f7f3bc722597"
+		},
+		"XYM3": {
+			"depth": "0",
+			"inclination": "Abs(Cos(Inc)) * Cos(AzT)",
+			"azimuth": "-(Abs(Cos(Inc)) * Sin(AzT)) / Sin(Inc)",
+			"singularity_north": "1",
+			"singularity_east": "0",
+			"singularity_vertical": "0",
+			"comment": "Singularity when vertical",
+			"source": "SPE 90408 Table 9 - Alt. 3",
+			"uuid": "5198585c-aebf-5e4d-80dc-9734899dc8f7",
+			"hash_value": "6211694a86c01df0190637234e274c685275113d3383f0f4ff2dcb01a54c8b17"
+		},
+		"XYM4": {
+			"depth": "0",
+			"inclination": "Abs(Cos(Inc)) * Sin(AzT)",
+			"azimuth": "Abs(Cos(Inc)) * Cos(AzT) / Sin(Inc)",
+			"singularity_north": "0",
+			"singularity_east": "1",
+			"singularity_vertical": "0",
+			"comment": "Singularity when vertical",
+			"source": "SPE 90408 Table 9 - Alt. 3",
+			"uuid": "b3cba918-5bd2-5515-a54d-e180750eec61",
+			"hash_value": "fedf6d39c47c9038328e778e63eade0f1357cb4edf3ead95aa61eefd3cab012c"
+		},
+		"AXYZ-MIS": {
+			"depth": "0",
+			"inclination": "1",
+			"azimuth": "0",
+			"source": "SPE 90408 Table 1",
+			"uuid": "a9a0d6f2-cefe-5212-aed9-353513bdcd09",
+			"hash_value": "4e8045099ef648de783e909e44b873ad4ff739ef808b4fe3df006ae5ce275588"
+		},
+		"AXYZ-SF": {
+			"depth": "0",
+			"inclination": "1.3 * Sin(Inc) * Cos(Inc)",
+			"azimuth": "0",
+			"source": "SPE 90408 Table 1",
+			"uuid": "a5eeda4c-86eb-515a-8f83-c916544e96e8",
+			"hash_value": "508813e6884cfd62a170630e586b3b55e02fd204dbef6e7030e628f565f9fdb4"
+		},
+		"AXYZ-ZB": {
+			"depth": "0",
+			"inclination": "Sin(Inc) / GField",
+			"azimuth": "0",
+			"source": "SPE 90408 Table 1",
+			"uuid": "1a9de0e7-557c-5f59-a8b4-09fc810406aa",
+			"hash_value": "c682f633e5d5f5334a4ef7a62c54ffb44c12216c73d9d3e3a6f1eaf1e1f9883f"
+		},
+		"GXY-B1": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sin(AzT) / (EarthRate * Cos(Lat) * Cos(Inc))",
+			"source": "SPE 90408 Table 4",
+			"uuid": "b0c37651-fd42-54cc-a707-d3aff5e02568",
+			"hash_value": "e8ffc2d693e5ab2b997a587620c7b9da84f8cba0736fb29885fa7225a902e640"
+		},
+		"GXY-B2": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Cos(AzT) / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 4",
+			"uuid": "b430612a-8764-580a-a4b7-472a1dfd3a7c",
+			"hash_value": "31087244764954a2c0b81eb4bb5c6f8f00344dd705d92228eb8503b31c598845"
+		},
+		"GXY-G1": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Cos(AzT) * Sin(Inc) / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 4",
+			"uuid": "bdff84eb-e821-5b46-a530-6bcbef140864",
+			"hash_value": "c26ad677c43cf7e241c6db317e7936728f9173ce8db63af107a344abf1cb3ad5"
+		},
+		"GXY-G4": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sin(AzT) * Tan(Inc) / (EarthRate * Cos(Lat))",
+			"source": "SPE 90408 Table 4",
+			"uuid": "e5f9ef69-928a-516f-bc57-e0ec362c3409",
+			"hash_value": "4cb1de449efdd5a374f88f89333708b61fe300e1dff1065e021cbb7a1b9be3b5"
+		},
+		"GXY-RN": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "NoiseReductionFactor * Sqrt(1 - Cos(AzT) ^ 2 * Sin(Inc) ^ 2) / (EarthRate * Cos(Lat) * Cos(Inc))",
+			"source": "SPE 90408 Table 4",
+			"uuid": "b877a960-8ad7-5ea0-bb88-c7b7efb2ed1d",
+			"hash_value": "14ae3a63a792e8dd150d4d201ba738aae1ca0ad10909f7e8f902ff21f3f8abcc"
+		},
+		"GXY-GD": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "XY_Gyro_Drift + (MD - MDPrev) / (GXYRunningSpeed * Sin((Inc + IncPrev) / 2))",
+			"source": "SPE 90408 Table 7",
+			"uuid": "5ec04f85-19cc-5ce1-aded-dcf672bbcd04",
+			"hash_value": "3ae6785a51ca0584ee41cdde13b1f03dc6d902f18cbb0e23a348e5bf32b15d5f"
+		},
+		"GXY-GRW": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Sqrt(XY_Gyro_Random_Walk ^ 2 + (MD - MDPrev) / (GXYRunningSpeed * Sin((Inc + IncPrev) / 2) ^ 2))",
+			"source": "SPE 90408 Table 7",
+			"uuid": "8b4ce85f-28b1-5e7e-b240-255cbc8c787e",
+			"hash_value": "0f165867da6760f88ddec8549f18d29a3c71d90c94683d91083a57f96b02018c"
+		},
+		"EXT-REF": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "1",
+			"source": "SPE 90408 Table 5",
+			"uuid": "1ba234f1-4b71-5d98-b1ee-1741cff6c936",
+			"hash_value": "0b53f3d9990e5a906cfd9c56367dece1a3847ea63ae165a00218b4ab55f02449"
+		},
+		"GZ-GD": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "Z_Gyro_Drift + (MD - MDPrev) / (GZRunningSpeed * Cos((Inc + IncPrev) / 2))",
+			"source": "SPE 90408 Table 8",
+			"uuid": "8f2b16cd-9223-5e75-b72a-023a2be01fcb",
+			"hash_value": "fffefba7d93fafe92d8047874f3e7cd1cd91b776a99c71573cc3687d883bed3e"
+		},
+		"CNA": {
+			"depth": "0",
+			"inclination": "0",
+			"azimuth": "1 / Sin(Inc)",
+			"singularity_north": "-Sin(Az)",
+			"singularity_east": "Cos(Az)",
+			"singularity_vertical": "0",
+			"comment": "Singularity when vertical",
+			"source": "BP",
+			"uuid": "ad4f390e-9e45-5793-be7b-daeb84c498d4",
+			"hash_value": "3120a11a80c0d666c5d271a7c348302a0cebcbcae1f5b0c76a50fbe25bb4ebdf"
+		},
+		"CNI": {
+			"depth": "0",
+			"inclination": "1",
+			"azimuth": "0",
+			"source": "BP",
+			"uuid": "c380fb2d-134a-5c80-8fb7-9ef590d38131",
+			"hash_value": "9b48a037c92ff4fcb60680b01568b22d3d31e15f7cd6a2025b6594054f8a736f"
 		}
 	},
 	"terms": {
@@ -599,7 +872,10 @@
 			"propagation": "Random",
 			"weighting_function": "XCLA",
 			"uuid": "a885ba86-3db9-5fe4-aadf-f3cea9067a79",
-			"hash_value": "b1e134384bb74d9e760ddd198f4387284de19f8371e687592fead4d5b646f851"
+			"requires": [
+				"xcl_position_direct"
+			],
+			"hash_value": "fdf0700db9994f1c9bdfa8b2c6b1c96e71cc404d2b34bcecce07096574d83bd6"
 		},
 		"XCLH": {
 			"description": "Depth: Long Course Length XCL - Inclination",
@@ -608,9 +884,713 @@
 			"propagation": "Random",
 			"weighting_function": "XCLH",
 			"uuid": "a14a240c-e54e-548e-aae0-2ffb39a4432c",
-			"hash_value": "5151abe9eaed512ef0e9614c6be475f376e41e6be64591b56d0495672a74b578"
+			"requires": [
+				"xcl_position_direct"
+			],
+			"hash_value": "153bc3c64584ed1c38e199c5c1d68a5707e56f0b8b4c41b7dae0bc7a9ab0758a"
+		},
+		"ABIXY-TI1S": {
+			"description": "MWD TF Ind: X and Y Accelerometer Bias with Z-Axis Corr",
+			"type": "Sensor",
+			"units": "m/s2",
+			"propagation": "Systematic",
+			"weighting_function": "ABIXY-TI1",
+			"uuid": "19128298-6af4-5cc2-a4ee-b0e7cca76195",
+			"hash_value": "06dd16e2b0a1584803fe5f474be0f2da4e44ba1525f297f1da05558ddf2f56e3"
+		},
+		"ABIXY-TI2S": {
+			"description": "MWD TF Ind: X and Y Accelerometer Bias with Z-Axis Corr",
+			"type": "Sensor",
+			"units": "m/s2",
+			"propagation": "Systematic",
+			"weighting_function": "ABIXY-TI2",
+			"uuid": "7f85b543-6d52-5a50-9082-005dda78f0b4",
+			"hash_value": "6fae57eb24df27d6d575622b2f8f4dd7d5f96fb307bfe5a1db20d260d5fd89b5"
+		},
+		"ABIZ": {
+			"description": "MWD: Z-Accelerometer Bias with Z-Axis Corr.",
+			"type": "Sensor",
+			"units": "m/s2",
+			"propagation": "Systematic",
+			"weighting_function": "ABIZ",
+			"uuid": "e225b812-aa65-588a-90be-acb6f1873ea2",
+			"hash_value": "a593940066a4a101d36c58fe9ae5b11448b9e45eb884052d557f0ee47a0a1b89"
+		},
+		"ASIXY-TI1S": {
+			"description": "MWD TF Ind: X and Y Accelerometer Scale Factor with Z-Axis Corr",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "ASIXY-TI1",
+			"uuid": "830581f4-c922-52f9-b527-e5e566364685",
+			"hash_value": "e2857d508445c9b0975bddbc09aa7eeba26055bc1390854a17f4d6f1730397ed"
+		},
+		"ASIXY-TI2S": {
+			"description": "MWD TF Ind: X and Y Accelerometer Scale Factor with Z-Axis Corr",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "ASIXY-TI2",
+			"uuid": "1cd75857-84db-51ac-acde-e06afbfc4698",
+			"hash_value": "a7f407049450980fc57e84f782a2021eb98264c991e5ca02de5a1511e79c7722"
+		},
+		"ASIXY-TI3S": {
+			"description": "MWD TF Ind: X and Y Accelerometer Scale Factor with Z-Axis Corr",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "ASIXY-TI3",
+			"uuid": "51e2c4fc-2022-5907-9d46-250f710b466e",
+			"hash_value": "0252de4b531bdd1daa11d025846a4a0af7a83e7d40357f43140c1f7e342c2c2f"
+		},
+		"ASIZ": {
+			"description": "MWD: Z-Accelerometer Scale Factor with Z-Axis Corr.",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "ASIZ",
+			"uuid": "c40b0abb-7b1b-5962-801f-dd2cccd6dfaf",
+			"hash_value": "884f9851a3b37cf31b5a6726b077e022e698da047613438f57ac2847e2f22a16"
+		},
+		"MBIXY-TI1S": {
+			"description": "MWD TF Ind: X and Y Magnetometer Bias with Z-Axis Corr",
+			"type": "Sensor",
+			"units": "nT",
+			"propagation": "Systematic",
+			"weighting_function": "MBIXY-TI1",
+			"uuid": "f8b5ddd9-5c4a-56fe-839d-87969cca0671",
+			"hash_value": "abb8bf79016d09105b74e9616bc5de2cf7125be57ab940757ca7aa6e7860daea"
+		},
+		"MBIXY-TI2S": {
+			"description": "MWD TF Ind: X and Y Magnetometer Bias with Z-Axis Corr",
+			"type": "Sensor",
+			"units": "nT",
+			"propagation": "Systematic",
+			"weighting_function": "MBIXY-TI2",
+			"uuid": "6919ac4a-7678-5cd4-a45b-a255fb3ede38",
+			"hash_value": "4830a79832a6f6909d6ee316d6948a23af6ec896b77262179397a4e4d5b3b0e9"
+		},
+		"MSIXY-TI1S": {
+			"description": "MWD TF Ind: X and Y Magnetometer Scale Factor with Z-Axis Corr",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "MSIXY-TI1",
+			"uuid": "8beabbd0-c0bb-5afa-824c-3aa551fd2c46",
+			"hash_value": "1a86c42637291ad9c7cce6fd0423d4bcf01cd9c989aae150b8cf41308d9f7f1d"
+		},
+		"MSIXY-TI2S": {
+			"description": "MWD TF Ind: X and Y Magnetometer Scale Factor with Z-Axis Corr",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "MSIXY-TI2",
+			"uuid": "594eaad4-73f8-5490-8c5b-c53012f1ef80",
+			"hash_value": "7188907eebd333bd8e9aa38b8c671cbfdde7429a917d4ef0071cce6310a6652c"
+		},
+		"MSIXY-TI3S": {
+			"description": "MWD TF Ind: X and Y Magnetometer Scale Factor with Z-Axis Corr",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "MSIXY-TI3",
+			"uuid": "9525633e-c56f-5179-ad08-a2436e7d17ba",
+			"hash_value": "1af8cc1c2674318556b06428f381552da67ecb9623e7d6239f018c8dee06e238"
+		},
+		"MDI-U": {
+			"description": "MWD: Magnetic Dip with Z-Axis Corr - Uncorrelated Errors",
+			"type": "Mgntcs",
+			"units": "deg",
+			"propagation": "Well",
+			"weighting_function": "MDI",
+			"uuid": "8573fde2-cc84-5848-a9fa-b71523c3be13",
+			"hash_value": "189e81df7a34a65996854015cb7846be44834868c6e3c3753d220cc016a01faa"
+		},
+		"MDI-OS": {
+			"description": "MWD: Magnetic Dip with Z-Axis Corr - Crustal Omission Standard Models",
+			"type": "Mgntcs",
+			"units": "deg",
+			"propagation": "Global",
+			"weighting_function": "MDI",
+			"uuid": "9e3b34b0-c883-5882-b172-9066ea967fe3",
+			"hash_value": "296fdb8c9963699e7c18f66ac3e85e49d4ca222493826362d6fc6cf514ac6561"
+		},
+		"MDI-OH": {
+			"description": "MWD: Magnetic Dip with Z-Axis Corr - Crustal Omission HD Models",
+			"type": "Mgntcs",
+			"units": "deg",
+			"propagation": "Global",
+			"weighting_function": "MDI",
+			"uuid": "60852f6f-82cc-5cf3-9695-c2bca87d7224",
+			"hash_value": "1485ccd042ceba5fb536e34cd091ecbe1b2296b82a39262a2fe31fb333a18686"
+		},
+		"MDI-OI": {
+			"description": "MWD: Magnetic Dip with Z-Axis Corr - Crustal Omission IFR Models",
+			"type": "Mgntcs",
+			"units": "deg",
+			"propagation": "Global",
+			"weighting_function": "MDI",
+			"uuid": "ed2f655a-c659-5023-a933-fa8f596ff0fa",
+			"hash_value": "742e0b1e99f13c3a75020ce2648cdf3bb95921cca4c0fd072dead97e70f0733e"
+		},
+		"MDIR": {
+			"description": "MWD: Magnetic Dip with Z-Axis Corr - Random",
+			"type": "Mgntcs",
+			"units": "deg",
+			"propagation": "Random",
+			"weighting_function": "MDI",
+			"uuid": "cb230d09-1811-5984-8d31-a11d9d010ac5",
+			"hash_value": "ec858ec54ed5d132e64cbd14a38ff4d612955a988adab3c40ba6fce0b12dae28"
+		},
+		"MFI-U": {
+			"description": "MWD: Total Magnetic Field with Z-Axis Corr - Uncorrelated Errors",
+			"type": "Mgntcs",
+			"units": "nT",
+			"propagation": "Well",
+			"weighting_function": "MFI",
+			"uuid": "1bf7e9db-8f0c-5e0e-a1a3-cb9e4a6394bd",
+			"hash_value": "4f408c04dacea9f0f969df23683503a6f1258ffaae81a715415f827a9966fd04"
+		},
+		"MFI-OS": {
+			"description": "MWD: Total Magnetic Field with Z-Axis Corr - Crustal Omission Standard Models",
+			"type": "Mgntcs",
+			"units": "nT",
+			"propagation": "Global",
+			"weighting_function": "MFI",
+			"uuid": "c5d75f65-7f17-523d-9ec1-5c4a41c1e95f",
+			"hash_value": "4509ff334c79c368c7a7e383037462ae7578862d4b6a7862a72786fd2ca90e1f"
+		},
+		"MFI-OH": {
+			"description": "MWD: Total Magnetic Field with Z-Axis Corr - Crustal Omission HD Models",
+			"type": "Mgntcs",
+			"units": "nT",
+			"propagation": "Global",
+			"weighting_function": "MFI",
+			"uuid": "e9965d46-684c-54bc-845d-877d7d9ad49b",
+			"hash_value": "24a8f927f87b4668b60b974b368fe255449566e200de41a3dedc88b9ffc0a2bb"
+		},
+		"MFI-OI": {
+			"description": "MWD: Total Magnetic Field with Z-Axis Corr - Crustal Omission IFR Models",
+			"type": "Mgntcs",
+			"units": "nT",
+			"propagation": "Global",
+			"weighting_function": "MFI",
+			"uuid": "9ffdf2ba-1300-5a39-a867-98160e6a4860",
+			"hash_value": "f6c568f917790aab79e671fdcc3c4f1239a33650a8e09a061dd605af08f6a255"
+		},
+		"MFIR": {
+			"description": "MWD: Total Magnetic Field with Z-Axis Corr - Random",
+			"type": "Mgntcs",
+			"units": "nT",
+			"propagation": "Random",
+			"weighting_function": "MFI",
+			"uuid": "d6ae8b4d-0424-59ef-8751-837adae7b0a3",
+			"hash_value": "c91895cfe0e1d484119202417588ffa03f6926385411b8b8e31b5d8fe9423b8a"
+		},
+		"DRFS": {
+			"description": "Depth: Depth Reference - Systematic",
+			"type": "Depth",
+			"units": "m",
+			"propagation": "Systematic",
+			"weighting_function": "DREF",
+			"uuid": "fcd03d66-10a6-524d-8153-f8320fae78fe",
+			"hash_value": "3036f8519553543fa3fc2960b78e19c05fe0296d46e1c243480ea231541bb46d"
+		},
+		"DEC-CI": {
+			"description": "MWD: Declination Crustal Commission IFR Models",
+			"type": "AziRef",
+			"units": "deg",
+			"propagation": "Global",
+			"weighting_function": "AZ",
+			"uuid": "3dd4ec5f-d8d4-5f12-96b6-872db6691a9d",
+			"hash_value": "1811b22a5f6b9bed9d9da29d75468a70223486d0ffe1910a4cb86d1e20d39aba"
+		},
+		"DBH-CI": {
+			"description": "MWD: BH Dependent Declination Crustal Commission IFR Models",
+			"type": "AziRef",
+			"units": "deg.nT",
+			"propagation": "Global",
+			"weighting_function": "DBH",
+			"uuid": "29259de0-17ad-576f-8f93-a64a85da6600",
+			"hash_value": "ec1ab04d8fb4bbf0a043a549a6d02cde1c3d6928f1644f9e5656f2a77fab6da1"
+		},
+		"MDI-CI": {
+			"description": "MWD: Magnetic Dip with Z-Axis Corr - Crustal Commission IFR Models",
+			"type": "Mgntcs",
+			"units": "deg",
+			"propagation": "Global",
+			"weighting_function": "MDI",
+			"uuid": "a3115b7d-eb8a-5070-a1e9-ba9c5be5d6d7",
+			"hash_value": "0f5bb276a9a255f65e6adf6e36298a06826490484ad89cf0fb5a8311f80fbcf2"
+		},
+		"MFI-CI": {
+			"description": "MWD: Total Magnetic Field with Z-Axis Corr - Crustal Commission IFR Models",
+			"type": "Mgntcs",
+			"units": "nT",
+			"propagation": "Global",
+			"weighting_function": "MFI",
+			"uuid": "11e70284-0607-5587-9114-181b6ef4e6e4",
+			"hash_value": "25fda8ea476950c0e816354ef8bafbd773e0162c7944ad620bef1db17ec5b701"
+		},
+		"DECS": {
+			"description": "MWD: Declination - Systematic",
+			"type": "AziRef",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "AZ",
+			"uuid": "92d8ad4c-6925-59fe-9fc4-bb0ca8ea8454",
+			"hash_value": "b560c156b352a0332ee08cb97f593ab8859787db317b350b3a92566a4c809302"
+		},
+		"DBHS": {
+			"description": "MWD: BH-Dependent Declination - Systematic",
+			"type": "AziRef",
+			"units": "deg.nT",
+			"propagation": "Systematic",
+			"weighting_function": "DBH",
+			"uuid": "76d7934d-e1e8-541c-ae9a-d612c471dfae",
+			"hash_value": "e409260f08fdf1a9166031674c64bebe9cb25be9d03ce137f61f66198130ba54"
+		},
+		"DSFW": {
+			"description": "Depth: Depth Scale Factor - Well",
+			"type": "Depth",
+			"units": "-",
+			"propagation": "Well",
+			"weighting_function": "DSF",
+			"uuid": "6243e94e-f9e2-52bf-96ca-ea67c347c64c",
+			"hash_value": "b42c85ac3e35d082e0158477b3bc7a7e54434da6409267fc58f8800ba52362a6"
+		},
+		"DECG": {
+			"description": "MWD: Declination - Global",
+			"type": "AziRef",
+			"units": "deg",
+			"propagation": "Global",
+			"weighting_function": "AZ",
+			"uuid": "9f2b1df2-763c-525a-a437-3ba9cad750ff",
+			"hash_value": "48a34c0db288e3905ddc13961d93dde3186a317f3b27980b8f02aa045f32be5f"
+		},
+		"DBHG": {
+			"description": "MWD: BH-Dependent Declination - Global",
+			"type": "AziRef",
+			"units": "deg.nT",
+			"propagation": "Global",
+			"weighting_function": "DBH",
+			"uuid": "11a5c357-5edb-5bed-8c97-39a283d74629",
+			"hash_value": "cb6def262907edd211f09c914369750a96aece7e37eb982b56849ef88216f60d"
+		},
+		"AMIC": {
+			"description": "MWD: Axial Interference - Constant",
+			"type": "Mgntcs",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "AZ",
+			"uuid": "3f7694eb-fd30-5e11-9b75-d04040ea5f47",
+			"hash_value": "419f030353a6c5c6414105e2eeb08a5e38d16a755972c1395c767eade26c8476"
+		},
+		"AMID": {
+			"description": "MWD: Axial Interference - SinI.SinA",
+			"type": "Mgntcs",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "AMID",
+			"uuid": "523bb0d3-2c24-5022-b0c5-ebdef8e00bdb",
+			"hash_value": "da5c12d30471a3459ff9212fabcc8510e50f274d0069b32dc16a28cc89d4ea2b"
+		},
+		"SAG": {
+			"description": "MWD: Sag",
+			"type": "Align",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "SAG",
+			"uuid": "5c1a340d-26b0-5840-87fe-a4e46e80ba81",
+			"hash_value": "d979d6c13c38095c2e0c1259039f0a9fcddb3527350d29234025d8a2d481b3cc"
+		},
+		"XYM3": {
+			"description": "Misalignment: XY Misalignment 3",
+			"type": "Align",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "XYM3",
+			"uuid": "06c609e2-7854-5bd7-a377-3026d9fd0334",
+			"hash_value": "3b77287198199577a7d912b6450a6968a070d22243215d265ad83f87dc9bf365"
+		},
+		"XYM4": {
+			"description": "Misalignment: XY Misalignment 4",
+			"type": "Align",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "XYM4",
+			"uuid": "74e8aeef-c19c-5931-9875-f341295e632e",
+			"hash_value": "1ef96fe22cbf5bb4ac5d7040e85763457afd8ce608ca38805f6fb6b0549e47a2"
+		},
+		"AZMS": {
+			"description": "Custom: Azimuth (Sensor Error)",
+			"type": "Sensor",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "AZ",
+			"uuid": "9eb806a0-6eba-504c-be1b-e6fc24cfc2e4",
+			"hash_value": "93a2c071f4c6902b441dbe2576445f40f88f752618bb55b004c089389ae27f1a"
+		},
+		"AXYZ-MIS": {
+			"description": "Gyro: 3-Axis - Accelerometer Misalignment",
+			"type": "Sensor",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "AXYZ-MIS",
+			"uuid": "5e032278-2fe9-5ab2-95f5-75678701f810",
+			"requires": [
+				"gyro_modes"
+			],
+			"hash_value": "da4179cee4e86aae665ecf3491bec84fd279b66aa58eb3a4692228f7b0ecf0db"
+		},
+		"AXYZ-SF": {
+			"description": "Gyro: 3-Axis - Accelerometer Scale Factor",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "AXYZ-SF",
+			"uuid": "bc7c86b7-2f85-5f03-96e8-64143b49af52",
+			"requires": [
+				"gyro_modes"
+			],
+			"hash_value": "df4218b3ac7e05388791f2cf1f84e586dceb0a9fba4bf9aec83c37c3241d4e0c"
+		},
+		"AXYZ-ZB": {
+			"description": "Gyro: 3-Axis - Z Accelerometer Bias",
+			"type": "Sensor",
+			"units": "m/s2",
+			"propagation": "Systematic",
+			"weighting_function": "AXYZ-ZB",
+			"uuid": "c61f991a-26da-5351-85af-237a373b9993",
+			"requires": [
+				"gyro_modes"
+			],
+			"hash_value": "1464e6c4428eb47e392eb1c04169647626f45e084f676e322da725314609ce38"
+		},
+		"GXY-B1R": {
+			"description": "Gyro: 2-Axis XY Gyro Bias 1 - Random",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Random",
+			"weighting_function": "GXY-B1",
+			"uuid": "2067a72b-f55e-5506-a63f-ba7d807ffb27",
+			"requires": [
+				"gyro_modes"
+			],
+			"hash_value": "66d5b814c97a6803da4bea0d0f20da609e88c7e65e70e595cad66dbcf81f3844"
+		},
+		"GXY-B2R": {
+			"description": "Gyro: 2-Axis XY Gyro Bias 2 - Random",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Random",
+			"weighting_function": "GXY-B2",
+			"uuid": "e4e4495b-d06b-5e2e-9521-141573289624",
+			"requires": [
+				"gyro_modes"
+			],
+			"hash_value": "c6062f9b61e43a6897798ac38877de787df81e8a2abebae7e13df316a43becaf"
+		},
+		"GXY-G1": {
+			"description": "Gyro: 2-Axis XY Gyro g-dep Error 1",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXY-G1",
+			"uuid": "484f7bad-8dcc-56ce-8f45-a16885e7c085",
+			"requires": [
+				"gyro_modes"
+			],
+			"hash_value": "15a8e07604a9c7f91b8990fbb2ec2b48c6fb8f3e250981be057b1237a69e3fe3"
+		},
+		"GXY-G4": {
+			"description": "Gyro: 2-Axis XY Gyro g-dep Error 4",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXY-G4",
+			"uuid": "dfafd29d-4d57-529d-b82e-6f82c1608c9e",
+			"requires": [
+				"gyro_modes"
+			],
+			"hash_value": "584a417a4c2112b0d03b717e23b433e8f33945a33133fb43086b16e581186f57"
+		},
+		"GXY-RN": {
+			"description": "Gyro: 2-Axis XY Gyro Random Noise",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Random",
+			"weighting_function": "GXY-RN",
+			"uuid": "5a1351d8-52b5-59ea-98eb-b7682b553a42",
+			"requires": [
+				"gyro_modes"
+			],
+			"hash_value": "5a64dd1f663a2332b8386ea6028092764d67703ece5ad8ecbfca48741c00b313"
+		},
+		"GXY-B1S": {
+			"description": "Gyro: 2-Axis XY Gyro Bias 1 - Systematic",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXY-B1",
+			"uuid": "1ed34012-0030-5293-b4e3-24a71fc7546a",
+			"requires": [
+				"gyro_modes"
+			],
+			"hash_value": "c6a55c5ae136d4652fce59fb8fa2a419c383419ab8f8189fbf5bda9f384c2f92"
+		},
+		"GXY-B2S": {
+			"description": "Gyro: 2-Axis XY Gyro Bias 2 - Systematic",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXY-B2",
+			"uuid": "e026e353-5b54-522d-aa3e-2767b6514af9",
+			"requires": [
+				"gyro_modes"
+			],
+			"hash_value": "c50ce0e6c842001b096218aea09d3a109f085c32fb7e1438b36921809e90100d"
+		},
+		"GXY-GD": {
+			"description": "Gyro: 2-Axis XY Gyro - Continuous Survey Gyro Drift",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GXY-GD",
+			"uuid": "3596cea0-8a8a-559f-b21b-6a16e37a98ee",
+			"requires": [
+				"gyro_modes"
+			],
+			"hash_value": "b3873f3976f529a76d7793adfb28037233bea12f10c5720302cf905c89492013"
+		},
+		"GXY-GRW": {
+			"description": "Gyro: 2-Axis XY Gyro - Continuous Survey Random Walk",
+			"type": "Sensor",
+			"units": "deg/sqr(hr)",
+			"propagation": "Systematic",
+			"weighting_function": "GXY-GRW",
+			"uuid": "2af510d0-2e13-5c0a-a1a2-3724bf735145",
+			"requires": [
+				"gyro_modes"
+			],
+			"hash_value": "08c5b65301ef4a81b6978f1403e06e39577b84506aab9ba43bc61f262a7208bf"
+		},
+		"EXT-REF": {
+			"description": "Gyro: External Reference - External Reference error",
+			"type": "AziRef",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "EXT-REF",
+			"uuid": "976039db-921b-5d96-927b-153db62dcb1a",
+			"requires": [
+				"gyro_modes"
+			],
+			"hash_value": "6654bb26cd6e55c26f68f51591084a5ba66b0b6a18d51c21dece0582e7217003"
+		},
+		"GZ-GD": {
+			"description": "Gyro: Z-Axis Gyro - Continuous Survey Gyro Drift",
+			"type": "Sensor",
+			"units": "deg/hr",
+			"propagation": "Systematic",
+			"weighting_function": "GZ-GD",
+			"uuid": "4c1fd3a8-f139-5931-8e80-b3f716725837",
+			"requires": [
+				"gyro_modes"
+			],
+			"hash_value": "35302607608d27c86a9d163914a108afaae4ce3ba48aab1613b97357e0763746"
+		},
+		"DSTS": {
+			"description": "Depth: Depth Stretch - Systematic",
+			"type": "Depth",
+			"units": "1/m",
+			"propagation": "Systematic",
+			"weighting_function": "DST",
+			"uuid": "7c3bda74-cc9b-5fa1-9d4c-dbe3cffd2ee1",
+			"requires": [
+				"gyro_modes"
+			],
+			"hash_value": "53a5ade543842fd463702a4678b30941a2284d871fefc771a828675bc120793f"
+		},
+		"AZMR": {
+			"description": "Custom: Azimuth (Reading Error)",
+			"type": "Readng",
+			"units": "deg",
+			"propagation": "Random",
+			"weighting_function": "AZ",
+			"uuid": "ebff2b5e-5442-56cf-a95d-287801b85611",
+			"hash_value": "79727aa16f58f1a3937480fe129579ab1260dae4be9afb073681e42f0322cf23"
+		},
+		"AZRF": {
+			"description": "Custom: Azimuth (Reference Error)",
+			"type": "AziRef",
+			"units": "deg",
+			"propagation": "Systematic",
+			"weighting_function": "AZ",
+			"uuid": "523c343d-bd9b-550f-a583-5ce9a9c0385f",
+			"hash_value": "988e03734fc5264be926ce9c69c8bd3c9ef45849c9e48710e9f516aca5391185"
+		},
+		"CNA": {
+			"description": "Custom: Linear Cone - Azimuth",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "CNA",
+			"uuid": "2d1a8a84-8239-51e0-a412-c716c0080bad",
+			"hash_value": "41cdc0b9fce7b2bdc93ec71f029c79f8d9afb6847d1d7b9d86bf38123d69fd89"
+		},
+		"CNI": {
+			"description": "Custom: Linear Cone - Inclination",
+			"type": "Sensor",
+			"units": "-",
+			"propagation": "Systematic",
+			"weighting_function": "CNI",
+			"uuid": "cf593e4e-8864-5526-b7ac-d21cbce7897b",
+			"hash_value": "eacc595a76bdafbfdcda4af696ad4bf2f78615ec30dae404642af0f82840aa58"
+		},
+		"DEC-CH": {
+			"description": "MWD: Declination Crustal Commission HD Models",
+			"type": "AziRef",
+			"units": "deg",
+			"propagation": "Global",
+			"weighting_function": "AZ",
+			"uuid": "e155f438-dfb4-5733-aa94-a65c96c747cb",
+			"hash_value": "b870ccf3283f709ea869add27479a9adb2e5a619df2142c703fd01096aabfbbb"
+		},
+		"DBH-CH": {
+			"description": "MWD: BH Dependent Declination Crustal Commission HD Models",
+			"type": "AziRef",
+			"units": "deg.nT",
+			"propagation": "Global",
+			"weighting_function": "DBH",
+			"uuid": "c39656fe-64fd-5acd-94cf-70cf737b052a",
+			"hash_value": "900fae1697d87e846d6f8893b308a185ebc9bd127e1a0b85071e8e6c91d23504"
+		},
+		"MDI-CH": {
+			"description": "MWD: Magnetic Dip with Z-Axis Corr - Crustal Commission HD Models",
+			"type": "Mgntcs",
+			"units": "deg",
+			"propagation": "Global",
+			"weighting_function": "MDI",
+			"uuid": "24228d45-a544-5899-b71a-8292be279ded",
+			"hash_value": "e0728967a8e70e43c81013c3c9ec2b147c388e7d9fd7ff829518a043c7fa3df7"
+		},
+		"MFI-CH": {
+			"description": "MWD: Total Magnetic Field with Z-Axis Corr - Crustal Commission HD Models",
+			"type": "Mgntcs",
+			"units": "nT",
+			"propagation": "Global",
+			"weighting_function": "MFI",
+			"uuid": "e440836a-f473-56a7-aeb7-205768c8d3e3",
+			"hash_value": "eca67da76e5024d8d493974c93e94a8c2f4f71071515e2ab5204b1532ec56efc"
 		}
 	},
 	"hash_function": "SHA256",
-	"hash_value": "c80884c100a4c20a1d639e83b8ad84962eeded23a5003382d33d7cee491bf4ea"
+	"hash_value": "c251a379c03c814bb4a198c576a11a4b30debf886bf7299116a0c214ca386596",
+	"term_groups": [
+		{
+			"terms": [
+				"ABXY-TI1S",
+				"ABXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ABIXY-TI1S",
+				"ABIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASXY-TI1S",
+				"ASXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"ASIXY-TI1S",
+				"ASIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBXY-TI1S",
+				"MBXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MBIXY-TI1S",
+				"MBIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSXY-TI1S",
+				"MSXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"MSIXY-TI1S",
+				"MSIXY-TI2S"
+			],
+			"source": "Rev 3 toolface-independent x/y terms, Definition Rev5.13 §6.3.4; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"GXY-B1R",
+				"GXY-B2R"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"GXY-B1S",
+				"GXY-B2S"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"CNA",
+				"CNI"
+			],
+			"source": "co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM1",
+				"XYM2"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM3",
+				"XYM4"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XYM3E",
+				"XYM4E"
+			],
+			"source": "Definition of the ISCWSA Error Model Rev5.13 §5.1.2; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		},
+		{
+			"terms": [
+				"XCLA",
+				"XCLH"
+			],
+			"source": "§5.2.1; co-occur with equal magnitude and propagation in every published sheet (iscwsa.net files 807, 808, 809, 1052)"
+		}
+	]
 }

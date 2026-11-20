@@ -20,7 +20,8 @@
 				"Random",
 				"Systematic",
 				"Well",
-				"Global"
+				"Global",
+				"Bias"
 			]
 		},
 		"weighting_function": {
@@ -34,6 +35,13 @@
 		},
 		"init": {
 			"type": "boolean"
+		},
+		"requires": {
+			"type": "array",
+			"description": "Capabilities an engine needs to evaluate this term",
+			"items": {
+				"$ref": "./strings/non_empty.json"
+			}
 		},
 		"errata": {
 			"type": "array",

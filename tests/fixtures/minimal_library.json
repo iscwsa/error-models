@@ -23,8 +23,35 @@
 			"weighting_function": "DREF",
 			"uuid": "00000000-0000-4000-8000-000000000004",
 			"hash_value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+		},
+		"PA": {
+			"description": "Paired term PA",
+			"type": "Random",
+			"units": "m",
+			"propagation": "Random",
+			"weighting_function": "DREF",
+			"uuid": "00000000-0000-4000-8000-000000000010",
+			"hash_value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+		},
+		"PB": {
+			"description": "Paired term PB",
+			"type": "Random",
+			"units": "m",
+			"propagation": "Random",
+			"weighting_function": "DREF",
+			"uuid": "00000000-0000-4000-8000-000000000011",
+			"hash_value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 		}
 	},
+	"term_groups": [
+		{
+			"terms": [
+				"PA",
+				"PB"
+			],
+			"source": "test"
+		}
+	],
 	"hash_function": "SHA256",
 	"hash_value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 }

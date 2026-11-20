@@ -6,7 +6,7 @@
 	"title": "Framework type",
 	"description": "Which framework was used for the model?",
 	"examples": [
-		"ISCWSA Rev5, Cone, Other, Wolff and de Wardt"
+		"ISCWSA Rev5, ISCWSA RCS, Cone, Other, Wolff and de Wardt"
 	],
 	"enum": [
 		"ISCWSA Rev5",
@@ -15,6 +15,7 @@
 		"ISCWSA Rev2",
 		"ISCWSA Rev1",
 		"ISCWSA Rev0",
+		"ISCWSA RCS",
 		"Cone",
 		"Wolff and de Wardt",
 		"Other"

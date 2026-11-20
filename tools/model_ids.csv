@@ -1,0 +1,130 @@
+iscwsa_file,sheet,namespace,model_id,library
+809,ISCWSA MWD bias Rev0,iscwsa,MWD_bias_Rev0,iscwsa:rev0
+809,ISCWSA MWD bias Rev1,iscwsa,MWD_bias_Rev1,iscwsa:rev1
+809,ISCWSA MWD bias Rev2,iscwsa,MWD_bias_Rev2,iscwsa:rev2
+809,ISCWSA MWD Rev0,iscwsa,MWD_Rev0,iscwsa:rev0
+809,ISCWSA MWD Rev1,iscwsa,MWD_Rev1,iscwsa:rev1
+809,ISCWSA MWD Rev2,iscwsa,MWD_Rev2,iscwsa:rev2
+809,ISCWSA MWD Rev3,iscwsa,MWD_Rev3,iscwsa:rev3
+809,ISCWSA MWD Rev3_Fl,iscwsa,MWD_Rev3_Fl,iscwsa:rev3
+809,ISCWSA MWD Rev4,iscwsa,MWD_Rev4,iscwsa:rev4
+809,ISCWSA MWD+SRGM Rev5,iscwsa,A001Mc,iscwsa:rev5
+809,ISCWSA MWD+AX Rev0,iscwsa,MWD_AX_Rev0,iscwsa:rev0
+809,ISCWSA MWD+AX Rev1,iscwsa,MWD_AX_Rev1,iscwsa:rev1
+809,ISCWSA MWD+AX Rev2,iscwsa,MWD_AX_Rev2,iscwsa:rev2
+809,ISCWSA MWD+AX Rev3,iscwsa,MWD_AX_Rev3,iscwsa:rev3
+809,ISCWSA MWD+AX Rev3_Fl,iscwsa,MWD_AX_Rev3_Fl,iscwsa:rev3
+809,ISCWSA MWD+AX Rev4,iscwsa,MWD_AX_Rev4,iscwsa:rev4
+809,ISCWSA MWD+SRGM+AX Rev5,iscwsa,A003Mc,iscwsa:rev5
+809,ISCWSA MWD+AX+SAG Rev0,iscwsa,MWD_AX_SAG_Rev0,iscwsa:rev0
+809,ISCWSA MWD+AX+SAG Rev1,iscwsa,MWD_AX_SAG_Rev1,iscwsa:rev1
+809,ISCWSA MWD+AX+SAG Rev2,iscwsa,MWD_AX_SAG_Rev2,iscwsa:rev2
+809,ISCWSA MWD+AX+SAG Rev3,iscwsa,MWD_AX_SAG_Rev3,iscwsa:rev3
+809,ISCWSA MWD+AX+SAG Rev3_Fl,iscwsa,MWD_AX_SAG_Rev3_Fl,iscwsa:rev3
+809,ISCWSA MWD+SAG Rev0,iscwsa,MWD_SAG_Rev0,iscwsa:rev0
+809,ISCWSA MWD+SAG Rev1,iscwsa,MWD_SAG_Rev1,iscwsa:rev1
+809,ISCWSA MWD+SAG Rev2,iscwsa,MWD_SAG_Rev2,iscwsa:rev2
+809,ISCWSA MWD+SAG Rev3,iscwsa,MWD_SAG_Rev3,iscwsa:rev3
+809,ISCWSA MWD+SAG Rev3_Fl,iscwsa,MWD_SAG_Rev3_Fl,iscwsa:rev3
+807,MWD+SRGM,generic_iscwsa,A001Mc,iscwsa:rev5
+807,MWD+SRGM_Fl,generic_iscwsa,A001Mc_Fl,iscwsa:rev5
+807,MWD+SRGM+SAG,generic_iscwsa,A002Mc,iscwsa:rev5
+807,MWD+SRGM+SAG_Fl,generic_iscwsa,A002Mc_Fl,iscwsa:rev5
+807,MWD+SRGM+AX,generic_iscwsa,A003Mc,iscwsa:rev5
+807,MWD+SRGM+AX_Fl,generic_iscwsa,A003Mc_Fl,iscwsa:rev5
+807,MWD+SRGM+AX+SAG,generic_iscwsa,A004Mc,iscwsa:rev5
+807,MWD+SRGM+AX+SAG_Fl,generic_iscwsa,A004Mc_Fl,iscwsa:rev5
+807,MWD+IFR1,generic_iscwsa,A005Mc,iscwsa:rev5
+807,MWD+IFR1_Fl,generic_iscwsa,A005Mc_Fl,iscwsa:rev5
+807,MWD+IFR1+AX,generic_iscwsa,A006Mc,iscwsa:rev5
+807,MWD+IFR1+AX_Fl,generic_iscwsa,A006Mc_Fl,iscwsa:rev5
+807,MWD+IFR1+AX+SAG,generic_iscwsa,A007Mc,iscwsa:rev5
+807,MWD+IFR1+AX+SAG_Fl,generic_iscwsa,A007Mc_Fl,iscwsa:rev5
+807,MWD+IFR1+MS,generic_iscwsa,A008Mc,iscwsa:rev5
+807,MWD+IFR1+MS_Fl,generic_iscwsa,A008Mc_Fl,iscwsa:rev5
+807,MWD+IFR1+SAG,generic_iscwsa,A009Mc,iscwsa:rev5
+807,MWD+IFR1+SAG_Fl,generic_iscwsa,A009Mc_Fl,iscwsa:rev5
+807,MWD+IFR1+SAG+MS,generic_iscwsa,A010Mc,iscwsa:rev5
+807,MWD+IFR1+SAG+MS_Fl,generic_iscwsa,A010Mc_Fl,iscwsa:rev5
+807,MWD+IFR2+AX+SAG,generic_iscwsa,A011Mc,iscwsa:rev5
+807,MWD+IFR2+AX+SAG_Fl,generic_iscwsa,A011Mc_Fl,iscwsa:rev5
+807,MWD+IFR2+SAG,generic_iscwsa,A012Mc,iscwsa:rev5
+807,MWD+IFR2+SAG_Fl,generic_iscwsa,A012Mc_Fl,iscwsa:rev5
+807,MWD+IFR2+SAG+MS,generic_iscwsa,A013Mc,iscwsa:rev5
+807,MWD+IFR2+SAG+MS_Fl,generic_iscwsa,A013Mc_Fl,iscwsa:rev5
+807,EMS+SRGM,generic_iscwsa,A014Mc,iscwsa:rev5
+807,EMS+SRGM_Fl,generic_iscwsa,A014Mc_Fl,iscwsa:rev5
+807,EMS+SRGM+AX,generic_iscwsa,A015Mc,iscwsa:rev5
+807,EMS+SRGM+AX_Fl,generic_iscwsa,A015Mc_Fl,iscwsa:rev5
+807,EMS+SRGM+AX+SAG,generic_iscwsa,A016Mc,iscwsa:rev5
+807,EMS+SRGM+AX+SAG_Fl,generic_iscwsa,A016Mc_Fl,iscwsa:rev5
+807,EMS+SRGM+SAG,generic_iscwsa,A017Mc,iscwsa:rev5
+807,EMS+SRGM+SAG_Fl,generic_iscwsa,A017Mc_Fl,iscwsa:rev5
+807,DIPMETER,generic_iscwsa,A018Mb,iscwsa:rev5
+807,DIPMETER_Fl,generic_iscwsa,A018Mb_Fl,iscwsa:rev5
+807,GYRO-MWD,generic_iscwsa,A019Gb,iscwsa:rev5
+807,GYRO-MWD_Fl,generic_iscwsa,A019Gb_Fl,iscwsa:rev5
+807,GYRO-NS,generic_iscwsa,A020Gb,iscwsa:rev5
+807,GYRO-NS_Fl,generic_iscwsa,A020Gb_Fl,iscwsa:rev5
+807,GYRO-NS-CT,generic_iscwsa,A021Gc,iscwsa:rev5
+807,GYRO-NS-CT_Fl,generic_iscwsa,A021Gc_Fl,iscwsa:rev5
+807,CB_Film_GMS,generic_iscwsa,A022Gb,iscwsa:rev5
+807,CB_Film_GMS_Fl,generic_iscwsa,A022Gb_Fl,iscwsa:rev5
+807,CB_Film_GSS,generic_iscwsa,A023Gb,iscwsa:rev5
+807,CB_Film_GSS_Fl,generic_iscwsa,A023Gb_Fl,iscwsa:rev5
+807,CB_Film_MMS,generic_iscwsa,A024Mb,iscwsa:rev5
+807,CB_Film_MMS_Fl,generic_iscwsa,A024Mb_Fl,iscwsa:rev5
+807,CB_Film_MSS,generic_iscwsa,A025Mb,iscwsa:rev5
+807,CB_Film_MSS_Fl,generic_iscwsa,A025Mb_Fl,iscwsa:rev5
+807,BLIND,generic_iscwsa,A026Ua,iscwsa:rev5
+807,BLIND_Fl,generic_iscwsa,A026Ua_Fl,iscwsa:rev5
+807,INC-ONLY,generic_iscwsa,A027Ub,iscwsa:rev5
+807,INC-ONLY_Fl,generic_iscwsa,A027Ub_Fl,iscwsa:rev5
+807,INC-ONLY_PLANNED_5_DEG,generic_iscwsa,A028Ub,iscwsa:rev5
+807,INC-ONLY_PLANNED_5_DEG_Fl,generic_iscwsa,A028Ub_Fl,iscwsa:rev5
+807,UNKNOWN,generic_iscwsa,A029Ub,iscwsa:rev5
+807,UNKNOWN_Fl,generic_iscwsa,A029Ub_Fl,iscwsa:rev5
+807,ZERO-ERROR,generic_iscwsa,A030Ua,iscwsa:rev5
+808,MWD+HRGM,generic_iscwsa,B001Mc,iscwsa:rev5
+808,MWD+HRGM_Fl,generic_iscwsa,B001Mc_Fl,iscwsa:rev5
+808,MWD+HRGM+AX,generic_iscwsa,B002Mc,iscwsa:rev5
+808,MWD+HRGM+AX_Fl,generic_iscwsa,B002Mc_Fl,iscwsa:rev5
+808,MWD+HRGM+AX+SAG,generic_iscwsa,B003Mc,iscwsa:rev5
+808,MWD+HRGM+AX+SAG_Fl,generic_iscwsa,B003Mc_Fl,iscwsa:rev5
+808,MWD+HRGM+SAG,generic_iscwsa,B004Mc,iscwsa:rev5
+808,MWD+HRGM+SAG_Fl,generic_iscwsa,B004Mc_Fl,iscwsa:rev5
+808,MWD+HRGM+SAG+MS,generic_iscwsa,B005Mc,iscwsa:rev5
+808,MWD+HRGM+SAG+MS_Fl,generic_iscwsa,B005Mc_Fl,iscwsa:rev5
+808,MWD+LRGM,generic_iscwsa,B006Mc,iscwsa:rev5
+808,MWD+LRGM_Fl,generic_iscwsa,B006Mc_Fl,iscwsa:rev5
+808,MWD+LRGM+AX,generic_iscwsa,B007Mc,iscwsa:rev5
+808,MWD+LRGM+AX_Fl,generic_iscwsa,B007Mc_Fl,iscwsa:rev5
+808,MWD+LRGM+AX+SAG,generic_iscwsa,B008Mc,iscwsa:rev5
+808,MWD+LRGM+AX+SAG_Fl,generic_iscwsa,B008Mc_Fl,iscwsa:rev5
+808,MWD+LRGM+SAG,generic_iscwsa,B009Mc,iscwsa:rev5
+808,MWD+LRGM+SAG_Fl,generic_iscwsa,B009Mc_Fl,iscwsa:rev5
+808,EMS+IFR1+AX+SAG,generic_iscwsa,B010Mc,iscwsa:rev5
+808,EMS+IFR1+AX+SAG_Fl,generic_iscwsa,B010Mc_Fl,iscwsa:rev5
+808,EMS+IFR1+SAG,generic_iscwsa,B011Mc,iscwsa:rev5
+808,EMS+IFR1+SAG_Fl,generic_iscwsa,B011Mc_Fl,iscwsa:rev5
+808,EMS+IFR1+SAG+MS,generic_iscwsa,B012Mc,iscwsa:rev5
+808,EMS+IFR1+SAG+MS_Fl,generic_iscwsa,B012Mc_Fl,iscwsa:rev5
+808,EMS+HRGM,generic_iscwsa,B013Mc,iscwsa:rev5
+808,EMS+HRGM_Fl,generic_iscwsa,B013Mc_Fl,iscwsa:rev5
+808,EMS+HRGM+AX,generic_iscwsa,B014Mc,iscwsa:rev5
+808,EMS+HRGM+AX_Fl,generic_iscwsa,B014Mc_Fl,iscwsa:rev5
+808,EMS+HRGM+AX+SAG,generic_iscwsa,B015Mc,iscwsa:rev5
+808,EMS+HRGM+AX+SAG_Fl,generic_iscwsa,B015Mc_Fl,iscwsa:rev5
+808,EMS+HRGM+SAG,generic_iscwsa,B016Mc,iscwsa:rev5
+808,EMS+HRGM+SAG_Fl,generic_iscwsa,B016Mc_Fl,iscwsa:rev5
+808,EMS+LRGM,generic_iscwsa,B017Mc,iscwsa:rev5
+808,EMS+LRGM_Fl,generic_iscwsa,B017Mc_Fl,iscwsa:rev5
+808,EMS+LRGM+AX,generic_iscwsa,B018Md,iscwsa:rev5
+808,EMS+LRGM+AX_Fl,generic_iscwsa,B018Md_Fl,iscwsa:rev5
+808,EMS+LRGM+AX+SAG,generic_iscwsa,B019Md,iscwsa:rev5
+808,EMS+LRGM+AX+SAG_Fl,generic_iscwsa,B019Md_Fl,iscwsa:rev5
+808,EMS+LRGM+SAG,generic_iscwsa,B020Mc,iscwsa:rev5
+808,EMS+LRGM+SAG_Fl,generic_iscwsa,B020Mc_Fl,iscwsa:rev5
+808,FINDS,generic_iscwsa,B021Ga,iscwsa:rev5
+808,BLIND+TREND,generic_iscwsa,B022Ua,iscwsa:rev5
+1052,Candidate_Rot_6Axis_MWD+SRGM,iscwsa,D007Ma,iscwsa:rot6axis

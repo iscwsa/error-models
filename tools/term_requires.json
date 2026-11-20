@@ -1,0 +1,21 @@
+{
+	"AMIB": ["bias_terms"],
+	"AXYZ-MIS": ["gyro_modes"],
+	"AXYZ-SF": ["gyro_modes"],
+	"AXYZ-ZB": ["gyro_modes"],
+	"DSTB": ["bias_terms"],
+	"DSTS": ["gyro_modes"],
+	"EXT-REF": ["gyro_modes"],
+	"GXY-B1R": ["gyro_modes"],
+	"GXY-B1S": ["gyro_modes"],
+	"GXY-B2R": ["gyro_modes"],
+	"GXY-B2S": ["gyro_modes"],
+	"GXY-G1": ["gyro_modes"],
+	"GXY-G4": ["gyro_modes"],
+	"GXY-GD": ["gyro_modes"],
+	"GXY-GRW": ["gyro_modes"],
+	"GXY-RN": ["gyro_modes"],
+	"GZ-GD": ["gyro_modes"],
+	"XCLA": ["xcl_position_direct"],
+	"XCLH": ["xcl_position_direct"]
+}
