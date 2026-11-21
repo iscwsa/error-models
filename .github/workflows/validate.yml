@@ -13,6 +13,8 @@ jobs:
       ISCWSA_WORKBOOKS: ${{ github.workspace }}/.workbooks
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # test_extract compares with a pinned earlier commit (git show)
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
