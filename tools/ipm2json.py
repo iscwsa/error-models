@@ -222,28 +222,51 @@ def _same_weights(a, b, envs) -> bool:
     return all(_close(x, y, envs) for x, y in zip(a, b))
 
 
+def _grid(envs) -> list[dict]:
+    """A mid-well diagnostic station with Inc 0-180 deg (5 deg steps) and AzT 0-345 deg (15 deg steps): the numeric
+    match must hold over the whole range, not only along the diagnostic wells."""
+    base = envs[len(envs) // 2]
+    decl = base["AzT"] - base["AzM"]
+    return [dict(base, Inc=math.radians(i), AzT=math.radians(a), Az=math.radians(a), AzM=math.radians(a) - decl)
+            for i in range(0, 181, 5) for a in range(0, 360, 15)]
+
+
 def _match(name, tie, magnitude, unit, fields, library, envs):
-    """(iscwsa code, magnitude in its units) when the source is that library term, else (None, reason)."""
+    """(iscwsa code, magnitude in its units, log note) when the source is that library term, else (None, reason, None).
+
+    Formula text canonically equal to the library's, with equal weights at the diagnostic stations, is a match. So is
+    text that differs but whose weights equal the library's at the diagnostic stations and over an Inc / AzT grid, as
+    written or all with the opposite sign (one independent source's covariance doesn't depend on its sign; a Bias term's
+    does, so it must match as written)."""
     by_upper = {k.upper(): k for k in library["terms"]}
     code = by_upper.get(name.upper())
     if code is None:
-        return None, None
+        return None, None, None
     term = library["terms"][code]
     wf = library["weighting_functions"][term["weighting_function"]]
     if "mode" in term:
-        return None, f"not iscwsa:{code}: a gyro survey-mode term"
+        return None, f"not iscwsa:{code}: a gyro survey-mode term", None
     if term["propagation"] != TIE_ONS[tie]:
-        return None, f"not iscwsa:{code}: propagation {TIE_ONS[tie]} is not {term['propagation']}"
+        return None, f"not iscwsa:{code}: propagation {TIE_ONS[tie]} is not {term['propagation']}", None
     if SI[term["units"]] != SI[unit]:
-        return None, f"not iscwsa:{code}: units {unit} are not {term['units']}"
-    for f in ("depth", "inclination", "azimuth"):
-        if canonical(wf[f]) != fields[f]:
-            return None, f"not iscwsa:{code}: {f} formula {fields[f]!r} is not {canonical(wf[f])!r}"
+        return None, f"not iscwsa:{code}: units {unit} are not {term['units']}", None
+    mag = magnitude if unit == term["units"] else magnitude * SI[unit] / SI[term["units"]]
+    differs = [f for f in ("depth", "inclination", "azimuth") if canonical(wf[f]) != fields[f]]
     lib_w = _json_weights(1.0, term["units"], wf, envs)
     own_w = _json_weights(1.0, unit, fields, envs)
-    if not _same_weights(own_w, lib_w, envs):
-        return None, f"not iscwsa:{code}: weights differ"
-    return code, magnitude if unit == term["units"] else magnitude * SI[unit] / SI[term["units"]]
+    if not differs:
+        if not _same_weights(own_w, lib_w, envs):
+            return None, f"not iscwsa:{code}: weights differ", None
+        return code, mag, None
+    grid = list(envs) + _grid(envs)
+    lib_g = _json_weights(1.0, term["units"], wf, grid)
+    own_g = _json_weights(1.0, unit, fields, grid)
+    if _same_weights(own_g, lib_g, grid):
+        return code, mag, f"numeric match ({', '.join(differs)} text differs)"
+    if term["propagation"] != "Bias" and _same_weights([[-x for x in c] for c in own_g], lib_g, grid):
+        return code, mag, f"numeric match, opposite sign ({', '.join(differs)} text differs)"
+    f = differs[0]
+    return None, f"not iscwsa:{code}: {f} formula {fields[f]!r} is not {canonical(wf[f])!r}", None
 
 
 def _same_as(tie, fields, library) -> list[str]:
@@ -294,10 +317,10 @@ def convert(ipm: IpmFile, namespace: str, meta: dict, iscwsa_library: dict, subs
     for src, rows in sources(ipm, subsea):
         tie = rows[0].tie_on
         magnitude, unit, fields, singular = source_term(rows, envs, var)
-        code, info = _match(src, tie, magnitude, unit, fields, iscwsa_library, envs)
+        code, info, note = _match(src, tie, magnitude, unit, fields, iscwsa_library, envs)
         if code is not None:
             terms.append({"term": code, "magnitude": info})
-            log.append(f"{src}: iscwsa:{code}")
+            log.append(f"{src}: iscwsa:{code}" + (f" ({note})" if note else ""))
             continue
         if info:
             log.append(f"{src}: {info}")
@@ -338,7 +361,8 @@ def convert(ipm: IpmFile, namespace: str, meta: dict, iscwsa_library: dict, subs
 
 
 def weights_equal(model: dict, libraries: list[dict], ipm: IpmFile, subsea: bool = False, envs=None) -> bool:
-    """The model's per-term weights equal the IPM's (read literally) at every station (docs/ipm.md, condition 4)."""
+    """The model's per-term weights equal the IPM's (read literally) at every station (docs/ipm.md, condition 4); a
+    non-Bias term may equal them with the opposite sign (its covariance is the same)."""
     envs = station_envs() if envs is None else envs
     libs = {lib["library_id"].split(":", 1)[0]: lib for lib in libraries}
     var = variables(ipm.rows)
@@ -352,7 +376,9 @@ def weights_equal(model: dict, libraries: list[dict], ipm: IpmFile, subsea: bool
             return False
         term = lib["terms"][key]
         own = _json_weights(t["magnitude"], term["units"], lib["weighting_functions"][term["weighting_function"]], envs)
-        if not _same_weights(own, ipm_w[key.upper()], envs):
+        if _same_weights(own, ipm_w[key.upper()], envs):
+            continue
+        if term["propagation"] == "Bias" or not _same_weights([[-x for x in c] for c in own], ipm_w[key.upper()], envs):
             return False
     return True
 

@@ -48,6 +48,17 @@ def test_same_name_different_formula():
     assert weights_equal(model, [REV5, vendor], ipm)
 
 
+def test_numeric_match_and_opposite_sign():
+    """Text that differs but gives the library's weights over the whole Inc / AzT range matches the ISCWSA term:
+    XYM1 as Sin(Inc) (the library's Abs(Sin(Inc))), XYM2 on the lateral vector with the opposite sign."""
+    text = HEAD + "XYM1\ti\ts\td\t0.1\tsin(inc)\nXYM2\tl\ts\td\t0.1\tsin(inc)\n"
+    ipm, (model, vendor, log) = _convert(text)
+    assert vendor is None and [t["term"] for t in model["terms"]] == ["XYM1", "XYM2"]
+    assert "XYM1: iscwsa:XYM1 (numeric match (inclination text differs))" in log
+    assert "XYM2: iscwsa:XYM2 (numeric match, opposite sign (azimuth text differs))" in log
+    assert weights_equal(model, [REV5], ipm)
+
+
 def test_vendor_term_written():
     ipm, (model, vendor, log) = _convert(FIX / "example_vendor.ipm")
     assert [t["term"] for t in model["terms"]] == ["DRFR", "DSFS", "example:XGYRO", "example:XMIS"]
