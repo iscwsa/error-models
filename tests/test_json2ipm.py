@@ -123,3 +123,16 @@ def test_duplicate_ipm_names_refused():
     with pytest.raises(IpmError) as exc:
         render(model, [REV5, vendor])
     assert exc.value.construct == "duplicate_name"
+
+
+def test_missing_library_is_named(tmp_path, capsys):
+    """A library the model pins that isn't under --root is an error naming it, not a KeyError."""
+    from tools.json2ipm import main
+    m = _model("models/iscwsa/MWD_Rev4.json")
+    m["libraries"] = m["libraries"] + [{"id": "vendor:absent_terms", "hash_value": "0" * 64}]
+    with pytest.raises(IpmError, match="vendor:absent_terms not found under"):
+        load_libraries(m)
+    mp = tmp_path / "model.json"
+    mp.write_text(json.dumps(m), encoding="utf-8")
+    assert main([str(mp)]) == 1
+    assert "error: library: vendor:absent_terms not found under" in capsys.readouterr().err
