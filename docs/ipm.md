@@ -127,8 +127,14 @@ A source becomes a reference to the ISCWSA library term of the same code when al
 1. its name equals the code, ignoring case;
 2. its tie-on is the term's propagation, and the term has no gyro survey mode;
 3. its units convert to the term's with the same SI factor;
-4. each of its three formulas, after translation, is canonically equal to the library's (`formula.canonical`);
-5. its weights equal the library term's at every diagnostic station.
+4. its weights equal the library term's at every diagnostic station, and either
+   - each of its three formulas, after translation, is canonically equal to the library's (`formula.canonical`), or
+   - the weights also equal the library's over an inclination / azimuth grid (0-180° in 5° steps, 0-345° in 15° steps,
+     at a mid-well diagnostic station): a numeric match, for text that differs but means the same on the whole range
+     (`Sin(Inc)` and `Abs(Sin(Inc))`). The log says `numeric match`.
+5. Under condition 4 a non-Bias source may also equal the library term with the opposite sign throughout (`numeric
+   match, opposite sign`): one independent source's covariance doesn't depend on its sign. A Bias term's mean does, so
+   it must match as written.
 
 Otherwise it becomes `<ns>:<NAME>` in the vendor library `<ns>:<model>_terms`, which `extends` the ISCWSA library and
 holds only the unmatched sources. The log says why a same-named source did not match. When a vendor source's formulas
