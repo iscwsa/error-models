@@ -172,6 +172,9 @@ whose formulas don't use `erot` returns as `deg` with the 1/3600 in its formula.
 namespace or case would be one IPM source, so they are refused (`duplicate_name`). Of the 129 models, 27 are accepted. The rest are refused because they use `XCLTortuosity` (89), gyro survey modes (10) or bias terms (3).
 `#ChecksumValue` isn't written.
 
+`json2ipm` reads the libraries a model pins from `--root`/library (default: this repository). For a model with a vendor
+library, give a root that holds it; a pinned library that isn't there stops the run (`library`), naming it.
+
 ## Propagation in Compass
 
 Compass treats each interval of a random term independently. SPE 67616, and so a JSON model, shares a station's error

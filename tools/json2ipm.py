@@ -93,11 +93,14 @@ def render(model: dict, libraries: list[dict], envs=None) -> str:
 
 
 def load_libraries(model: dict, root: Path = ROOT) -> list[dict]:
-    """The libraries a model pins, read from `root`/library."""
+    """The libraries a model pins, read from `root`/library. A library that isn't there is an IpmError naming it."""
     by_id = {}
     for path in (root / "library").rglob("*.json"):
         doc = json.loads(path.read_text(encoding="utf-8"))
         by_id[doc["library_id"]] = doc
+    missing = [ref["id"] for ref in model["libraries"] if ref["id"] not in by_id]
+    if missing:
+        raise IpmError("library", None, f"{', '.join(missing)} not found under {root / 'library'} (give --root)")
     return [by_id[ref["id"]] for ref in model["libraries"]]
 
 
