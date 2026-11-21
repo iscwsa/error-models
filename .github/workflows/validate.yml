@@ -3,18 +3,30 @@ name: validate
 on:
   pull_request:
   push:
+    branches: [main]
 permissions:
   contents: read
 jobs:
   validate:
     runs-on: ubuntu-latest
+    env:
+      ISCWSA_WORKBOOKS: ${{ github.workspace }}/.workbooks
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # test_extract compares with a pinned earlier commit (git show)
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: pip install -r tools/requirements.txt
+      # The published ISCWSA workbooks, so the extractor and workbook tests run instead of skipping.
+      - uses: actions/cache@v4
+        with:
+          path: .workbooks
+          key: workbooks-${{ hashFiles('tools/workbooks.json') }}
+      - run: python -m tools.fetch_workbooks --out .workbooks
       - run: pytest
       - run: python -m tools.validate --registry .
+      - run: python -m tools.extract_xlsx --workbooks .workbooks --all --check
       - run: python -m tools.make_spe90408 --check
       - run: python -m tools.release check

@@ -27,8 +27,18 @@ def test_workflows_parse():
 def test_validate_yml_steps():
     assert _runs("validate.yml") == [
         "pip install -r tools/requirements.txt",
+        "python -m tools.fetch_workbooks --out .workbooks",
         "pytest",
         "python -m tools.validate --registry .",
+        "python -m tools.extract_xlsx --workbooks .workbooks --all --check",
         "python -m tools.make_spe90408 --check",
         "python -m tools.release check",
     ]
+
+
+def test_validate_yml_workbooks_and_triggers():
+    """The workbook tests run in CI (cached published workbooks), and a branch push doesn't run CI twice with its PR."""
+    text = (WORKFLOWS / "validate.yml").read_text(encoding="utf-8")
+    assert "  push:\n    branches: [main]\n" in text
+    assert "ISCWSA_WORKBOOKS: ${{ github.workspace }}/.workbooks" in text
+    assert "key: workbooks-${{ hashFiles('tools/workbooks.json') }}" in text
