@@ -228,8 +228,6 @@ def _revision(value) -> str:
 
 
 def _status(sheet: Sheet, model_id: ModelId) -> str:
-    if model_id.library == "iscwsa:rot6axis":
-        return "candidate"
     text = sheet.meta.get("Status")
     if text == "Agreed":
         return "current"

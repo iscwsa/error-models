@@ -41,7 +41,7 @@ included) and 491 of 492 printed values of SPE 90408 Appendix E (the exception i
 
 Notes:
 
-- `iscwsa:rot6axis` (the RCS candidate sheet, file 1052) carries the same sheet text for E1-E6 (apart from spacing and
+- `iscwsa:rot6axis` (the RCS sheet, file 1052) carries the same sheet text for E1-E6 (apart from spacing and
   `Sqrt` against `sqrt`), so it has the same six errata, with the same corrected text, source and reason, all proposed. They are carried to `rot6axis` because its sheet text is identical; no 806 count exists for it, since 806 exercises `rev5` only.
   The other libraries (`rev0`-`rev4`) have none of these weighting functions.
 - SPE 90408 (Table 9 and Appendix B, Alternative 3) gives the misalignment weight as `cos I`, **without** the absolute

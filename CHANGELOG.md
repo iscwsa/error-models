@@ -10,7 +10,8 @@ models and libraries added, changed and removed since the previous release (`doc
 
 ### Changed (sources)
 
-- ISCWSA republished the Rot-6axis MWD+SRGM workbook (file 1052) on 15 June 2026 under the same file name: the sheet is renamed `Candidate_Rot_6Axis_MWD+SRGM` → `Rot_6Axis_MWD+SRGM`, and every cell (formulas and values) is unchanged. `tools/workbooks.json` pins the new SHA-256 and `tools/model_ids.csv` the new sheet name, so `iscwsa:D007Ma` keeps its ID and UUID; only its `source` block and `hash_value` change. Its status stays `candidate` until the sub-committee confirms the model is adopted.
+- `iscwsa:D007Ma` (Rot-6axis MWD+SRGM, the ISCWSA RCS model) is `current`, no longer `candidate`: the error-model sub-committee has adopted it, and the republished sheet drops "Candidate" from its name. Its status now comes from the sheet's `Status` (`Agreed`), like every other model.
+- ISCWSA republished the Rot-6axis MWD+SRGM workbook (file 1052) on 15 June 2026 under the same file name: the sheet is renamed `Candidate_Rot_6Axis_MWD+SRGM` → `Rot_6Axis_MWD+SRGM`, and every cell (formulas and values) is unchanged. `tools/workbooks.json` pins the new SHA-256 and `tools/model_ids.csv` the new sheet name, so `iscwsa:D007Ma` keeps its ID and UUID; only its `source` block and `hash_value` change.
 
 ### Added (release tooling)
 

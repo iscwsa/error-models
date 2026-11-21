@@ -10,7 +10,7 @@
 		"revision_comment": "Initial revision. Build upon ISCWSA MWD Rev5+SRGM ",
 		"source": "SLB +SuperiorQC + ISCWSA Rotating Survey Workgroup",
 		"tool_type": "Magnetic",
-		"status": "candidate",
+		"status": "current",
 		"framework": "ISCWSA RCS",
 		"author": "ISCWSA",
 		"tags": [],
@@ -219,5 +219,5 @@
 		}
 	],
 	"hash_function": "SHA256",
-	"hash_value": "aaee650c15142769790c54e37b91d4ddda0c015add854397f3b68ec9f9436889"
+	"hash_value": "0c4ae52c76bbd9b9cb7c3eacd01e55d4af6c5dd2796e3d49b7bc654071809b7f"
 }
