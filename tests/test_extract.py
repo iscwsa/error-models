@@ -112,7 +112,7 @@ def test_status_mapping(all_sheets):
     for f, s in all_sheets:
         meta = _build(f, s, ids)["metadata"]
         if f == 1052:
-            assert meta["status"] == "candidate"
+            assert meta["status"] == "current"
             assert meta["sheet_status"] == "Agreed"
             assert meta["framework"] == "ISCWSA RCS"
         elif s.meta["Status"] == "Obsolete":

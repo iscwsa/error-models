@@ -103,7 +103,7 @@
 | generic_iscwsa:B022Ua | BLIND+TREND | iscwsa:rev5 | current | loaded | pass (0 excluded) | — | — | — |
 | iscwsa:A001Mc | ISCWSA MWD+SRGM Rev5 | iscwsa:rev5 | current | loaded | pass (0 excluded) | 19476/19476 | — | — |
 | iscwsa:A003Mc | ISCWSA MWD+SRGM+AX Rev5 | iscwsa:rev5 | current | loaded | pass (108 excluded) | — | — | — |
-| iscwsa:D007Ma | Rot_6Axis_MWD+SRGM | iscwsa:rot6axis | candidate | refused (parameter XCLTortuosity) | — | — | — | — |
+| iscwsa:D007Ma | Rot_6Axis_MWD+SRGM | iscwsa:rot6axis | current | refused (parameter XCLTortuosity) | — | — | — | — |
 | iscwsa:MWD_AX_Rev0 | ISCWSA MWD+AX Rev0 | iscwsa:rev0 | superseded | loaded | pass (108 excluded) | — | 4/4 | — |
 | iscwsa:MWD_AX_Rev1 | ISCWSA MWD+AX Rev1 | iscwsa:rev1 | superseded | loaded | pass (108 excluded) | — | — | — |
 | iscwsa:MWD_AX_Rev2 | ISCWSA MWD+AX Rev2 | iscwsa:rev2 | superseded | loaded | pass (108 excluded) | — | — | — |
